@@ -1,0 +1,4523 @@
+@prefix sdw: <http://example.com/sdw/>.
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix skos: <http://www.w3.org/2004/02/skos/core#>.
+@prefix qb: <http://purl.org/linked-data/cube#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix qb4o: <http://purl.org/qb4olap/cubes#>.
+@prefix dct: <http://purl.org/dc/terms/>.
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix bus: <http://extbi.lab.aau.dk/ontology/business/>.
+@prefix xml: <http://www.w3.org/XML/1998/namespace>.
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+@prefix dbpcat: <http://dbpedia.org/resource/Category:>.
+@prefix dbpedia: <http://dbpedia.org/resource/>.
+@prefix business: <http://extbi.lab.aau.dk/ontology/sdw/>.
+@prefix onto: <http://www.bike-csecu.com/datasets/BEdKG/ontology/>.
+@prefix dataset: <http://www.bike-csecu.com/datasets/BEdKG/abox/dataset#>.
+@prefix mdAttribute: <http://www.bike-csecu.com/datasets/BEdKG/abox/mdAttribute#>.
+@prefix mdStructure: <http://www.bike-csecu.com/datasets/BEdKG/abox/mdStructure#>.
+@prefix mdProperty: <http://www.bike-csecu.com/datasets/BEdKG/abox/mdProperty#>.
+@prefix bedkg: <http://www.bike-csecu.com/datasets/BEdKG/> .
+
+
+
+bedkg:dataset a dcat:Dataset ;
+    dct:title "Bangladesh Education Knowledge Graph (BEdKG)"@en ;
+    dct:description "An open dataset representing structured educational information for Bangladesh, modeled with a ETL pipeline in a snowflake schema as a knowledge graph and aligned with FAIR principles."@en ;
+    dcat:accessURL <https://zenodo.org/records/17449564> ;
+    dcat:downloadURL <https://zenodo.org/records/17449564/files/bedkg_dataset.ttl> ;
+    dcat:endpointDescription <https://bike-csecu.com/datasets/BEdKG/tbox/tbox.ttl> ;
+    dcat:endpointURL <https://bike-csecu.com:8894/sparql> ;
+    dct:issued "2025-10-30"^^xsd:date ;
+    dct:publisher [ a foaf:Organization ;
+        foaf:name "Big Data Information and Knowledge Engineering, University of Chittagong"
+    ] ;
+	dct:creator [
+        a foaf:Person ;
+        foaf:name "Tonmoy Chandro Das" ;
+        foaf:mbox <mailto:tonmoy.csecu@gmail.com> ;
+        foaf:affiliation [ a foaf:Organization ;
+            foaf:name "University of Chittagong"
+        ]
+    ] ;
+	dct:creator [
+        a foaf:Person ;
+        foaf:name "Professor Dr Rudra Pratap Deb Nath" ;
+        foaf:mbox <mailto:rudra@cu.ac.bd> ;
+        foaf:affiliation [ a foaf:Organization ;
+            foaf:name "University of Chittagong"
+        ]
+    ].
+    
+
+
+
+
+#CUBES
+
+mdStructure:BDEduCube a qb:DataStructureDefinition;
+	dct:conformsTo <http://purl.org/qb4olap/cubes>;
+	qb:component [ qb:measure mdProperty:FemaleTeachers; qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max, qb4o:sum];
+	qb:component [ qb4o:dimension mdProperty:timeDim; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb:measure mdProperty:FemaleInstitutes; qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max, qb4o:sum];
+	qb:component [ qb4o:dimension mdProperty:instituteTypeDim; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb:measure mdProperty:MaleStudents; qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max, qb4o:sum];
+	qb:component [ qb4o:dimension mdProperty:disabilityDim; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb4o:dimension mdProperty:gradeDim; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb4o:dimension mdProperty:educationLevelDim; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb:measure mdProperty:MaleTeachers; qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max, qb4o:sum];
+	qb:component [ qb:measure mdProperty:FemaleStudents; qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max, qb4o:sum];
+	qb:component [ qb4o:dimension mdProperty:geographyDim; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb4o:dimension mdProperty:managementDim; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb:measure mdProperty:MaleAndCoEducationInstitutes; qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max, qb4o:sum];
+	qb:component [ qb4o:dimension mdProperty:areaStatusDim; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb4o:dimension mdProperty:religionDim; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb4o:dimension mdProperty:designationDim; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb4o:dimension mdProperty:employeeTypeDim; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb4o:dimension mdProperty:subjectDim; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb4o:dimension mdProperty:studentCategoryDim; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb:measure mdProperty:EmployeeCount; qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max, qb4o:sum].
+
+
+#CUBOIDS
+
+mdStructure:specialNeedsCuboid a qb:DataStructureDefinition;
+	qb4o:isCuboidOf mdStructure:BDEduCube;
+	dct:conformsTo <http://purl.org/qb4olap/cubes>;
+	qb:component [ qb4o:level mdProperty:grade; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb4o:level mdProperty:educationLevel; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb4o:level mdProperty:disability; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb4o:level mdProperty:managementType; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb:measure mdProperty:FemaleStudents; qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max, qb4o:sum];
+	qb:component [ qb:measure mdProperty:MaleStudents; qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max, qb4o:sum];
+	qb:component [ qb4o:level mdProperty:year; qb4o:cardinality qb4o:OneToMany].
+
+mdStructure:geoCityCorpCuboid a qb:DataStructureDefinition;
+	qb4o:isCuboidOf mdStructure:BDEduCube;
+	dct:conformsTo <http://purl.org/qb4olap/cubes>;
+	qb:component [ qb4o:level mdProperty:year; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb4o:level mdProperty:cityCorporation; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb:measure mdProperty:FemaleStudents; qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max, qb4o:sum];
+	qb:component [ qb:measure mdProperty:FemaleInstitutes; qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max, qb4o:sum];
+	qb:component [ qb4o:level mdProperty:managementType; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb:measure mdProperty:MaleAndCoEducationInstitutes; qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max, qb4o:sum];
+	qb:component [ qb4o:level mdProperty:instituteType; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb:measure mdProperty:MaleTeachers; qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max, qb4o:sum];
+	qb:component [ qb:measure mdProperty:FemaleTeachers; qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max, qb4o:sum];
+	qb:component [ qb4o:level mdProperty:educationLevel; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb:measure mdProperty:MaleStudents; qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max, qb4o:sum].
+
+mdStructure:areaStatusCuboid a qb:DataStructureDefinition;
+	qb4o:isCuboidOf mdStructure:BDEduCube;
+	dct:conformsTo <http://purl.org/qb4olap/cubes>;
+	qb:component [ qb:measure mdProperty:FemaleStudents; qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max, qb4o:sum];
+	qb:component [ qb4o:level mdProperty:areaStatus; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb4o:level mdProperty:managementType; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb:measure mdProperty:FemaleTeachers; qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max, qb4o:sum];
+	qb:component [ qb:measure mdProperty:MaleAndCoEducationInstitutes; qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max, qb4o:sum];
+	qb:component [ qb4o:level mdProperty:instituteType; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb:measure mdProperty:MaleTeachers; qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max, qb4o:sum];
+	qb:component [ qb:measure mdProperty:FemaleInstitutes; qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max, qb4o:sum];
+	qb:component [ qb4o:level mdProperty:educationLevel; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb:measure mdProperty:MaleStudents; qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max, qb4o:sum];
+	qb:component [ qb4o:level mdProperty:year; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb4o:level mdProperty:division; qb4o:cardinality qb4o:OneToMany].
+
+mdStructure:geoDistrictCuboid a qb:DataStructureDefinition;
+	dct:conformsTo <http://purl.org/qb4olap/cubes>;
+	qb4o:isCuboidOf mdStructure:BDEduCube;
+	qb:component [ qb:measure mdProperty:MaleTeachers; qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max, qb4o:sum];
+	qb:component [ qb4o:level mdProperty:instituteType; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb:measure mdProperty:FemaleStudents; qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max, qb4o:sum];
+	qb:component [ qb:measure mdProperty:MaleStudents; qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max, qb4o:sum];
+	qb:component [ qb4o:level mdProperty:educationLevel; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb4o:level mdProperty:district; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb:measure mdProperty:FemaleTeachers; qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max, qb4o:sum];
+	qb:component [ qb:measure mdProperty:MaleAndCoEducationInstitutes; qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max, qb4o:sum];
+	qb:component [ qb4o:level mdProperty:year; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb4o:level mdProperty:managementType; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb:measure mdProperty:FemaleInstitutes; qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max, qb4o:sum].
+
+mdStructure:geoMouzaCuboid a qb:DataStructureDefinition;
+	dct:conformsTo <http://purl.org/qb4olap/cubes>;
+	qb4o:isCuboidOf mdStructure:BDEduCube;
+	qb:component [ qb:measure mdProperty:MaleTeachers; qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max, qb4o:sum];
+	qb:component [ qb4o:level mdProperty:instituteType; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb:measure mdProperty:FemaleStudents; qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max, qb4o:sum];
+	qb:component [ qb:measure mdProperty:MaleStudents; qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max, qb4o:sum];
+	qb:component [ qb4o:level mdProperty:educationLevel; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb4o:level mdProperty:mouza; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb:measure mdProperty:FemaleTeachers; qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max, qb4o:sum];
+	qb:component [ qb:measure mdProperty:MaleAndCoEducationInstitutes; qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max, qb4o:sum];
+	qb:component [ qb4o:level mdProperty:year; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb4o:level mdProperty:managementType; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb:measure mdProperty:FemaleInstitutes; qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max, qb4o:sum].
+
+mdStructure:religionStudentCuboid a qb:DataStructureDefinition;
+	dct:conformsTo <http://purl.org/qb4olap/cubes>;
+	qb4o:isCuboidOf mdStructure:BDEduCube;
+	qb:component [ qb4o:level mdProperty:year; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb4o:level mdProperty:thana; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb4o:level mdProperty:institute; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb4o:level mdProperty:educationLevel; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb4o:level mdProperty:religion; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb4o:level mdProperty:managementType; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb:measure mdProperty:FemaleStudents; qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max, qb4o:sum];
+	qb:component [ qb:measure mdProperty:MaleStudents; qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max, qb4o:sum].
+
+mdStructure:employeeRecruitmentCuboid a qb:DataStructureDefinition;
+	dct:conformsTo <http://purl.org/qb4olap/cubes>;
+	qb4o:isCuboidOf mdStructure:BDEduCube;
+	qb:component [ qb4o:level mdProperty:year; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb4o:level mdProperty:thana; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb4o:level mdProperty:institute; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb4o:level mdProperty:designation; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb4o:level mdProperty:subject; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb4o:level mdProperty:employeeType; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb4o:level mdProperty:managementType; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb:measure mdProperty:FemaleTeachers; qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max, qb4o:sum];
+	qb:component [ qb:measure mdProperty:MaleTeachers; qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max, qb4o:sum];
+	qb:component [ qb:measure mdProperty:EmployeeCount; qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max, qb4o:sum].
+
+mdStructure:studentCategoryCuboid a qb:DataStructureDefinition;
+	dct:conformsTo <http://purl.org/qb4olap/cubes>;
+	qb4o:isCuboidOf mdStructure:BDEduCube;
+	qb:component [ qb4o:level mdProperty:year; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb4o:level mdProperty:thana; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb4o:level mdProperty:institute; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb4o:level mdProperty:educationLevel; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb4o:level mdProperty:studentCategory; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb4o:level mdProperty:managementType; qb4o:cardinality qb4o:OneToMany];
+	qb:component [ qb:measure mdProperty:FemaleStudents; qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max, qb4o:sum];
+	qb:component [ qb:measure mdProperty:MaleStudents; qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max, qb4o:sum].
+
+
+################################################################################
+# OBSERVATION CUBOIDS  (institute-level fact tables, grain = institute � year � dim)
+################################################################################
+
+# Co-Curricular Activity  - grain: institute � year � coCurricularActivity
+mdStructure:coCurricularCuboid a qb:DataStructureDefinition;
+        qb4o:isCuboidOf mdStructure:BDEduCube;
+        dct:conformsTo <http://purl.org/qb4olap/cubes>;
+        rdfs:label "Co-Curricular Activity Cuboid"@en, "???????????? ????????? ????????"@bn;
+        qb:component [ qb4o:level mdProperty:institute;           qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:year;                qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:coCurricularActivity;qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:managementType;  qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:educationLevel;  qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:instituteType;   qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:mouza;           qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb:measure mdProperty:isParticipating;     qb4o:aggregateFunction qb4o:count].
+
+# Discussion Topic  - grain: institute � year � discussionTopic
+mdStructure:discussionTopicCuboid a qb:DataStructureDefinition;
+        qb4o:isCuboidOf mdStructure:BDEduCube;
+        dct:conformsTo <http://purl.org/qb4olap/cubes>;
+        rdfs:label "Discussion Topic Cuboid"@en, "??????? ????? ????????"@bn;
+        qb:component [ qb4o:level mdProperty:institute;      qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:year;           qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:discussionTopic;qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:managementType;  qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:educationLevel;  qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:instituteType;   qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:mouza;           qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb:measure    mdProperty:isDiscussed;      qb4o:aggregateFunction qb4o:count];
+        qb:component [ qb:attribute  mdProperty:committeeContext ].
+
+# Teaching Material  - grain: institute � year � teachingMaterial
+mdStructure:teachingMaterialCuboid a qb:DataStructureDefinition;
+        qb4o:isCuboidOf mdStructure:BDEduCube;
+        dct:conformsTo <http://purl.org/qb4olap/cubes>;
+        rdfs:label "Teaching Material Cuboid"@en, "?????? ????? ????????"@bn;
+        qb:component [ qb4o:level mdProperty:institute;      qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:year;           qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:teachingMaterial;qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:managementType;  qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:educationLevel;  qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:instituteType;   qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:mouza;           qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb:measure mdProperty:isUsed;         qb4o:aggregateFunction qb4o:count].
+
+# Community Service  - grain: institute � year � communityServiceType
+mdStructure:communityServiceCuboid a qb:DataStructureDefinition;
+        qb4o:isCuboidOf mdStructure:BDEduCube;
+        dct:conformsTo <http://purl.org/qb4olap/cubes>;
+        rdfs:label "Community Service Cuboid"@en, "???????? ????????"@bn;
+        qb:component [ qb4o:level mdProperty:institute;          qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:year;               qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:communityServiceType;qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:managementType;  qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:educationLevel;  qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:instituteType;   qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:mouza;           qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb:measure mdProperty:noOfStudent;        qb4o:aggregateFunction qb4o:avg, qb4o:sum].
+
+# Disaster  - grain: institute � year � disasterType
+mdStructure:disasterCuboid a qb:DataStructureDefinition;
+        qb4o:isCuboidOf mdStructure:BDEduCube;
+        dct:conformsTo <http://purl.org/qb4olap/cubes>;
+        rdfs:label "Disaster Cuboid"@en, "??????? ????????"@bn;
+        qb:component [ qb4o:level mdProperty:institute;   qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:year;        qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:disasterType;qb4o:cardinality qb4o:OneToMany];
+  qb:component [ qb4o:level mdProperty:damageType;  qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:managementType;  qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:educationLevel;  qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:instituteType;   qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:mouza;           qb4o:cardinality qb4o:OneToMany];
+  qb:component [ qb:measure mdProperty:occurred;    qb4o:aggregateFunction qb4o:count];
+  qb:component [ qb:measure mdProperty:noOfDamageCyclone; qb4o:aggregateFunction qb4o:avg, qb4o:sum];
+  qb:component [ qb:measure mdProperty:noOfDamageFlood;   qb4o:aggregateFunction qb4o:avg, qb4o:sum].
+
+# Building  - grain: institute � year � constructionType � constructionCondition
+# buildingSlNo and yearBuilt are observation attributes (degenerate/descriptive), not aggregatable measures
+mdStructure:buildingCuboid a qb:DataStructureDefinition;
+        qb4o:isCuboidOf mdStructure:BDEduCube;
+        dct:conformsTo <http://purl.org/qb4olap/cubes>;
+        rdfs:label "Building Cuboid"@en, "??? ????????"@bn;
+        qb:component [ qb4o:level mdProperty:institute;            qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:year;                 qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:constructionType;     qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:constructionCondition;qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:managementType;  qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:educationLevel;  qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:instituteType;   qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:mouza;           qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb:attribute  mdProperty:buildingSlNo      ];
+        qb:component [ qb:attribute  mdProperty:yearBuilt         ];
+        qb:component [ qb:measure    mdProperty:noOfFloors;        qb4o:aggregateFunction qb4o:avg, qb4o:sum];
+        qb:component [ qb:measure    mdProperty:totalBuildingArea; qb4o:aggregateFunction qb4o:avg, qb4o:sum].
+
+# Room Allocation  - grain: institute � year � roomAllocation
+mdStructure:roomAllocationCuboid a qb:DataStructureDefinition;
+        qb4o:isCuboidOf mdStructure:BDEduCube;
+        dct:conformsTo <http://purl.org/qb4olap/cubes>;
+        rdfs:label "Room Allocation Cuboid"@en, "???? ?????? ????????"@bn;
+        qb:component [ qb4o:level mdProperty:institute;      qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:year;           qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:roomAllocation; qb4o:cardinality qb4o:OneToMany];
+  qb:component [ qb4o:level mdProperty:prayerRoomType; qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:managementType;  qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:educationLevel;  qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:instituteType;   qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:mouza;           qb4o:cardinality qb4o:OneToMany];
+  qb:component [ qb:attribute mdProperty:usageContext                              ];
+  qb:component [ qb:measure mdProperty:noOfRoom;       qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:sum];
+  qb:component [ qb:measure mdProperty:isPresent;      qb4o:aggregateFunction qb4o:count].
+
+# Land Segmentation  - grain: institute � year � landSegmentation
+mdStructure:landSegmentCuboid a qb:DataStructureDefinition;
+        qb4o:isCuboidOf mdStructure:BDEduCube;
+        dct:conformsTo <http://purl.org/qb4olap/cubes>;
+        rdfs:label "Land Segmentation Cuboid"@en, "???? ?????? ????????"@bn;
+        qb:component [ qb4o:level mdProperty:institute;       qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:year;            qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:landSegmentation;qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:managementType;  qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:educationLevel;  qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:instituteType;   qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:mouza;           qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb:measure mdProperty:landArea;        qb4o:aggregateFunction qb4o:avg, qb4o:sum].
+
+      # Institute Profile (modeling-first)  - uses remaining declared dimensions
+      # NOTE: This cuboid is introduced to ensure all declared dimensions are wired into at least one
+      # dataset structure. It is schema-first and can be populated incrementally by extraction pipelines.
+      mdStructure:instituteProfileCuboid a qb:DataStructureDefinition;
+        qb4o:isCuboidOf mdStructure:BDEduCube;
+        dct:conformsTo <http://purl.org/qb4olap/cubes>;
+        rdfs:label "Institute Profile Cuboid"@en, "?????????? ???????? ????????"@bn;
+        qb:component [ qb4o:level mdProperty:institute;                  qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:year;                       qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:managementType;             qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:educationLevel;             qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:instituteType;              qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:mouza;                      qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:acknowledgmentType;         qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:ageGroup;                   qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:budgetOrigin;               qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:collegeAcademicStream;      qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:collegeManagementType;      qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:committeeType;              qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:containmentSystemType;      qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:courseDuration;             qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:degreeLevel;                qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:englishMediumClassGroup;    qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:examProgram;                qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:faculty;                    qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:governingMinistry;          qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:instituteForWhom;           qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:islamicSubject;             qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:islamicTextLibrary;         qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:occupation;                 qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:permissionStatus;           qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:physicalInfrastructureType; qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:prayerFacility;             qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:researchType;               qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:residentialUserType;        qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:salaryScale;                qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:scholarshipOrganization;    qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:scholarshipSource;          qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:studentFinancialCondition;  qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:studentSupport;             qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:studentWelfare;             qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:subInstituteType;           qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:teachingMethod;             qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb4o:level mdProperty:toiletType;                 qb4o:cardinality qb4o:OneToMany];
+        qb:component [ qb:measure mdProperty:isPresent;                  qb4o:aggregateFunction qb4o:count].
+
+#DATASETS
+
+dataset:areaStatusDataset a qb:DataSet;
+	qb:structure mdStructure:areaStatusCuboid.
+
+dataset:geoCityCorporationDataset a qb:DataSet;
+	qb:structure mdStructure:geoCityCorpCuboid.
+
+dataset:geoDistrictDataset a qb:DataSet;
+	qb:structure mdStructure:geoDistrictCuboid.
+
+dataset:specialNeedsDataset a qb:DataSet;
+	qb:structure mdStructure:specialNeedsCuboid.
+
+dataset:geoMouzaDataset a qb:DataSet;
+	qb:structure mdStructure:geoMouzaCuboid.
+
+dataset:religionStudentDataset a qb:DataSet;
+	qb:structure mdStructure:religionStudentCuboid.
+
+dataset:employeeRecruitmentDataset a qb:DataSet;
+	qb:structure mdStructure:employeeRecruitmentCuboid.
+
+dataset:studentCategoryDataset a qb:DataSet;
+	qb:structure mdStructure:studentCategoryCuboid.
+
+# Datasets for observation cuboids
+dataset:coCurricularDataset a qb:DataSet;
+        qb:structure mdStructure:coCurricularCuboid;
+        rdfs:label "Co-Curricular Dataset"@en, "???????????? ???????"@bn.
+
+dataset:discussionTopicDataset a qb:DataSet;
+        qb:structure mdStructure:discussionTopicCuboid;
+        rdfs:label "Discussion Topic Dataset"@en, "??????? ????? ???????"@bn.
+
+dataset:teachingMaterialDataset a qb:DataSet;
+        qb:structure mdStructure:teachingMaterialCuboid;
+        rdfs:label "Teaching Material Dataset"@en, "?????? ????? ???????"@bn.
+
+dataset:communityServiceDataset a qb:DataSet;
+        qb:structure mdStructure:communityServiceCuboid;
+        rdfs:label "Community Service Dataset"@en, "???????? ???????"@bn.
+
+dataset:disasterDataset a qb:DataSet;
+        qb:structure mdStructure:disasterCuboid;
+        rdfs:label "Disaster Dataset"@en, "??????? ???????"@bn.
+
+dataset:buildingDataset a qb:DataSet;
+        qb:structure mdStructure:buildingCuboid;
+        rdfs:label "Building Dataset"@en, "??? ???????"@bn.
+
+dataset:roomAllocationDataset a qb:DataSet;
+        qb:structure mdStructure:roomAllocationCuboid;
+        rdfs:label "Room Allocation Dataset"@en, "???? ?????? ???????"@bn.
+
+dataset:landSegmentDataset a qb:DataSet;
+        qb:structure mdStructure:landSegmentCuboid;
+        rdfs:label "Land Segmentation Dataset"@en, "???? ?????? ???????"@bn.
+
+dataset:instituteProfileDataset a qb:DataSet;
+  qb:structure mdStructure:instituteProfileCuboid;
+  rdfs:label "Institute Profile Dataset"@en, "?????????? ???????? ???????"@bn.
+
+
+
+
+
+#DIMENSIONS
+
+mdProperty:areaStatusDim a qb:DimensionProperty;
+	qb4o:hasHierarchy mdStructure:areaStatusHierarchy;
+	rdfs:label "areaStatusDim"@en.
+
+mdProperty:disabilityDim a qb:DimensionProperty;
+	qb4o:hasHierarchy mdStructure:disabilityHierarchy;
+	rdfs:label "disabilityDim"@en.
+
+mdProperty:educationLevelDim a qb:DimensionProperty;
+	qb4o:hasHierarchy mdStructure:educationLevelHierarchy;
+	rdfs:label "educationLevelDim"@en.
+
+mdProperty:geographyDim a qb:DimensionProperty;
+	qb4o:hasHierarchy  mdStructure:geoDistrictHierarchy, mdStructure:geoCityHierarchy, mdStructure:geoThanaHierarchy, mdStructure:geoMouzaHierarchy;
+	rdfs:label "geographyDim"@en.
+
+mdProperty:gradeDim a qb:DimensionProperty;
+	qb4o:hasHierarchy mdStructure:gradeHierarchy;
+	rdfs:label "gradeDim"@en.
+
+mdProperty:instituteTypeDim a qb:DimensionProperty;
+	qb4o:hasHierarchy mdStructure:instituteTypeHierarchy;
+	rdfs:label "instituteTypeDim"@en.
+
+mdProperty:managementDim a qb:DimensionProperty;
+	qb4o:hasHierarchy mdStructure:managementTypeHierarchy;
+	rdfs:label "managementDim"@en.
+
+mdProperty:timeDim a qb:DimensionProperty;
+	qb4o:hasHierarchy mdStructure:timeHierarchy;
+	rdfs:label "Time Dimension"@en.
+
+
+#HIERARCHIES
+
+# =========================
+# FACILITY TYPE DIMENSION � FACTLESS FACT TABLE PATTERN
+# Replaces the old facilityDim (with 9 nested sub-hierarchies).
+# Grain of FactInstitutionFacility: Institution x Year x FacilityType
+# Each binary facility attribute (hasComputerLab, hasSolarPanel, etc.)
+# becomes a member of this single flat dimension.
+# Hierarchy: facilityType ? facilitySubCategory ? facilityCategory
+# =========================
+
+mdProperty:facilityTypeDim a qb:DimensionProperty;
+  qb4o:hasHierarchy mdStructure:facilityTypeHierarchy;
+  rdfs:label "Facility type dimension (factless fact pattern)"@en;
+  rdfs:comment "Single flat dimension for all binary facility attributes. Used in institutionFacilityDataset at grain Institution x Year x FacilityType. Replaces computerLabDim, multimediaFacilityDim, ictFacilityDim, electricitySourceDim, waterSourceDim, sanitationFacilityDim, libraryFacilityDim, infrastructureFeatureDim, constructionConditionDim."@en.
+
+mdStructure:facilityTypeHierarchy a qb4o:Hierarchy;
+  qb4o:hasLevel mdProperty:facilityType, mdProperty:facilitySubCategory, mdProperty:facilityCategory;
+  qb4o:inDimension mdProperty:facilityTypeDim;
+  rdfs:label "Facility type hierarchy (facilityType -> facilitySubCategory -> facilityCategory)"@en.
+
+mdProperty:facilityType a qb4o:LevelProperty;
+  rdfs:range onto:facilityType;
+  qb4o:hasAttribute mdAttribute:facilityTypeKey, mdAttribute:facilityName,
+    mdAttribute:facilitySourceField, mdAttribute:inFacilitySubCategory;
+  rdfs:label "Facility type (leaf: one member per binary facility flag)"@en.
+
+mdProperty:facilitySubCategory a qb4o:LevelProperty;
+  rdfs:range onto:facilitySubCategory;
+  qb4o:hasAttribute mdAttribute:facilitySubCategoryKey, mdAttribute:facilitySubCategoryName,
+    mdAttribute:inFacilityCategory;
+  rdfs:label "Facility subcategory (Lab, Teaching, Connectivity, Multimedia, Energy Source, Source, Toilet, Hygiene, Library Infrastructure, Human Resource, Library Operations, Boundary, Landmark, Amenity, Prayer Type)"@en.
+
+mdProperty:facilityCategory a qb4o:LevelProperty;
+  rdfs:range onto:facilityCategory;
+  qb4o:hasAttribute mdAttribute:facilityCategoryKey, mdAttribute:facilityCategoryName;
+  rdfs:label "Facility category (ICT, Electricity, Water, Sanitation, Library, Infrastructure, Prayer)"@en.
+
+mdAttribute:facilityTypeKey a qb4o:LevelAttribute;
+  rdfs:range xsd:integer;
+  rdfs:label "Facility type primary key"@en.
+
+mdAttribute:facilityName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Facility name (e.g. hasComputerLab, hasSolarPanel, hasLibrarian)"@en.
+
+mdAttribute:facilitySourceField a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Source field name in raw institution JSON (e.g. hasComputerLab, hasSolarPanel)"@en.
+
+mdAttribute:inFacilitySubCategory a qb4o:LevelAttribute, qb4o:RollupProperty;
+  rdfs:range onto:facilitySubCategory;
+  rdfs:label "Rollup from facilityType to facilitySubCategory"@en.
+
+mdAttribute:facilitySubCategoryKey a qb4o:LevelAttribute;
+  rdfs:range xsd:integer;
+  rdfs:label "Facility subcategory primary key"@en.
+
+mdAttribute:facilitySubCategoryName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Facility subcategory name"@en.
+
+mdAttribute:inFacilityCategory a qb4o:LevelAttribute, qb4o:RollupProperty;
+  rdfs:range onto:facilityCategory;
+  rdfs:label "Rollup from facilitySubCategory to facilityCategory"@en.
+
+mdAttribute:facilityCategoryKey a qb4o:LevelAttribute;
+  rdfs:range xsd:integer;
+  rdfs:label "Facility category primary key"@en.
+
+mdAttribute:facilityCategoryName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Facility category name"@en.
+
+onto:facilitySubCategory a owl:Class;
+  rdfs:label "Facility Sub-Category class"@en.
+
+_:hsFacilityType1 a qb4o:HierarchyStep;
+  qb4o:inHierarchy mdStructure:facilityTypeHierarchy;
+  qb4o:childLevel mdProperty:facilityType;
+  qb4o:parentLevel mdProperty:facilitySubCategory;
+  qb4o:pcCardinality qb4o:ManyToOne;
+  qb4o:rollup mdAttribute:inFacilitySubCategory.
+
+_:hsFacilitySubCat1 a qb4o:HierarchyStep;
+  qb4o:inHierarchy mdStructure:facilityTypeHierarchy;
+  qb4o:childLevel mdProperty:facilitySubCategory;
+  qb4o:parentLevel mdProperty:facilityCategory;
+  qb4o:pcCardinality qb4o:ManyToOne;
+  qb4o:rollup mdAttribute:inFacilityCategory.
+
+
+mdStructure:areaStatusHierarchy a qb4o:Hierarchy;
+	qb4o:hasLevel  mdProperty:areaStatus, mdProperty:areaStatusAll;
+	qb4o:inDimension mdProperty:areaStatusDim;
+	rdfs:label "areaStatusHierarchy"@en.
+
+mdStructure:disabilityHierarchy a qb4o:Hierarchy;
+	qb4o:hasLevel  mdProperty:disability, mdProperty:disabilityType;
+	qb4o:inDimension mdProperty:disabilityDim;
+	rdfs:label "disabilityHierarchy"@en.
+
+mdStructure:educationLevelHierarchy a qb4o:Hierarchy;
+	qb4o:hasLevel  mdProperty:educationLevel, mdProperty:educationLevelAll;
+	qb4o:inDimension mdProperty:educationLevelDim;
+	rdfs:label "educationLevelHierarchy"@en.
+
+mdStructure:geoCityHierarchy a qb4o:Hierarchy;
+	qb4o:hasLevel  mdProperty:cityCorporation, mdProperty:division, mdProperty:country;
+	qb4o:inDimension mdProperty:geographyDim;
+	rdfs:label "geoCityHierarchy"@en.
+
+mdStructure:geoDistrictHierarchy a qb4o:Hierarchy;
+	qb4o:hasLevel  mdProperty:district, mdProperty:division, mdProperty:country;
+	qb4o:inDimension mdProperty:geographyDim;
+	rdfs:label "geoDistrictHierarchy"@en.
+
+mdStructure:gradeHierarchy a qb4o:Hierarchy;
+	qb4o:hasLevel  mdProperty:grade, mdProperty:gradeAll;
+	qb4o:inDimension mdProperty:gradeDim;
+	rdfs:label "gradeHierarchy"@en.
+
+mdStructure:instituteTypeHierarchy a qb4o:Hierarchy;
+	qb4o:hasLevel  mdProperty:institute, mdProperty:instituteType, mdProperty:instituteTypeAll;
+	qb4o:inDimension mdProperty:instituteTypeDim;
+	rdfs:label "instituteTypHierarchy"@en.
+
+mdStructure:managementTypeHierarchy a qb4o:Hierarchy;
+	qb4o:hasLevel  mdProperty:managementType, mdProperty:managementTypeAll;
+	qb4o:inDimension mdProperty:managementDim;
+	rdfs:label "managementTypeHierarchy"@en.
+
+mdStructure:timeHierarchy a qb4o:Hierarchy;
+	qb4o:hasLevel  mdProperty:year, mdProperty:timeAll;
+	qb4o:inDimension mdProperty:timeDim;
+	rdfs:label "timeHierarchy"@en.
+
+mdStructure:geoThanaHierarchy a qb4o:Hierarchy;
+	qb4o:hasLevel  mdProperty:thana, mdProperty:district, mdProperty:division, mdProperty:country;
+	qb4o:inDimension mdProperty:geographyDim;
+	rdfs:label "geoThanaHierarchy"@en.
+
+mdStructure:geoMouzaHierarchy a qb4o:Hierarchy;
+	qb4o:hasLevel  mdProperty:mouza, mdProperty:thana, mdProperty:district, mdProperty:division, mdProperty:country;
+	qb4o:inDimension mdProperty:geographyDim;
+	rdfs:label "geoMouzaHierarchy"@en.
+
+
+#HIERARCHY STEPS
+
+_:hs1 a qb4o:HierarchyStep;
+	qb4o:inHierarchy mdStructure:educationLevelHierarchy;
+	qb4o:childLevel mdProperty:educationLevel;
+	qb4o:parentLevel mdProperty:educationLevelAll;
+	qb4o:pcCardinality qb4o:OneToMany;
+	qb4o:rollup mdAttribute:inEducationLevelAll.
+
+_:hs2 a qb4o:HierarchyStep;
+	qb4o:inHierarchy mdStructure:geoCityHierarchy;
+	qb4o:childLevel mdProperty:cityCorporation;
+	qb4o:parentLevel mdProperty:division;
+	qb4o:pcCardinality qb4o:OneToMany;
+	qb4o:rollup mdAttribute:inDivision.
+
+_:hs3 a qb4o:HierarchyStep;
+	qb4o:inHierarchy mdStructure:disabilityHierarchy;
+	qb4o:childLevel mdProperty:disability;
+	qb4o:parentLevel mdProperty:disabilityType;
+	qb4o:pcCardinality qb4o:ManyToMany;
+	qb4o:rollup mdAttribute:inDisabilityType.
+
+_:hs4 a qb4o:HierarchyStep;
+	qb4o:inHierarchy mdStructure:areaStatusHierarchy;
+	qb4o:childLevel mdProperty:areaStatus;
+	qb4o:parentLevel mdProperty:areaStatusAll;
+	qb4o:pcCardinality qb4o:OneToMany;
+	qb4o:rollup mdAttribute:inAreaStatusAll.
+
+_:hs5 a qb4o:HierarchyStep;
+	qb4o:inHierarchy mdStructure:geoDistrictHierarchy;
+	qb4o:childLevel mdProperty:division;
+	qb4o:parentLevel mdProperty:country;
+	qb4o:pcCardinality qb4o:ManyToMany;
+	qb4o:rollup mdAttribute:inCountry.
+
+_:hs6 a qb4o:HierarchyStep;
+	qb4o:inHierarchy mdStructure:geoCityHierarchy;
+	qb4o:childLevel mdProperty:division;
+	qb4o:parentLevel mdProperty:country;
+	qb4o:pcCardinality qb4o:OneToMany;
+	qb4o:rollup mdAttribute:inCountry.
+
+_:hs7 a qb4o:HierarchyStep;
+	qb4o:inHierarchy mdStructure:instituteTypeHierarchy;
+	qb4o:childLevel mdProperty:instituteType;
+	qb4o:parentLevel mdProperty:instituteTypeAll;
+	qb4o:pcCardinality qb4o:OneToMany;
+	qb4o:rollup mdAttribute:inInstituteTypeAll.
+
+_:hs71 a qb4o:HierarchyStep;
+	qb4o:inHierarchy mdStructure:instituteTypeHierarchy;
+	qb4o:childLevel mdProperty:institute;
+	qb4o:parentLevel mdProperty:instituteType;
+	qb4o:pcCardinality qb4o:OneToMany;
+	qb4o:rollup mdAttribute:inInstituteType.
+
+_:hs8 a qb4o:HierarchyStep;
+	qb4o:inHierarchy mdStructure:timeHierarchy;
+	qb4o:childLevel mdProperty:year;
+	qb4o:parentLevel mdProperty:timeAll;
+	qb4o:pcCardinality qb4o:OneToMany;
+	qb4o:rollup mdAttribute:inTimeAll.
+
+_:hs9 a qb4o:HierarchyStep;
+	qb4o:inHierarchy mdStructure:geoDistrictHierarchy;
+	qb4o:childLevel mdProperty:district;
+	qb4o:parentLevel mdProperty:division;
+	qb4o:pcCardinality qb4o:OneToMany;
+	qb4o:rollup mdAttribute:inDivision.
+
+_:hs10 a qb4o:HierarchyStep;
+	qb4o:inHierarchy mdStructure:gradeHierarchy;
+	qb4o:childLevel mdProperty:grade;
+	qb4o:parentLevel mdProperty:gradeAll;
+	qb4o:pcCardinality qb4o:OneToMany;
+	qb4o:rollup mdAttribute:inGradeAll.
+
+_:hs11 a qb4o:HierarchyStep;
+	qb4o:inHierarchy mdStructure:managementTypeHierarchy;
+	qb4o:childLevel mdProperty:managementType;
+	qb4o:parentLevel mdProperty:managementTypeAll;
+	qb4o:pcCardinality qb4o:OneToMany;
+	qb4o:rollup mdAttribute:inManagementTypeAll.
+
+_:hs12 a qb4o:HierarchyStep;
+	qb4o:inHierarchy mdStructure:geoThanaHierarchy;
+	qb4o:childLevel mdProperty:thana;
+	qb4o:parentLevel mdProperty:district;
+	qb4o:pcCardinality qb4o:ManyToMany;
+	qb4o:rollup mdAttribute:inDistrict.
+
+_:hs13 a qb4o:HierarchyStep;
+	qb4o:inHierarchy mdStructure:geoThanaHierarchy;
+	qb4o:childLevel mdProperty:district;
+	qb4o:parentLevel mdProperty:division;
+	qb4o:pcCardinality qb4o:ManyToMany;
+	qb4o:rollup mdAttribute:inDivision.
+
+_:hs14 a qb4o:HierarchyStep;
+	qb4o:inHierarchy mdStructure:geoThanaHierarchy;
+	qb4o:childLevel mdProperty:division;
+	qb4o:parentLevel mdProperty:country;
+	qb4o:pcCardinality qb4o:ManyToMany;
+	qb4o:rollup mdAttribute:inCountry.
+
+_:hs15 a qb4o:HierarchyStep;
+	qb4o:inHierarchy mdStructure:geoMouzaHierarchy;
+	qb4o:childLevel mdProperty:mouza;
+	qb4o:parentLevel mdProperty:thana;
+	qb4o:pcCardinality qb4o:ManyToMany;
+	qb4o:rollup mdAttribute:inThana.
+
+_:hs16 a qb4o:HierarchyStep;
+	qb4o:inHierarchy mdStructure:geoMouzaHierarchy;
+	qb4o:childLevel mdProperty:thana;
+	qb4o:parentLevel mdProperty:district;
+	qb4o:pcCardinality qb4o:ManyToMany;
+	qb4o:rollup mdAttribute:inDistrict.
+
+_:hs17 a qb4o:HierarchyStep;
+	qb4o:inHierarchy mdStructure:geoMouzaHierarchy;
+	qb4o:childLevel mdProperty:district;
+	qb4o:parentLevel mdProperty:division;
+	qb4o:pcCardinality qb4o:ManyToMany;
+	qb4o:rollup mdAttribute:inDivision.
+
+_:hs18 a qb4o:HierarchyStep;
+	qb4o:inHierarchy mdStructure:geoMouzaHierarchy;
+	qb4o:childLevel mdProperty:division;
+	qb4o:parentLevel mdProperty:country;
+	qb4o:pcCardinality qb4o:ManyToMany;
+	qb4o:rollup mdAttribute:inCountry.
+
+
+
+
+
+#LEVELS
+
+mdProperty:areaStatus a qb4o:LevelProperty;
+	rdfs:range onto:areaStatus;
+	qb4o:hasAttribute mdAttribute:areaStatusCode, mdAttribute:areaStatusName, mdAttribute:inAreaStatusAll;
+	rdfs:label "Area Status"@en.
+
+mdProperty:areaStatusAll a qb4o:LevelProperty;
+	rdfs:range onto:areaStatusAll;
+	qb4o:hasAttribute mdAttribute:areaStatusAllCode, mdAttribute:areaStatusAllName;
+	rdfs:label "Area Status All"@en.
+
+mdProperty:cityCorporation a qb4o:LevelProperty;
+	rdfs:range onto:cityCorporation;
+	qb4o:hasAttribute mdAttribute:cityCorporationCode, mdAttribute:cityCorporationName, mdAttribute:inDivision;
+	rdfs:label "City Corporation"@en.
+
+mdProperty:country a qb4o:LevelProperty;
+	qb4o:hasAttribute mdAttribute:countryCode, mdAttribute:countryName;
+	rdfs:range onto:country;
+	rdfs:label "Country"@en.
+
+mdProperty:disability a qb4o:LevelProperty;
+	rdfs:range onto:disability;
+	qb4o:hasAttribute mdAttribute:disabilityCode, mdAttribute:disabilityName, mdAttribute:inDisabilityType;
+	rdfs:label "Disability"@en.
+
+mdProperty:disabilityType a qb4o:LevelProperty;
+	rdfs:label "Disability Type Code"@en;
+	qb4o:hasAttribute mdAttribute:disabilityTypeCode, mdAttribute:disabilityTypeName;
+	rdfs:range onto:disabilityType.
+
+mdProperty:district a qb4o:LevelProperty;
+	rdfs:range onto:district;
+	qb4o:hasAttribute mdAttribute:districtCode, mdAttribute:districtName, mdAttribute:inDivision;
+	rdfs:label "District"@en.
+
+mdProperty:division a qb4o:LevelProperty;
+	rdfs:range onto:division;
+	qb4o:hasAttribute mdAttribute:divisionCode, mdAttribute:divisionName, mdAttribute:inCountry;
+	rdfs:label "Division"@en.
+
+mdProperty:educationLevel a qb4o:LevelProperty;
+	rdfs:range onto:educationLevel;
+	qb4o:hasAttribute mdAttribute:educationLevelCode, mdAttribute:educationLevelName, mdAttribute:inEducationLevelAll;
+	rdfs:label "Education Level"@en.
+
+mdProperty:educationLevelAll a qb4o:LevelProperty;
+	rdfs:label "Education Level All"@en;
+	qb4o:hasAttribute mdAttribute:educationLevelAllCode, mdAttribute:educationLevelAllName;
+	rdfs:range onto:educationLevelAll.
+
+mdProperty:grade a qb4o:LevelProperty;
+	rdfs:range onto:grade;
+	qb4o:hasAttribute mdAttribute:gradeCode, mdAttribute:gradeName, mdAttribute:inGradeAll;
+	rdfs:label "Grade"@en.
+
+mdProperty:gradeAll a qb4o:LevelProperty;
+	rdfs:range onto:gradeAll;
+	qb4o:hasAttribute mdAttribute:gradeAllCode, mdAttribute:gradeAllName;
+	rdfs:label "Grade All"@en.
+
+mdProperty:instituteType a qb4o:LevelProperty;
+	rdfs:range onto:instituteType;
+	qb4o:hasAttribute mdAttribute:instituteTypeCode, mdAttribute:instituteTypeName, mdAttribute:inInstituteTypeAll;
+	rdfs:label "Institute Type"@en.
+
+mdProperty:instituteTypeAll a qb4o:LevelProperty;
+	rdfs:range onto:instituteTypeAll;
+	qb4o:hasAttribute mdAttribute:instituteTypeAllCode, mdAttribute:instituteTypeAllName;
+	rdfs:label "Institute Type All"@en.
+
+mdProperty:managementType a qb4o:LevelProperty;
+	rdfs:range onto:managementType;
+	qb4o:hasAttribute mdAttribute:managementTypeCode, mdAttribute:managementTypeName, mdAttribute:managementTypeNameBn, mdAttribute:inManagementTypeAll;
+	rdfs:label "Management Type"@en.
+
+mdProperty:managementTypeAll a qb4o:LevelProperty;
+	rdfs:range onto:managementTypeAll;
+	qb4o:hasAttribute mdAttribute:managementTypeAllCode, mdAttribute:managementTypeAllName;
+	rdfs:label "Management Type All"@en.
+
+mdProperty:timeAll a qb4o:LevelProperty;
+	rdfs:range onto:timeAll;
+	qb4o:hasAttribute mdAttribute:timeAllCode, mdAttribute:timeAllName;
+	rdfs:label "Time All"@en.
+
+mdProperty:year a qb4o:LevelProperty;
+	rdfs:range onto:year;
+	qb4o:hasAttribute mdAttribute:yearCode, mdAttribute:yearName, mdAttribute:inTimeAll;
+	rdfs:label "Year"@en.
+
+mdProperty:institute a qb4o:LevelProperty;
+	rdfs:range onto:institute;
+  qb4o:hasAttribute mdAttribute:inMouza,
+      mdAttribute:inThana,
+      mdAttribute:instituteName,
+      mdAttribute:instituteEIIN,
+      mdAttribute:instituteContactEmail,
+      mdAttribute:inInstituteType,
+      mdAttribute:constructionType,
+      mdAttribute:landSegmentation,
+      mdAttribute:roomAllocation,
+      mdAttribute:committeeType,
+      mdAttribute:discussionTopic,
+      mdAttribute:acknowledgmentType,
+      mdAttribute:prayerRoomType,
+      mdAttribute:communityServiceType,
+      mdAttribute:toiletType,
+      mdAttribute:containmentSystemType,
+      mdAttribute:courseDuration,
+      mdAttribute:coCurricularActivity,
+      mdAttribute:teachingMaterial,
+      mdAttribute:disasterType,
+      mdAttribute:damageType,
+      mdAttribute:examProgram,
+      mdAttribute:researchType,
+      mdAttribute:budgetOrigin,
+      mdAttribute:scholarshipOrganization,
+      mdAttribute:instituteForWhom,
+      mdAttribute:permissionStatus,
+      mdAttribute:residentialUserType,
+      mdAttribute:physicalInfrastructureType,
+      mdAttribute:islamicSubject,
+      mdAttribute:prayerFacility,
+      mdAttribute:studentSupport,
+      mdAttribute:islamicTextLibrary,
+      mdAttribute:disasterRecoveryType,
+      mdAttribute:geographicResilience,
+      mdAttribute:internationalCurriculum,
+      mdAttribute:englishMediumClassGroup,
+      mdAttribute:englishLanguageProficiency,
+      mdAttribute:specializedSubject,
+      mdAttribute:advancedLabFacility,
+      mdAttribute:multimediaLearning,
+      mdAttribute:governanceStructure,
+      mdAttribute:specializedTeachingQualification,
+      mdAttribute:internationalPartnership,
+      mdAttribute:collegeAcademicStream,
+      mdAttribute:degreeQualification,
+      mdAttribute:facultyDiscipline,
+      mdAttribute:honoursProgram,
+      mdAttribute:studentFinancialCondition,
+      mdAttribute:collegeManagementType,
+      mdAttribute:degreeProgram,
+      mdAttribute:internationalStudentOrigin,
+      mdAttribute:researchOutput,
+      mdAttribute:scholarshipFunding,
+      mdAttribute:infrastructureFacility,
+      mdAttribute:governingMinistry,
+      mdAttribute:publicUniversityAccreditation,
+      mdAttribute:academicRanking,
+      mdAttribute:campusAutonomy,
+      mdAttribute:researchFunding,
+      mdAttribute:examinationBoard,
+      mdAttribute:specializationDomain,
+      mdAttribute:admissionStandard,
+      mdAttribute:studentWelfare,
+      mdAttribute:isGovtInstitute,
+      mdAttribute:isGovtButMPO,
+      mdAttribute:isMPO,
+      mdAttribute:isVocationalMPO,
+      mdAttribute:isObservedBullyingProtectionSeminar,
+      mdAttribute:isObservedBullyingProtectionDay,
+      mdAttribute:isMadrasha,
+      mdAttribute:isVocational,
+      mdAttribute:isTTC,
+      mdAttribute:isTechnical,
+      mdAttribute:isUniversity,
+      mdAttribute:isProfessional,
+      mdAttribute:inGoverningMinistry,
+      mdAttribute:inInstituteForWhom,
+      mdAttribute:inSubInstituteType,
+      mdAttribute:inCommitteeType,
+      mdAttribute:latitude,
+      mdAttribute:longitude,
+      mdAttribute:villageOrHoldingNo,
+      mdAttribute:roadName,
+      mdAttribute:postOfficeName,
+      mdAttribute:postCode,
+      mdAttribute:constituencyName,
+      mdAttribute:establishmentDate,
+      mdAttribute:isMPO,
+      mdAttribute:isMPOVocational,
+      mdAttribute:isGovt,
+      mdAttribute:hasOwnCampus,
+      mdAttribute:hasDoubleShift,
+      mdAttribute:hasEnglishVersion,
+      mdAttribute:hasNightGuard,
+      mdAttribute:nearestSimilarInstituteDistanceKm,
+      mdAttribute:administrativeCommunicationType,
+      mdAttribute:totalTeacherCount,
+      mdAttribute:femaleTeacherCount,
+      mdAttribute:totalStaffCount,
+      mdAttribute:femaleStaffCount,
+      mdAttribute:trainedTeacherCount,
+      mdAttribute:totalLandArea,
+      mdAttribute:inPremiseLandArea,
+      mdAttribute:hasComputerLab,
+      mdAttribute:noOfComputerLabs,
+      mdAttribute:totalComputersOutsideLab,
+      mdAttribute:hasILC,
+      mdAttribute:hasElectricity,
+      mdAttribute:hasSolarPanel,
+      mdAttribute:hasSafeDrinkingWater,
+      mdAttribute:hasToiletFacility,
+      mdAttribute:noOfUsableToilets,
+      mdAttribute:hasSeparateToiletFemale,
+      mdAttribute:hasToiletForSpecialNeeds,
+      mdAttribute:noOfRooms,
+      mdAttribute:hasLibrary,
+      mdAttribute:noOfBooksInLibrary,
+      mdAttribute:committeeEstablishmentDate,
+      mdAttribute:committeeExpirationDate,
+      mdAttribute:committeeMemberTotal,
+      mdAttribute:committeeMemberFemale,
+      mdAttribute:instituteMobile,
+      mdAttribute:landAreaOwn,
+      mdAttribute:landAreaRent,
+      mdAttribute:numberOfBuildingsOwn,
+      mdAttribute:totalSemesters,
+      mdAttribute:universityTeachingMethod;
+	rdfs:label "institute"@en.
+
+mdProperty:thana a qb4o:LevelProperty;
+	rdfs:range onto:thana;
+	qb4o:hasAttribute mdAttribute:thanaCode, mdAttribute:thanaName, mdAttribute:inDistrict;
+	rdfs:label "thana"@en.
+
+mdProperty:mouza a qb4o:LevelProperty;
+	rdfs:range onto:mouza;
+	qb4o:hasAttribute mdAttribute:mouzaCode, mdAttribute:mouzaName, mdAttribute:inThana;
+	rdfs:label "Mouza"@en.
+
+
+
+
+#ATTRIBUTES
+
+mdAttribute:areaStatusAllCode a qb4o:LevelAttribute;
+	rdfs:label "areaStatusAllCode"@en;
+	rdfs:range xsd:string.
+
+mdAttribute:areaStatusAllName a qb4o:LevelAttribute;
+	rdfs:range xsd:string;
+	rdfs:label "areaStatusAllName"@en.
+
+mdAttribute:areaStatusCode a qb4o:LevelAttribute;
+	rdfs:label "areaStatusCode"@en;
+	rdfs:range xsd:string.
+
+mdAttribute:areaStatusName a qb4o:LevelAttribute;
+	rdfs:range xsd:string;
+	rdfs:label "areaStatusName"@en.
+
+mdAttribute:cityCorporationCode a qb4o:LevelAttribute;
+	rdfs:range xsd:string;
+	rdfs:label "cityCorpCode"@en.
+
+mdAttribute:cityCorporationName a qb4o:LevelAttribute;
+	rdfs:range xsd:string;
+	rdfs:label "cityCorporationName"@en.
+
+mdAttribute:countryCode a qb4o:LevelAttribute;
+	rdfs:label "countryCode"@en;
+	rdfs:range xsd:string.
+
+mdAttribute:countryName a qb4o:LevelAttribute;
+	rdfs:range xsd:string;
+	rdfs:label "countryName"@en.
+
+mdAttribute:disabilityCode a qb4o:LevelAttribute;
+	rdfs:label "disabilityCode"@en;
+	rdfs:range xsd:string.
+
+mdAttribute:disabilityName a qb4o:LevelAttribute;
+	rdfs:range xsd:string;
+	rdfs:label "disabilityName"@en.
+
+mdAttribute:disabilityTypeCode a qb4o:LevelAttribute;
+	rdfs:label "disabilityTypeCode"@en;
+	rdfs:range xsd:string.
+
+mdAttribute:disabilityTypeName a qb4o:LevelAttribute;
+	rdfs:range xsd:string;
+	rdfs:label "disabilityTypeName"@en.
+
+mdAttribute:districtCode a qb4o:LevelAttribute;
+	rdfs:label "districtCode"@en;
+	rdfs:range xsd:string.
+
+mdAttribute:districtName a qb4o:LevelAttribute;
+	rdfs:range xsd:string;
+	rdfs:label "districtName"@en.
+
+mdAttribute:divisionCode a qb4o:LevelAttribute;
+	rdfs:label "divisionCode"@en;
+	rdfs:range xsd:string.
+
+mdAttribute:divisionName a qb4o:LevelAttribute;
+	rdfs:range xsd:string;
+	rdfs:label "divisionName"@en.
+
+mdAttribute:educationLevelAllCode a qb4o:LevelAttribute;
+	rdfs:label "educationLevelAllCode"@en;
+	rdfs:range xsd:string.
+
+mdAttribute:educationLevelCode a qb4o:LevelAttribute;
+	rdfs:range xsd:string;
+	rdfs:label "educationLevelCode"@en.
+
+mdAttribute:educationLevelAllName a qb4o:LevelAttribute;
+	rdfs:range xsd:string;
+	rdfs:label "educationLevelAllName"@en.
+
+mdAttribute:educationLevelName a qb4o:LevelAttribute;
+	rdfs:range xsd:string;
+	rdfs:label "educationLevelName"@en.
+
+mdAttribute:gradeAllCode a qb4o:LevelAttribute;
+	rdfs:label "gradeAllCode"@en;
+	rdfs:range xsd:string.
+
+mdAttribute:gradeAllName a qb4o:LevelAttribute;
+	rdfs:range xsd:string;
+	rdfs:label "gradeAllName"@en.
+
+mdAttribute:gradeCode a qb4o:LevelAttribute;
+	rdfs:label "gradeCode"@en;
+	rdfs:range xsd:string.
+
+mdAttribute:gradeName a qb4o:LevelAttribute;
+	rdfs:range xsd:string;
+	rdfs:label "gradeName"@en.
+
+mdAttribute:instituteTypeAllCode a qb4o:LevelAttribute;
+	rdfs:label "instTypeAllCode"@en;
+	rdfs:range xsd:string.
+
+mdAttribute:instituteTypeCode a qb4o:LevelAttribute;
+	rdfs:label "instTypeCode"@en;
+	rdfs:range xsd:string.
+
+mdAttribute:instituteTypeAllName a qb4o:LevelAttribute;
+	rdfs:range xsd:string;
+	rdfs:label "instituteTypeAllName"@en.
+
+mdAttribute:instituteTypeName a qb4o:LevelAttribute;
+	rdfs:range xsd:string;
+	rdfs:label "instituteTypeName"@en.
+
+mdAttribute:managementTypeAllCode a qb4o:LevelAttribute;
+	rdfs:label "managementTypeAllCode"@en;
+	rdfs:range xsd:string.
+
+mdAttribute:managementTypeAllName a qb4o:LevelAttribute;
+	rdfs:range xsd:string;
+	rdfs:label "managementTypeAllName"@en.
+
+mdAttribute:managementTypeCode a qb4o:LevelAttribute;
+	rdfs:label "managementTypeCode"@en;
+	rdfs:range xsd:string.
+
+mdAttribute:managementTypeName a qb4o:LevelAttribute;
+	rdfs:range xsd:string;
+	rdfs:label "managementTypeName"@en.
+
+mdAttribute:timeAllCode a qb4o:LevelAttribute;
+	rdfs:label "timeAllCode"@en;
+	rdfs:range xsd:string.
+
+mdAttribute:timeAllName a qb4o:LevelAttribute;
+	rdfs:range xsd:string;
+	rdfs:label "timeAllName"@en.
+
+mdAttribute:yearCode a qb4o:LevelAttribute;
+	rdfs:label "yearCode"@en;
+	rdfs:range xsd:string.
+
+mdAttribute:yearName a qb4o:LevelAttribute;
+	rdfs:range xsd:string;
+	rdfs:label "yearName"@en.
+
+mdAttribute:instituteContactEmail a qb4o:LevelAttribute;
+	rdfs:range xsd:string;
+	rdfs:label "Contact Email of the Institute"@en.
+
+mdAttribute:instituteEIIN a qb4o:LevelAttribute;
+	rdfs:range xsd:string;
+	rdfs:label "EIIN no. of the Institute"@en.
+
+mdAttribute:instituteName a qb4o:LevelAttribute;
+	rdfs:range xsd:string;
+	rdfs:label "Institute Name"@en.
+
+mdAttribute:thanaCode a qb4o:LevelAttribute;
+	rdfs:range xsd:string;
+	rdfs:label "Thana Code"@en.
+
+mdAttribute:thanaName a qb4o:LevelAttribute;
+	rdfs:range xsd:string;
+	rdfs:label "Thana Name"@en.
+
+
+
+#ROLLUP RELATIONSHIPS
+
+mdAttribute:inCountry a qb4o:LevelAttribute, qb4o:RollupProperty;
+	rdfs:range onto:country;
+	rdfs:label "inCountry"@en.
+
+mdAttribute:inDivision a qb4o:LevelAttribute, qb4o:RollupProperty;
+	rdfs:range onto:division;
+	rdfs:label "inDivision"@en.
+
+mdAttribute:inDistrict a qb4o:LevelAttribute, qb4o:RollupProperty;
+	rdfs:range onto:district;
+	rdfs:label "inDistrict"@en.
+
+
+mdAttribute:inTimeAll a qb4o:LevelAttribute, qb4o:RollupProperty;
+	rdfs:range onto:year;
+	rdfs:label "inTimeAll"@en.
+
+
+mdAttribute:inAreaStatusAll a qb4o:LevelAttribute, qb4o:RollupProperty;
+	rdfs:range onto:areaStatusAll;
+	rdfs:label "inAreaStatusAll"@en.
+
+
+mdAttribute:inInstituteTypeAll a qb4o:LevelAttribute, qb4o:RollupProperty;
+	rdfs:range onto:instituteTypeAll;
+	rdfs:label "inInstituteTypeAll"@en.
+
+mdAttribute:inInstituteType a qb4o:LevelAttribute, qb4o:RollupProperty;
+	rdfs:range onto:instituteType;
+	rdfs:label "inInstituteType"@en.
+
+mdAttribute:inEducationLevelAll a qb4o:LevelAttribute, qb4o:RollupProperty;
+	rdfs:range onto:educationLevelAll;
+	rdfs:label "inEducationLevelAll"@en.
+
+mdAttribute:inManagementTypeAll a qb4o:LevelAttribute, qb4o:RollupProperty;
+	rdfs:range onto:managementTypeAll;
+	rdfs:label "inManagementTypeAll"@en.
+
+
+mdAttribute:inGradeAll a qb4o:LevelAttribute, qb4o:RollupProperty;
+	rdfs:range onto:gradeAll;
+	rdfs:label "inGradeAll"@en.
+
+mdAttribute:inDisabilityType a qb4o:LevelAttribute, qb4o:RollupProperty;
+	rdfs:range onto:disabilityType;
+	rdfs:label "inDisabilityType"@en.
+
+
+mdAttribute:inThana a qb4o:LevelAttribute, qb4o:RollupProperty;
+	rdfs:range onto:thana;
+	rdfs:label "inThana"@en.
+
+mdAttribute:inMouza a qb4o:LevelAttribute, qb4o:RollupProperty;
+	rdfs:range onto:mouza;
+	rdfs:label "inMouza"@en.
+
+
+
+
+#MEASURES
+
+mdProperty:FemaleInstitutes a qb:MeasureProperty;
+	rdfs:range xsd:integer;
+	rdfs:label "Total Number of Female Institutes"@en.
+
+mdProperty:FemaleStudents a qb:MeasureProperty;
+	rdfs:range xsd:integer;
+	rdfs:label "Total Number of Female Studetns"@en.
+
+mdProperty:FemaleTeachers a qb:MeasureProperty;
+	rdfs:label "Total Number of Female Teachers or Instructors"@en;
+	rdfs:range xsd:integer.
+
+mdProperty:MaleAndCoEducationInstitutes a qb:MeasureProperty;
+	rdfs:range xsd:integer;
+	rdfs:label "Total Number of Male and Combined (Both Boys' and Girls') Institutes"@en.
+
+mdProperty:MaleStudents a qb:MeasureProperty;
+	rdfs:label "Total Number of Male Students"@en;
+	rdfs:range xsd:integer.
+
+mdProperty:MaleTeachers a qb:MeasureProperty;
+	rdfs:label "Total Number of Male Teachers or Instructors"@en;
+	rdfs:range xsd:integer.
+
+mdProperty:EmployeeCount a qb:MeasureProperty;
+	rdfs:range xsd:integer;
+	rdfs:label "Total Employee Count (Male + Female)"@en.
+
+
+
+
+
+
+# ========== ADDITIONAL DIMENSIONS FROM TBOX_INSTITUTE ==========
+
+#################################################################
+# INSTITUTE-LEVEL ATTRIBUTES (Non-Measure Data Properties)
+# From basic-info-one and basic-info-two sections
+#################################################################
+
+# Contact Information
+mdAttribute:instituteTelephone a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Institute telephone"@en.
+
+mdAttribute:instituteMobilePrimary a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Institute mobile primary"@en.
+
+mdAttribute:instituteMobileAlternate a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Institute mobile alternate"@en.
+
+mdAttribute:instituteEmail a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Institute email"@en.
+
+mdAttribute:instituteWebsite a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Institute website"@en.
+
+# Location and Geography Details
+mdAttribute:villageOrHoldingNo a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Village or holding number"@en.
+
+mdAttribute:roadName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Road name"@en.
+
+mdAttribute:postOfficeName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Post office name"@en.
+
+mdAttribute:postCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Post code"@en.
+
+mdAttribute:mouzaCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Mouza code"@en.
+
+mdAttribute:mouzaName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Mouza name"@en.
+
+mdAttribute:regionalUnionName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Regional union name"@en.
+
+mdAttribute:wardNo a qb4o:LevelAttribute;
+  rdfs:range xsd:integer;
+  rdfs:label "Ward number"@en.
+
+mdAttribute:constituencyName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Parliamentary constituency name"@en.
+
+mdAttribute:cityCorporationName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "City corporation name"@en.
+
+# Administrative and Operational Flags
+mdAttribute:isGovtInstitute a qb4o:LevelAttribute;
+  rdfs:range xsd:boolean;
+  rdfs:label "Is government institute"@en.
+
+mdAttribute:isGovtButMPO a qb4o:LevelAttribute;
+  rdfs:range xsd:boolean;
+  rdfs:label "Is govt but MPO"@en.
+
+mdAttribute:isMPO a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Is MPO status (yes/no/partially)"@en.
+
+mdAttribute:isVocationalMPO a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Is vocational MPO"@en.
+
+mdAttribute:instituteHeadType a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Type of institute head"@en.
+
+mdAttribute:hasNightGuard a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Has night guard"@en.
+
+mdAttribute:hasOwnCampus a qb4o:LevelAttribute;
+  rdfs:range xsd:boolean;
+  rdfs:label "Has own campus"@en.
+
+mdAttribute:hasOtherInstituteInCampus a qb4o:LevelAttribute;
+  rdfs:range xsd:boolean;
+  rdfs:label "Has other institute in this campus"@en.
+
+mdAttribute:hasDoubleShift a qb4o:LevelAttribute;
+  rdfs:range xsd:boolean;
+  rdfs:label "Has double shift"@en.
+
+mdAttribute:hasAnyBranch a qb4o:LevelAttribute;
+  rdfs:range xsd:boolean;
+  rdfs:label "Has any branch"@en.
+
+mdAttribute:noOfBranch a qb4o:LevelAttribute;
+  rdfs:range xsd:integer;
+  rdfs:label "Number of branches"@en.
+
+mdAttribute:institutionEstablishmentDate a qb4o:LevelAttribute;
+  rdfs:range xsd:date;
+  rdfs:label "Institution establishment date"@en.
+
+mdAttribute:governmentalizationDate a qb4o:LevelAttribute;
+  rdfs:range xsd:date;
+  rdfs:label "Governmentalization date"@en.
+
+mdAttribute:instituteHasEnglishVersion a qb4o:LevelAttribute;
+  rdfs:range xsd:boolean;
+  rdfs:label "Institute has English version"@en.
+
+mdAttribute:instituteHasPrimaryLevel a qb4o:LevelAttribute;
+  rdfs:range xsd:boolean;
+  rdfs:label "Institute has primary level"@en.
+
+mdAttribute:geographicalPosition a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Geographical position (urban/rural/semi-urban)"@en.
+
+mdAttribute:administrativeCommunicationType a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Administrative communication type"@en.
+
+mdAttribute:nearestSimilarInstituteDistance a qb4o:LevelAttribute;
+  rdfs:range xsd:decimal;
+  rdfs:label "Distance to nearest similar institute (km)"@en.
+
+# Safety and Wellbeing Initiatives
+mdAttribute:hasCommitteeToProtectFromBullying a qb4o:LevelAttribute;
+  rdfs:range xsd:boolean;
+  rdfs:label "Has committee to protect from bullying/ragging"@en.
+
+mdAttribute:isObservedBullyingProtectionSeminar a qb4o:LevelAttribute;
+  rdfs:range xsd:boolean;
+  rdfs:label "Observed bullying protection seminar"@en.
+
+mdAttribute:isObservedBullyingProtectionDay a qb4o:LevelAttribute;
+  rdfs:range xsd:boolean;
+  rdfs:label "Observed bullying protection day"@en.
+
+#######################################################################################
+# FACT: institutionFacilityDataset — FACTLESS FACT TABLE
+# REDESIGN: Replaces all old sub-facility hierarchies:
+#   computerLab, multimedia, ict, electricity, water,
+#   sanitation, library, infrastructureFeature, constructionCondition
+# with a single flat DimFacilityType + FactInstitutionFacility fact table.
+#
+# Grain: Institution x Year x FacilityType
+# Each binary facility flag (hasComputerLab, hasSolarPanel, etc.)
+# is a member of facilityTypeDim, grouped by facilityCategory.
+#
+# The 48 DimFacilityType members are declared in:
+#   dimension-csvs/lm_facilityType.csv       (leaf level)
+#   dimension-csvs/lm_facilityCategory.csv   (category level)
+#################################################################
+
+# ---------------------------------------------------------------
+# Ontology classes for the DimFacilityType levels
+# ---------------------------------------------------------------
+onto:facilityType a owl:Class;
+  rdfs:label "Facility type (leaf level)"@en;
+  rdfs:comment "One individual per binary facility attribute. 48 members across 6 categories: ICT (13), Electricity (4), Water (7), Sanitation (8), Library (7), Infrastructure (9)."@en.
+
+onto:facilityCategory a owl:Class;
+  rdfs:label "Facility category (aggregate level)"@en;
+  rdfs:comment "6 members: ICT, Electricity, Water, Sanitation, Library, Infrastructure."@en.
+
+# ---------------------------------------------------------------
+# institutionFacilityCuboid — Data Structure Definition
+# ---------------------------------------------------------------
+mdStructure:institutionFacilityCuboid a qb:DataStructureDefinition;
+  qb4o:isCuboidOf mdStructure:BDEduCube;
+  dct:conformsTo <http://purl.org/qb4olap/cubes>;
+  qb:component [ qb:dimension mdProperty:facilityTypeDim;   qb:order 1 ] ;
+  qb:component [ qb:dimension mdProperty:timeDim;           qb:order 2 ] ;
+  qb:component [ qb:dimension mdProperty:instituteTypeDim;  qb:order 3 ] ;
+  qb:component [ qb:dimension mdProperty:geographyDim;      qb:order 4 ] ;
+  qb:component [ qb:dimension mdProperty:managementDim;     qb:order 5 ] ;
+  qb:component [ qb:measure   mdProperty:isAvailable                  ] ;
+  rdfs:label "Institution Facility Cuboid (factless fact)"@en;
+  rdfs:comment "One observation per Institution x Year x FacilityType. Dimensions: facilityType (WHAT), time (WHEN), instituteType (WHICH type), geography (WHERE), management (public/private). Measure: isAvailable=1 or 0."@en.
+
+dataset:institutionFacilityDataset a qb:DataSet;
+  qb:structure mdStructure:institutionFacilityCuboid;
+  rdfs:label "Institution Facility Dataset"@en;
+  rdfs:comment "Factless fact: one observation per Institution x Year x FacilityType. isAvailable=1 if present, 0 if absent. Recording both enables percentage-of-institutions calculations without outer joins."@en.
+
+# ---------------------------------------------------------------
+# Measure: isAvailable (the only measure in this factless fact)
+# ---------------------------------------------------------------
+mdProperty:isAvailable a qb:MeasureProperty;
+  rdfs:range xsd:integer;
+  rdfs:label "Is available (1=yes, 0=no)"@en, "?????? (?=?????, ?=??)"@bn;
+  rdfs:comment "Binary measure for FactInstitutionFacility".
+
+# -- Measures for observation cuboids (numeric, aggregatable) -----------------
+
+mdProperty:isParticipating a qb:MeasureProperty;
+        rdfs:range xsd:boolean;
+        rdfs:label "Is participating"@en, "????????????"@bn.
+
+mdProperty:isDiscussed a qb:MeasureProperty;
+        rdfs:range xsd:boolean;
+        rdfs:label "Is discussed"@en, "??????"@bn.
+
+mdProperty:isUsed a qb:MeasureProperty;
+        rdfs:range xsd:boolean;
+        rdfs:label "Is used"@en, "???????"@bn.
+
+mdProperty:noOfStudent a qb:MeasureProperty;
+        rdfs:range xsd:integer;
+        rdfs:label "Number of students"@en, "?????????? ??????"@bn.
+
+mdProperty:occurred a qb:MeasureProperty;
+        rdfs:range xsd:boolean;
+        rdfs:label "Occurred"@en, "??????"@bn.
+
+mdProperty:noOfDamageCyclone a qb:MeasureProperty;
+  rdfs:range xsd:integer;
+  rdfs:label "Number of cyclone damages"@en, "?????????? ?????? ??????"@bn.
+
+mdProperty:noOfDamageFlood a qb:MeasureProperty;
+  rdfs:range xsd:integer;
+  rdfs:label "Number of flood damages"@en, "??????? ?????? ??????"@bn.
+
+mdProperty:noOfFloors a qb:MeasureProperty;
+        rdfs:range xsd:integer;
+        rdfs:label "Number of floors"@en, "???? ??????"@bn.
+
+mdProperty:totalBuildingArea a qb:MeasureProperty;
+        rdfs:range xsd:integer;
+        rdfs:label "Total building area (sqft)"@en, "??? ??? ?????"@bn.
+
+mdProperty:noOfRoom a qb:MeasureProperty;
+        rdfs:range xsd:integer;
+        rdfs:label "Number of rooms"@en, "???? ??????"@bn.
+
+mdProperty:landArea a qb:MeasureProperty;
+        rdfs:range xsd:decimal;
+        rdfs:label "Land area (decimal)"@en, "????? ??????"@bn.
+
+# -- Attribute properties (observation context / degenerate identifiers) --------
+
+mdProperty:committeeContext a qb:AttributeProperty;
+        rdfs:range xsd:string;
+        rdfs:label "Committee context"@en, "?????? ???????"@bn;
+        rdfs:comment "Values: managingCommittee | ptaMeeting"@en.
+
+mdProperty:buildingSlNo a qb:AttributeProperty;
+        rdfs:range xsd:integer;
+        rdfs:label "Building serial number"@en, "??? ?????? ?????"@bn;
+        rdfs:comment "Degenerate identifier: serial number of each building per institute per year."@en.
+
+mdProperty:yearBuilt a qb:AttributeProperty;
+        rdfs:range xsd:integer;
+        rdfs:label "Year built"@en, "??????? ???"@bn;
+        rdfs:comment "Construction year of the building � descriptive, not aggregatable."@en.
+
+mdProperty:usageContext a qb:AttributeProperty;
+  rdfs:range xsd:string;
+  rdfs:label "Usage context"@en, "????????? ?????????"@bn;
+  rdfs:comment "Context of room/prayer-room usage in infrastructure observations."@en.
+
+mdProperty:isPresent a qb:MeasureProperty;
+  rdfs:range xsd:boolean;
+  rdfs:label "Is present"@en, "??????? ???"@bn.
+# 1=present in the given institute-year context, 0=absent.
+
+#################################################################
+# COMMITTEES AND GOVERNANCE (onePointFour)
+#################################################################
+
+mdAttribute:schoolCommitteeEstablishmentDate a qb4o:LevelAttribute;
+  rdfs:range xsd:date;
+  rdfs:label "School committee establishment date"@en.
+
+mdAttribute:schoolCommitteeExpirationDate a qb4o:LevelAttribute;
+  rdfs:range xsd:date;
+  rdfs:label "School committee expiration date"@en.
+
+mdAttribute:specialCommitteeEstablishmentDate a qb4o:LevelAttribute;
+  rdfs:range xsd:date;
+  rdfs:label "Special committee establishment date"@en.
+
+mdAttribute:specialCommitteeExpirationDate a qb4o:LevelAttribute;
+  rdfs:range xsd:date;
+  rdfs:label "Special committee expiration date"@en.
+
+mdAttribute:hasSpecialCommittee a qb4o:LevelAttribute;
+  rdfs:range xsd:boolean;
+  rdfs:label "Has special committee"@en.
+
+mdAttribute:noOfMeetingByManagingCommittee a qb4o:LevelAttribute;
+  rdfs:range xsd:integer;
+  rdfs:label "Number of meetings by managing committee"@en.
+
+mdAttribute:noOfMeetingByPTA a qb4o:LevelAttribute;
+  rdfs:range xsd:integer;
+  rdfs:label "Number of meetings by PTA"@en.
+
+#################################################################
+# LAND AND BUILDING INFORMATION (onePointFive, onePointSix)
+#################################################################
+
+mdAttribute:inPremiseLandArea a qb4o:LevelAttribute;
+  rdfs:range xsd:decimal;
+  rdfs:label "In-premise land area"@en.
+
+mdAttribute:outPremiseLandArea a qb4o:LevelAttribute;
+  rdfs:range xsd:decimal;
+  rdfs:label "Out-premise land area"@en.
+
+mdAttribute:totalLandArea a qb4o:LevelAttribute;
+  rdfs:range xsd:decimal;
+  rdfs:label "Total land area"@en.
+
+mdAttribute:yearOfOldestBuilding a qb4o:LevelAttribute;
+  rdfs:range xsd:gYear;
+  rdfs:label "Year of oldest building"@en.
+
+mdAttribute:yearOfNewestBuilding a qb4o:LevelAttribute;
+  rdfs:range xsd:gYear;
+  rdfs:label "Year of newest building"@en.
+
+mdAttribute:buildingOwnershipType a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Building ownership type (govt/leased/own)"@en.
+
+mdAttribute:upwardExpansionEligibility a qb4o:LevelAttribute;
+  rdfs:range xsd:boolean;
+  rdfs:label "Eligible for upward expansion"@en.
+
+#################################################################
+# ACADEMIC STRUCTURE (onePointTwo)
+#################################################################
+
+# These are already in student-one but documenting dimensions needed
+
+# Religion Dimension
+mdProperty:religionDim a qb:DimensionProperty;
+  qb4o:hasHierarchy mdStructure:religionHierarchy;
+  rdfs:label "Religion dimension"@en.
+
+mdStructure:religionHierarchy a qb4o:Hierarchy;
+  qb4o:hasLevel mdProperty:religion, mdProperty:religionAll;
+  qb4o:inDimension mdProperty:religionDim;
+  rdfs:label "Religion hierarchy"@en.
+
+mdProperty:religion a qb4o:LevelProperty;
+  rdfs:range onto:religion;
+  qb4o:hasAttribute mdAttribute:religionCode, mdAttribute:religionName, mdAttribute:religionNameBn, mdAttribute:inReligionAll;
+  rdfs:label "Religion"@en.
+
+mdProperty:religionAll a qb4o:LevelProperty;
+  rdfs:range onto:religionAll;
+  qb4o:hasAttribute mdAttribute:religionAllCode, mdAttribute:religionAllName;
+  rdfs:label "All religions"@en.
+
+mdAttribute:religionCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Religion code"@en.
+
+mdAttribute:religionName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Religion name"@en.
+
+mdAttribute:religionAllCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Religion all code"@en.
+
+mdAttribute:religionAllName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "All religions aggregate"@en.
+
+mdAttribute:inReligionAll a qb4o:LevelAttribute, qb4o:RollupProperty;
+  rdfs:range onto:religionAll;
+  rdfs:label "In religion all"@en.
+
+_:hsReligion1 a qb4o:HierarchyStep;
+  qb4o:inHierarchy mdStructure:religionHierarchy;
+  qb4o:childLevel mdProperty:religion;
+  qb4o:parentLevel mdProperty:religionAll;
+  qb4o:pcCardinality qb4o:OneToMany;
+  qb4o:rollup mdAttribute:inReligionAll.
+
+# Student Category Dimension (Financial Status)
+mdProperty:studentCategoryDim a qb:DimensionProperty;
+  qb4o:hasHierarchy mdStructure:studentCategoryHierarchy;
+  rdfs:label "Student category dimension"@en.
+
+mdStructure:studentCategoryHierarchy a qb4o:Hierarchy;
+  qb4o:hasLevel mdProperty:studentCategory, mdProperty:studentCategoryAll;
+  qb4o:inDimension mdProperty:studentCategoryDim;
+  rdfs:label "Student category hierarchy"@en.
+
+mdProperty:studentCategory a qb4o:LevelProperty;
+  rdfs:range onto:studentCategory;
+  qb4o:hasAttribute mdAttribute:studentCategoryCode, mdAttribute:studentCategoryName, mdAttribute:studentCategoryNameBn, mdAttribute:inStudentCategoryAll;
+  rdfs:label "Student category (financial)"@en.
+
+mdProperty:studentCategoryAll a qb4o:LevelProperty;
+  rdfs:range onto:studentCategoryAll;
+  qb4o:hasAttribute mdAttribute:studentCategoryAllCode, mdAttribute:studentCategoryAllName;
+  rdfs:label "All student categories"@en.
+
+mdAttribute:studentCategoryCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Student category code"@en.
+
+mdAttribute:studentCategoryName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Student category name"@en.
+
+mdAttribute:studentCategoryAllCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Student category all code"@en.
+
+mdAttribute:studentCategoryAllName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "All categories"@en.
+
+mdAttribute:inStudentCategoryAll a qb4o:LevelAttribute, qb4o:RollupProperty;
+  rdfs:range onto:studentCategoryAll;
+  rdfs:label "In student category all"@en.
+
+_:hsStudentCategory1 a qb4o:HierarchyStep;
+  qb4o:inHierarchy mdStructure:studentCategoryHierarchy;
+  qb4o:childLevel mdProperty:studentCategory;
+  qb4o:parentLevel mdProperty:studentCategoryAll;
+  qb4o:pcCardinality qb4o:OneToMany;
+  qb4o:rollup mdAttribute:inStudentCategoryAll.
+
+# Occupation Dimension (Parent/Student Occupation)
+mdProperty:occupationDim a qb:DimensionProperty;
+  qb4o:hasHierarchy mdStructure:occupationHierarchy;
+  rdfs:label "Occupation dimension"@en.
+
+mdStructure:occupationHierarchy a qb4o:Hierarchy;
+  qb4o:hasLevel mdProperty:occupation, mdProperty:occupationAll;
+  qb4o:inDimension mdProperty:occupationDim;
+  rdfs:label "Occupation hierarchy"@en.
+
+mdProperty:occupation a qb4o:LevelProperty;
+  rdfs:range onto:occupation;
+  qb4o:hasAttribute mdAttribute:occupationCode, mdAttribute:occupationName, mdAttribute:inOccupationAll;
+  rdfs:label "Occupation"@en.
+
+mdProperty:occupationAll a qb4o:LevelProperty;
+  rdfs:range onto:occupationAll;
+  qb4o:hasAttribute mdAttribute:occupationAllCode, mdAttribute:occupationAllName;
+  rdfs:label "All occupations"@en.
+
+mdAttribute:occupationCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Occupation code"@en.
+
+mdAttribute:occupationName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Occupation name"@en.
+
+mdAttribute:occupationAllCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Occupation all code"@en.
+
+mdAttribute:occupationAllName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "All occupations"@en.
+
+mdAttribute:inOccupationAll a qb4o:LevelAttribute, qb4o:RollupProperty;
+  rdfs:range onto:occupationAll;
+  rdfs:label "In occupation all"@en.
+
+_:hsOccupation1 a qb4o:HierarchyStep;
+  qb4o:inHierarchy mdStructure:occupationHierarchy;
+  qb4o:childLevel mdProperty:occupation;
+  qb4o:parentLevel mdProperty:occupationAll;
+  qb4o:pcCardinality qb4o:OneToMany;
+  qb4o:rollup mdAttribute:inOccupationAll.
+
+# Age Group Dimension
+mdProperty:ageGroupDim a qb:DimensionProperty;
+  qb4o:hasHierarchy mdStructure:ageGroupHierarchy;
+  rdfs:label "Age group dimension"@en.
+
+mdStructure:ageGroupHierarchy a qb4o:Hierarchy;
+  qb4o:hasLevel mdProperty:ageGroup, mdProperty:ageGroupAll;
+  qb4o:inDimension mdProperty:ageGroupDim;
+  rdfs:label "Age group hierarchy"@en.
+
+mdProperty:ageGroup a qb4o:LevelProperty;
+  rdfs:range onto:ageGroup;
+  qb4o:hasAttribute mdAttribute:ageGroupCode, mdAttribute:ageGroupRange, mdAttribute:inAgeGroupAll;
+  rdfs:label "Age group"@en.
+
+mdProperty:ageGroupAll a qb4o:LevelProperty;
+  rdfs:range onto:ageGroupAll;
+  qb4o:hasAttribute mdAttribute:ageGroupAllCode, mdAttribute:ageGroupAllName;
+  rdfs:label "All age groups"@en.
+
+mdAttribute:ageGroupCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Age group code"@en.
+
+mdAttribute:ageGroupRange a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Age group range"@en.
+
+mdAttribute:ageGroupAllCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Age group all code"@en.
+
+mdAttribute:ageGroupAllName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "All age groups"@en.
+
+mdAttribute:inAgeGroupAll a qb4o:LevelAttribute, qb4o:RollupProperty;
+  rdfs:range onto:ageGroupAll;
+  rdfs:label "In age group all"@en.
+
+_:hsAgeGroup1 a qb4o:HierarchyStep;
+  qb4o:inHierarchy mdStructure:ageGroupHierarchy;
+  qb4o:childLevel mdProperty:ageGroup;
+  qb4o:parentLevel mdProperty:ageGroupAll;
+  qb4o:pcCardinality qb4o:OneToMany;
+  qb4o:rollup mdAttribute:inAgeGroupAll.
+
+
+# Employee/Staff Dimensions
+
+mdProperty:designationDim a qb:DimensionProperty;
+  qb4o:hasHierarchy mdStructure:designationHierarchy;
+  rdfs:label "Designation dimension"@en.
+
+mdStructure:designationHierarchy a qb4o:Hierarchy;
+  qb4o:hasLevel mdProperty:designation, mdProperty:designationAll;
+  qb4o:inDimension mdProperty:designationDim;
+  rdfs:label "Designation hierarchy"@en.
+
+mdProperty:designation a qb4o:LevelProperty;
+  rdfs:range onto:designation;
+  qb4o:hasAttribute mdAttribute:designationCode, mdAttribute:designationName, mdAttribute:designationNameBn, mdAttribute:inDesignationAll;
+  rdfs:label "Designation"@en.
+
+mdProperty:designationAll a qb4o:LevelProperty;
+  rdfs:range onto:designationAll;
+  qb4o:hasAttribute mdAttribute:designationAllCode, mdAttribute:designationAllName;
+  rdfs:label "All designations"@en.
+
+mdAttribute:designationCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Designation code"@en.
+
+mdAttribute:designationName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Designation name"@en.
+
+mdAttribute:designationAllCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Designation all code"@en.
+
+mdAttribute:designationAllName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "All designations"@en.
+
+mdAttribute:inDesignationAll a qb4o:LevelAttribute, qb4o:RollupProperty;
+  rdfs:range onto:designationAll;
+  rdfs:label "In designation all"@en.
+
+_:hsDesignation1 a qb4o:HierarchyStep;
+  qb4o:inHierarchy mdStructure:designationHierarchy;
+  qb4o:childLevel mdProperty:designation;
+  qb4o:parentLevel mdProperty:designationAll;
+  qb4o:pcCardinality qb4o:OneToMany;
+  qb4o:rollup mdAttribute:inDesignationAll.
+
+mdProperty:employeeTypeDim a qb:DimensionProperty;
+  qb4o:hasHierarchy mdStructure:employeeTypeHierarchy;
+  rdfs:label "Employee type dimension"@en.
+
+mdStructure:employeeTypeHierarchy a qb4o:Hierarchy;
+  qb4o:hasLevel mdProperty:employeeType, mdProperty:employeeTypeAll;
+  qb4o:inDimension mdProperty:employeeTypeDim;
+  rdfs:label "Employee type hierarchy"@en.
+
+mdProperty:employeeType a qb4o:LevelProperty;
+  rdfs:range onto:employeeType;
+  qb4o:hasAttribute mdAttribute:employeeTypeCode, mdAttribute:employeeTypeName, mdAttribute:inEmployeeTypeAll;
+  rdfs:label "Employee type (teacher/non-teacher/admin)"@en.
+
+mdProperty:employeeTypeAll a qb4o:LevelProperty;
+  rdfs:range onto:employeeTypeAll;
+  qb4o:hasAttribute mdAttribute:employeeTypeAllCode, mdAttribute:employeeTypeAllName;
+  rdfs:label "All employee types"@en.
+
+mdAttribute:employeeTypeCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Employee type code"@en.
+
+mdAttribute:employeeTypeName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Employee type name"@en.
+
+mdAttribute:employeeTypeAllCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Employee type all code"@en.
+
+mdAttribute:employeeTypeAllName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "All employee types"@en.
+
+mdAttribute:inEmployeeTypeAll a qb4o:LevelAttribute, qb4o:RollupProperty;
+  rdfs:range onto:employeeTypeAll;
+  rdfs:label "In employee type all"@en.
+
+_:hsEmployeeType1 a qb4o:HierarchyStep;
+  qb4o:inHierarchy mdStructure:employeeTypeHierarchy;
+  qb4o:childLevel mdProperty:employeeType;
+  qb4o:parentLevel mdProperty:employeeTypeAll;
+  qb4o:pcCardinality qb4o:OneToMany;
+  qb4o:rollup mdAttribute:inEmployeeTypeAll.
+
+mdProperty:subjectDim a qb:DimensionProperty;
+  qb4o:hasHierarchy mdStructure:subjectHierarchy;
+  rdfs:label "Subject dimension"@en.
+
+mdStructure:subjectHierarchy a qb4o:Hierarchy;
+  qb4o:hasLevel mdProperty:subject, mdProperty:subjectAll;
+  qb4o:inDimension mdProperty:subjectDim;
+  rdfs:label "Subject hierarchy"@en.
+
+mdProperty:subject a qb4o:LevelProperty;
+  rdfs:range onto:subject;
+  qb4o:hasAttribute mdAttribute:subjectCode, mdAttribute:subjectName, mdAttribute:subjectNameBn, mdAttribute:inSubjectAll;
+  rdfs:label "Teaching subject"@en.
+
+mdProperty:subjectAll a qb4o:LevelProperty;
+  rdfs:range onto:subjectAll;
+  qb4o:hasAttribute mdAttribute:subjectAllCode, mdAttribute:subjectAllName;
+  rdfs:label "All subjects"@en.
+
+mdAttribute:subjectCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Subject code"@en.
+
+mdAttribute:subjectName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Subject name"@en.
+
+mdAttribute:subjectAllCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Subject all code"@en.
+
+mdAttribute:subjectAllName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "All subjects"@en.
+
+mdAttribute:inSubjectAll a qb4o:LevelAttribute, qb4o:RollupProperty;
+  rdfs:range onto:subjectAll;
+  rdfs:label "In subject all"@en.
+
+_:hsSubject1 a qb4o:HierarchyStep;
+  qb4o:inHierarchy mdStructure:subjectHierarchy;
+  qb4o:childLevel mdProperty:subject;
+  qb4o:parentLevel mdProperty:subjectAll;
+  qb4o:pcCardinality qb4o:OneToMany;
+  qb4o:rollup mdAttribute:inSubjectAll.
+
+mdProperty:salaryScaleDim a qb:DimensionProperty;
+  qb4o:hasHierarchy mdStructure:salaryScaleHierarchy;
+  rdfs:label "Salary scale dimension"@en.
+
+mdStructure:salaryScaleHierarchy a qb4o:Hierarchy;
+  qb4o:hasLevel mdProperty:salaryScale, mdProperty:salaryScaleAll;
+  qb4o:inDimension mdProperty:salaryScaleDim;
+  rdfs:label "Salary scale hierarchy"@en.
+
+mdProperty:salaryScale a qb4o:LevelProperty;
+  rdfs:range onto:salaryScale;
+  qb4o:hasAttribute mdAttribute:salaryScaleCode, mdAttribute:salaryScaleName, mdAttribute:inSalaryScaleAll;
+  rdfs:label "Salary scale/grade"@en.
+
+mdProperty:salaryScaleAll a qb4o:LevelProperty;
+  rdfs:range onto:salaryScaleAll;
+  qb4o:hasAttribute mdAttribute:salaryScaleAllCode, mdAttribute:salaryScaleAllName;
+  rdfs:label "All salary scales"@en.
+
+mdAttribute:salaryScaleCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Salary scale code"@en.
+
+mdAttribute:salaryScaleName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Salary scale name"@en.
+
+mdAttribute:salaryScaleAllCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Salary scale all code"@en.
+
+mdAttribute:salaryScaleAllName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "All salary scales"@en.
+
+mdAttribute:inSalaryScaleAll a qb4o:LevelAttribute, qb4o:RollupProperty;
+  rdfs:range onto:salaryScaleAll;
+  rdfs:label "In salary scale all"@en.
+
+_:hsSalaryScale1 a qb4o:HierarchyStep;
+  qb4o:inHierarchy mdStructure:salaryScaleHierarchy;
+  qb4o:childLevel mdProperty:salaryScale;
+  qb4o:parentLevel mdProperty:salaryScaleAll;
+  qb4o:pcCardinality qb4o:OneToMany;
+  qb4o:rollup mdAttribute:inSalaryScaleAll.
+
+
+##################################################################
+# INSTITUTE LEVEL ATTRIBUTES
+# (converted from dimensions � properties of mdProperty:institute)
+##################################################################
+
+# -- Group A: Physical/Operational Characteristics --------------
+
+mdAttribute:constructionType a qb4o:LevelAttribute;
+  rdfs:range onto:constructionType;
+  rdfs:label "Construction Type"@en.
+
+mdAttribute:landSegmentation a qb4o:LevelAttribute;
+  rdfs:range onto:landSegmentation;
+  rdfs:label "Land Segmentation"@en.
+
+mdAttribute:roomAllocation a qb4o:LevelAttribute;
+  rdfs:range onto:roomAllocation;
+  rdfs:label "Room Allocation"@en.
+
+mdAttribute:committeeType a qb4o:LevelAttribute;
+  rdfs:range onto:committeeType;
+  rdfs:label "Committee Type"@en.
+
+mdAttribute:discussionTopic a qb4o:LevelAttribute;
+  rdfs:range onto:discussionTopic;
+  rdfs:label "Discussion Topic"@en.
+
+mdAttribute:acknowledgmentType a qb4o:LevelAttribute;
+  rdfs:range onto:acknowledgmentType;
+  rdfs:label "Acknowledgment Type"@en.
+
+mdAttribute:prayerRoomType a qb4o:LevelAttribute;
+  rdfs:range onto:prayerRoomType;
+  rdfs:label "Prayer Room Type"@en.
+
+mdAttribute:communityServiceType a qb4o:LevelAttribute;
+  rdfs:range onto:communityServiceType;
+  rdfs:label "Community Service Type"@en.
+
+mdAttribute:toiletType a qb4o:LevelAttribute;
+  rdfs:range onto:toiletType;
+  rdfs:label "Toilet Type"@en.
+
+mdAttribute:containmentSystemType a qb4o:LevelAttribute;
+  rdfs:range onto:containmentSystemType;
+  rdfs:label "Containment System Type"@en.
+
+# -- Group B: Survey / Multi-valued Checklist Fields ------------
+
+mdAttribute:courseDuration a qb4o:LevelAttribute;
+  rdfs:range onto:courseDuration;
+  rdfs:label "Course Duration"@en.
+
+mdAttribute:coCurricularActivity a qb4o:LevelAttribute;
+  rdfs:range onto:coCurricularActivity;
+  rdfs:label "Co Curricular Activity"@en.
+
+mdAttribute:teachingMaterial a qb4o:LevelAttribute;
+  rdfs:range onto:teachingMaterial;
+  rdfs:label "Teaching Material"@en.
+
+mdAttribute:disasterType a qb4o:LevelAttribute;
+  rdfs:range onto:disasterType;
+  rdfs:label "Disaster Type"@en.
+
+mdAttribute:damageType a qb4o:LevelAttribute;
+  rdfs:range onto:damageType;
+  rdfs:label "Damage Type"@en.
+
+mdAttribute:examProgram a qb4o:LevelAttribute;
+  rdfs:range onto:examProgram;
+  rdfs:label "Exam Program"@en.
+
+mdAttribute:researchType a qb4o:LevelAttribute;
+  rdfs:range onto:researchType;
+  rdfs:label "Research Type"@en.
+
+mdAttribute:budgetOrigin a qb4o:LevelAttribute;
+  rdfs:range onto:budgetOrigin;
+  rdfs:label "Budget Origin"@en.
+
+mdAttribute:scholarshipOrganization a qb4o:LevelAttribute;
+  rdfs:range onto:scholarshipOrganization;
+  rdfs:label "Scholarship Organization"@en.
+
+mdAttribute:instituteForWhom a qb4o:LevelAttribute;
+  rdfs:range onto:instituteForWhom;
+  rdfs:label "Institute For Whom"@en.
+
+mdAttribute:permissionStatus a qb4o:LevelAttribute;
+  rdfs:range onto:permissionStatus;
+  rdfs:label "Permission Status"@en.
+
+mdAttribute:residentialUserType a qb4o:LevelAttribute;
+  rdfs:range onto:residentialUserType;
+  rdfs:label "Residential User Type"@en.
+
+mdAttribute:physicalInfrastructureType a qb4o:LevelAttribute;
+  rdfs:range onto:physicalInfrastructureType;
+  rdfs:label "Physical Infrastructure Type"@en.
+
+mdAttribute:islamicSubject a qb4o:LevelAttribute;
+  rdfs:range onto:islamicSubject;
+  rdfs:label "Islamic Subject"@en.
+
+mdAttribute:prayerFacility a qb4o:LevelAttribute;
+  rdfs:range onto:prayerFacility;
+  rdfs:label "Prayer Facility"@en.
+
+mdAttribute:studentSupport a qb4o:LevelAttribute;
+  rdfs:range onto:studentSupport;
+  rdfs:label "Student Support"@en.
+
+mdAttribute:islamicTextLibrary a qb4o:LevelAttribute;
+  rdfs:range onto:islamicTextLibrary;
+  rdfs:label "Islamic Text Library"@en.
+
+mdAttribute:disasterRecoveryType a qb4o:LevelAttribute;
+  rdfs:range onto:disasterRecoveryType;
+  rdfs:label "Disaster Recovery Type"@en.
+
+mdAttribute:geographicResilience a qb4o:LevelAttribute;
+  rdfs:range onto:geographicResilience;
+  rdfs:label "Geographic Resilience"@en.
+
+mdAttribute:internationalCurriculum a qb4o:LevelAttribute;
+  rdfs:range onto:internationalCurriculum;
+  rdfs:label "International Curriculum"@en.
+
+mdAttribute:englishMediumClassGroup a qb4o:LevelAttribute;
+  rdfs:range onto:englishMediumClassGroup;
+  rdfs:label "English Medium Class Group"@en.
+
+mdAttribute:englishLanguageProficiency a qb4o:LevelAttribute;
+  rdfs:range onto:englishLanguageProficiency;
+  rdfs:label "English Language Proficiency"@en.
+
+mdAttribute:specializedSubject a qb4o:LevelAttribute;
+  rdfs:range onto:specializedSubject;
+  rdfs:label "Specialized Subject"@en.
+
+mdAttribute:advancedLabFacility a qb4o:LevelAttribute;
+  rdfs:range onto:advancedLabFacility;
+  rdfs:label "Advanced Lab Facility"@en.
+
+mdAttribute:multimediaLearning a qb4o:LevelAttribute;
+  rdfs:range onto:multimediaLearning;
+  rdfs:label "Multimedia Learning"@en.
+
+mdAttribute:governanceStructure a qb4o:LevelAttribute;
+  rdfs:range onto:governanceStructure;
+  rdfs:label "Governance Structure"@en.
+
+mdAttribute:specializedTeachingQualification a qb4o:LevelAttribute;
+  rdfs:range onto:specializedTeachingQualification;
+  rdfs:label "Specialized Teaching Qualification"@en.
+
+mdAttribute:internationalPartnership a qb4o:LevelAttribute;
+  rdfs:range onto:internationalPartnership;
+  rdfs:label "International Partnership"@en.
+
+mdAttribute:collegeAcademicStream a qb4o:LevelAttribute;
+  rdfs:range onto:collegeAcademicStream;
+  rdfs:label "College Academic Stream"@en.
+
+mdAttribute:degreeQualification a qb4o:LevelAttribute;
+  rdfs:range onto:degreeQualification;
+  rdfs:label "Degree Qualification"@en.
+
+mdAttribute:facultyDiscipline a qb4o:LevelAttribute;
+  rdfs:range onto:facultyDiscipline;
+  rdfs:label "Faculty Discipline"@en.
+
+mdAttribute:honoursProgram a qb4o:LevelAttribute;
+  rdfs:range onto:honoursProgram;
+  rdfs:label "Honours Program"@en.
+
+mdAttribute:studentFinancialCondition a qb4o:LevelAttribute;
+  rdfs:range onto:studentFinancialCondition;
+  rdfs:label "Student Financial Condition"@en.
+
+mdAttribute:collegeManagementType a qb4o:LevelAttribute;
+  rdfs:range onto:collegeManagementType;
+  rdfs:label "College Management Type"@en.
+
+mdAttribute:degreeProgram a qb4o:LevelAttribute;
+  rdfs:range onto:degreeProgram;
+  rdfs:label "Degree Program"@en.
+
+mdAttribute:internationalStudentOrigin a qb4o:LevelAttribute;
+  rdfs:range onto:internationalStudentOrigin;
+  rdfs:label "International Student Origin"@en.
+
+mdAttribute:researchOutput a qb4o:LevelAttribute;
+  rdfs:range onto:researchOutput;
+  rdfs:label "Research Output"@en.
+
+mdAttribute:scholarshipFunding a qb4o:LevelAttribute;
+  rdfs:range onto:scholarshipFunding;
+  rdfs:label "Scholarship Funding"@en.
+
+mdAttribute:infrastructureFacility a qb4o:LevelAttribute;
+  rdfs:range onto:infrastructureFacility;
+  rdfs:label "Infrastructure Facility"@en.
+
+mdAttribute:governingMinistry a qb4o:LevelAttribute;
+  rdfs:range onto:governingMinistry;
+  rdfs:label "Governing Ministry"@en.
+
+mdAttribute:publicUniversityAccreditation a qb4o:LevelAttribute;
+  rdfs:range onto:publicUniversityAccreditation;
+  rdfs:label "Public University Accreditation"@en.
+
+mdAttribute:academicRanking a qb4o:LevelAttribute;
+  rdfs:range onto:academicRanking;
+  rdfs:label "Academic Ranking"@en.
+
+mdAttribute:campusAutonomy a qb4o:LevelAttribute;
+  rdfs:range onto:campusAutonomy;
+  rdfs:label "Campus Autonomy"@en.
+
+mdAttribute:researchFunding a qb4o:LevelAttribute;
+  rdfs:range onto:researchFunding;
+  rdfs:label "Research Funding"@en.
+
+mdAttribute:examinationBoard a qb4o:LevelAttribute;
+  rdfs:range onto:examinationBoard;
+  rdfs:label "Examination Board"@en.
+
+mdAttribute:specializationDomain a qb4o:LevelAttribute;
+  rdfs:range onto:specializationDomain;
+  rdfs:label "Specialization Domain"@en.
+
+mdAttribute:admissionStandard a qb4o:LevelAttribute;
+  rdfs:range onto:admissionStandard;
+  rdfs:label "Admission Standard"@en.
+
+mdAttribute:studentWelfare a qb4o:LevelAttribute;
+  rdfs:range onto:studentWelfare;
+  rdfs:label "Student Welfare"@en.
+
+# -- Institute Type Boolean Flags ---------------------------------------------
+
+mdAttribute:isMadrasha a qb4o:LevelAttribute;
+  rdfs:range xsd:boolean;
+  rdfs:label "Is Madrasha"@en.
+
+mdAttribute:isVocational a qb4o:LevelAttribute;
+  rdfs:range xsd:boolean;
+  rdfs:label "Is Vocational"@en.
+
+mdAttribute:isTTC a qb4o:LevelAttribute;
+  rdfs:range xsd:boolean;
+  rdfs:label "Is TTC"@en.
+
+mdAttribute:isTechnical a qb4o:LevelAttribute;
+  rdfs:range xsd:boolean;
+  rdfs:label "Is Technical"@en.
+
+mdAttribute:isUniversity a qb4o:LevelAttribute;
+  rdfs:range xsd:boolean;
+  rdfs:label "Is University"@en.
+
+mdAttribute:isProfessional a qb4o:LevelAttribute;
+  rdfs:range xsd:boolean;
+  rdfs:label "Is Professional"@en.
+
+# -- Bilingual Name Attributes (NameBn) for retained dimension levels ----------
+
+mdAttribute:religionNameBn a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Religion Name (Bangla)"@en.
+
+mdAttribute:designationNameBn a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Designation Name (Bangla)"@en.
+
+mdAttribute:studentCategoryNameBn a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Student Category Name (Bangla)"@en.
+
+mdAttribute:subjectNameBn a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Subject Name (Bangla)"@en.
+
+mdAttribute:managementTypeNameBn a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Management Type Name (Bangla)"@en.
+
+#################################################################
+# Facts should be structured as (institute, year, [dimension combinations])
+# WITHOUT count measures. The actual detail records from JSON should be loaded as-is,
+# and SQL/SPARQL queries will aggregate counts as needed.
+#
+# Example fact records:
+# - (institute, year, educationLevel, religion) -> raw records from studentDataPrimarySecondaryReligionWise
+# - (institute, year, academicClass, classGroup) -> records from studentDataClassGroupWiseList
+# - (employee, institute, year, designation, subject) -> records from recruitmentInformation
+# - (institute, year, facilitytType) -> records from facility arrays
+# - (institute, year, faculty, degreeLevel) -> records from university degrees by faculty
+# - (institute, year, researchType) -> records from research publications and grants
+# - (institute, year, scholarshipSource) -> records from scholarship organization breakdown
+#################################################################
+
+
+
+#===============================================================================
+# NEW DIMENSION LEVELS (added to support all survey data fields)
+#===============================================================================
+
+# ------------------------------------------------------------
+# Governing Ministry
+# ------------------------------------------------------------
+mdProperty:governingMinistry a qb4o:LevelProperty;
+  rdfs:range onto:governingMinistry;
+  qb4o:hasAttribute mdAttribute:governingMinistryCode, mdAttribute:governingMinistryName, mdAttribute:governingMinistryNameBn, mdAttribute:inGoverningMinistryAll;
+  rdfs:label "Governing Ministry"@en.
+
+mdAttribute:governingMinistryCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Governing Ministry code"@en.
+
+mdAttribute:governingMinistryName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Governing Ministry name"@en.
+
+mdAttribute:governingMinistryNameBn a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Governing Ministry name (Bangla)"@en.
+
+mdAttribute:inGoverningMinistryAll a qb4o:LevelAttribute, qb4o:RollupProperty;
+  qb4o:rollsUpTo mdProperty:governingMinistryAll;
+  rdfs:range onto:governingMinistryAll;
+  rdfs:label "in Governing Ministry All"@en.
+
+mdProperty:governingMinistryAll a qb4o:LevelProperty;
+  rdfs:range onto:governingMinistryAll;
+  qb4o:hasAttribute mdAttribute:governingMinistryAllCode, mdAttribute:governingMinistryAllName;
+  rdfs:label "Governing Ministry (All)"@en.
+
+mdAttribute:governingMinistryAllCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Governing Ministry All code"@en.
+
+mdAttribute:governingMinistryAllName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Governing Ministry All name"@en.
+
+mdStructure:governingMinistryHierarchy a qb4o:Hierarchy;
+  qb4o:inDimension mdProperty:governingMinistryDim;
+  qb4o:hasLevel mdProperty:governingMinistry, mdProperty:governingMinistryAll;
+  qb4o:hasHierarchyStep mdStructure:hs_governing_mini_all.
+
+mdStructure:hs_governing_mini_all a qb4o:HierarchyStep;
+  qb4o:inHierarchy mdStructure:facilityTypeHierarchy;
+  qb4o:childLevel mdProperty:governingMinistry;
+  qb4o:parentLevel mdProperty:governingMinistryAll;
+  qb4o:pcCardinality qb4o:OneToMany;
+  qb4o:rollup mdAttribute:inGoverningMinistryAll.
+
+mdProperty:governingMinistryDim a qb:DimensionProperty;
+  qb4o:hasHierarchy mdStructure:governingMinistryHierarchy;
+  rdfs:label "Governing Ministry Dimension"@en.
+
+mdAttribute:inGoverningMinistry a qb4o:LevelAttribute, qb4o:RollupProperty;
+  qb4o:rollsUpTo mdProperty:governingMinistry;
+  rdfs:range onto:governingMinistry;
+  rdfs:label "in Governing Ministry"@en.
+
+# ------------------------------------------------------------
+# Institute For Whom
+# ------------------------------------------------------------
+mdProperty:instituteForWhom a qb4o:LevelProperty;
+  rdfs:range onto:instituteForWhom;
+  qb4o:hasAttribute mdAttribute:instituteForWhomCode, mdAttribute:instituteForWhomName, mdAttribute:inInstituteForWhomAll;
+  rdfs:label "Institute For Whom"@en.
+
+mdAttribute:instituteForWhomCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Institute For Whom code"@en.
+
+mdAttribute:instituteForWhomName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Institute For Whom name"@en.
+
+mdAttribute:inInstituteForWhomAll a qb4o:LevelAttribute, qb4o:RollupProperty;
+  qb4o:rollsUpTo mdProperty:instituteForWhomAll;
+  rdfs:range onto:instituteForWhomAll;
+  rdfs:label "in Institute For Whom All"@en.
+
+mdProperty:instituteForWhomAll a qb4o:LevelProperty;
+  rdfs:range onto:instituteForWhomAll;
+  qb4o:hasAttribute mdAttribute:instituteForWhomAllCode, mdAttribute:instituteForWhomAllName;
+  rdfs:label "Institute For Whom (All)"@en.
+
+mdAttribute:instituteForWhomAllCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Institute For Whom All code"@en.
+
+mdAttribute:instituteForWhomAllName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Institute For Whom All name"@en.
+
+mdStructure:instituteForWhomHierarchy a qb4o:Hierarchy;
+  qb4o:inDimension mdProperty:instituteForWhomDim;
+  qb4o:hasLevel mdProperty:instituteForWhom, mdProperty:instituteForWhomAll;
+  qb4o:hasHierarchyStep mdStructure:hs_institute_for_all.
+
+mdStructure:hs_institute_for_all a qb4o:HierarchyStep;
+  qb4o:inHierarchy mdStructure:instituteForWhomHierarchy;
+  qb4o:childLevel mdProperty:instituteForWhom;
+  qb4o:parentLevel mdProperty:instituteForWhomAll;
+  qb4o:pcCardinality qb4o:OneToMany;
+  qb4o:rollup mdAttribute:inInstituteForWhomAll.
+
+mdProperty:instituteForWhomDim a qb:DimensionProperty;
+  qb4o:hasHierarchy mdStructure:instituteForWhomHierarchy;
+  rdfs:label "Institute For Whom Dimension"@en.
+
+mdAttribute:inInstituteForWhom a qb4o:LevelAttribute, qb4o:RollupProperty;
+  qb4o:rollsUpTo mdProperty:instituteForWhom;
+  rdfs:range onto:instituteForWhom;
+  rdfs:label "in Institute For Whom"@en.
+
+# ------------------------------------------------------------
+# Sub-Institute Type
+# ------------------------------------------------------------
+mdProperty:subInstituteType a qb4o:LevelProperty;
+  rdfs:range onto:subInstituteType;
+  qb4o:hasAttribute mdAttribute:subInstituteTypeCode, mdAttribute:subInstituteTypeName, mdAttribute:inSubInstituteTypeAll;
+  rdfs:label "Sub-Institute Type"@en.
+
+mdAttribute:subInstituteTypeCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Sub-Institute Type code"@en.
+
+mdAttribute:subInstituteTypeName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Sub-Institute Type name"@en.
+
+mdAttribute:inSubInstituteTypeAll a qb4o:LevelAttribute, qb4o:RollupProperty;
+  qb4o:rollsUpTo mdProperty:subInstituteTypeAll;
+  rdfs:range onto:subInstituteTypeAll;
+  rdfs:label "in Sub-Institute Type All"@en.
+
+mdProperty:subInstituteTypeAll a qb4o:LevelProperty;
+  rdfs:range onto:subInstituteTypeAll;
+  qb4o:hasAttribute mdAttribute:subInstituteTypeAllCode, mdAttribute:subInstituteTypeAllName;
+  rdfs:label "Sub-Institute Type (All)"@en.
+
+mdAttribute:subInstituteTypeAllCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Sub-Institute Type All code"@en.
+
+mdAttribute:subInstituteTypeAllName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Sub-Institute Type All name"@en.
+
+mdStructure:subInstituteTypeHierarchy a qb4o:Hierarchy;
+  qb4o:inDimension mdProperty:subInstituteTypeDim;
+  qb4o:hasLevel mdProperty:subInstituteType, mdProperty:subInstituteTypeAll;
+  qb4o:hasHierarchyStep mdStructure:hs_sub_institute_all.
+
+mdStructure:hs_sub_institute_all a qb4o:HierarchyStep;
+  qb4o:inHierarchy mdStructure:subInstituteTypeHierarchy;
+  qb4o:childLevel mdProperty:subInstituteType;
+  qb4o:parentLevel mdProperty:subInstituteTypeAll;
+  qb4o:pcCardinality qb4o:OneToMany;
+  qb4o:rollup mdAttribute:inSubInstituteTypeAll.
+
+mdProperty:subInstituteTypeDim a qb:DimensionProperty;
+  qb4o:hasHierarchy mdStructure:subInstituteTypeHierarchy;
+  rdfs:label "Sub-Institute Type Dimension"@en.
+
+mdAttribute:inSubInstituteType a qb4o:LevelAttribute, qb4o:RollupProperty;
+  qb4o:rollsUpTo mdProperty:subInstituteType;
+  rdfs:range onto:subInstituteType;
+  rdfs:label "in Sub-Institute Type"@en.
+
+# ------------------------------------------------------------
+# Committee Type
+# ------------------------------------------------------------
+mdProperty:committeeType a qb4o:LevelProperty;
+  rdfs:range onto:committeeType;
+  qb4o:hasAttribute mdAttribute:committeeTypeCode, mdAttribute:committeeTypeName, mdAttribute:inCommitteeTypeAll;
+  rdfs:label "Committee Type"@en.
+
+mdAttribute:committeeTypeCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Committee Type code"@en.
+
+mdAttribute:committeeTypeName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Committee Type name"@en.
+
+mdAttribute:inCommitteeTypeAll a qb4o:LevelAttribute, qb4o:RollupProperty;
+  qb4o:rollsUpTo mdProperty:committeeTypeAll;
+  rdfs:range onto:committeeTypeAll;
+  rdfs:label "in Committee Type All"@en.
+
+mdProperty:committeeTypeAll a qb4o:LevelProperty;
+  rdfs:range onto:committeeTypeAll;
+  qb4o:hasAttribute mdAttribute:committeeTypeAllCode, mdAttribute:committeeTypeAllName;
+  rdfs:label "Committee Type (All)"@en.
+
+mdAttribute:committeeTypeAllCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Committee Type All code"@en.
+
+mdAttribute:committeeTypeAllName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Committee Type All name"@en.
+
+mdStructure:committeeTypeHierarchy a qb4o:Hierarchy;
+  qb4o:inDimension mdProperty:committeeTypeDim;
+  qb4o:hasLevel mdProperty:committeeType, mdProperty:committeeTypeAll;
+  qb4o:hasHierarchyStep mdStructure:hs_committee_type_all.
+
+mdStructure:hs_committee_type_all a qb4o:HierarchyStep;
+  qb4o:inHierarchy mdStructure:committeeTypeHierarchy;
+  qb4o:childLevel mdProperty:committeeType;
+  qb4o:parentLevel mdProperty:committeeTypeAll;
+  qb4o:pcCardinality qb4o:OneToMany;
+  qb4o:rollup mdAttribute:inCommitteeTypeAll.
+
+mdProperty:committeeTypeDim a qb:DimensionProperty;
+  qb4o:hasHierarchy mdStructure:committeeTypeHierarchy;
+  rdfs:label "Committee Type Dimension"@en.
+
+mdAttribute:inCommitteeType a qb4o:LevelAttribute, qb4o:RollupProperty;
+  qb4o:rollsUpTo mdProperty:committeeType;
+  rdfs:range onto:committeeType;
+  rdfs:label "in Committee Type"@en.
+
+# ------------------------------------------------------------
+# Acknowledgment Type
+# ------------------------------------------------------------
+mdProperty:acknowledgmentType a qb4o:LevelProperty;
+  rdfs:range onto:acknowledgmentType;
+  qb4o:hasAttribute mdAttribute:acknowledgmentTypeCode, mdAttribute:acknowledgmentTypeName, mdAttribute:inAcknowledgmentTypeAll;
+  rdfs:label "Acknowledgment Type"@en.
+
+mdAttribute:acknowledgmentTypeCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Acknowledgment Type code"@en.
+
+mdAttribute:acknowledgmentTypeName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Acknowledgment Type name"@en.
+
+mdAttribute:inAcknowledgmentTypeAll a qb4o:LevelAttribute, qb4o:RollupProperty;
+  qb4o:rollsUpTo mdProperty:acknowledgmentTypeAll;
+  rdfs:range onto:acknowledgmentTypeAll;
+  rdfs:label "in Acknowledgment Type All"@en.
+
+mdProperty:acknowledgmentTypeAll a qb4o:LevelProperty;
+  rdfs:range onto:acknowledgmentTypeAll;
+  qb4o:hasAttribute mdAttribute:acknowledgmentTypeAllCode, mdAttribute:acknowledgmentTypeAllName;
+  rdfs:label "Acknowledgment Type (All)"@en.
+
+mdAttribute:acknowledgmentTypeAllCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Acknowledgment Type All code"@en.
+
+mdAttribute:acknowledgmentTypeAllName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Acknowledgment Type All name"@en.
+
+mdStructure:acknowledgmentTypeHierarchy a qb4o:Hierarchy;
+  qb4o:inDimension mdProperty:acknowledgmentTypeDim;
+  qb4o:hasLevel mdProperty:acknowledgmentType, mdProperty:acknowledgmentTypeAll;
+  qb4o:hasHierarchyStep mdStructure:hs_acknowledgment_all.
+
+mdStructure:hs_acknowledgment_all a qb4o:HierarchyStep;
+  qb4o:inHierarchy mdStructure:acknowledgmentTypeHierarchy;
+  qb4o:childLevel mdProperty:acknowledgmentType;
+  qb4o:parentLevel mdProperty:acknowledgmentTypeAll;
+  qb4o:pcCardinality qb4o:OneToMany;
+  qb4o:rollup mdAttribute:inAcknowledgmentTypeAll.
+
+mdProperty:acknowledgmentTypeDim a qb:DimensionProperty;
+  qb4o:hasHierarchy mdStructure:acknowledgmentTypeHierarchy;
+  rdfs:label "Acknowledgment Type Dimension"@en.
+
+# ------------------------------------------------------------
+# Exam Program
+# ------------------------------------------------------------
+mdProperty:examProgram a qb4o:LevelProperty;
+  rdfs:range onto:examProgram;
+  qb4o:hasAttribute mdAttribute:examProgramCode, mdAttribute:examProgramName, mdAttribute:inExamProgramAll;
+  rdfs:label "Exam Program"@en.
+
+mdAttribute:examProgramCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Exam Program code"@en.
+
+mdAttribute:examProgramName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Exam Program name"@en.
+
+mdAttribute:inExamProgramAll a qb4o:LevelAttribute, qb4o:RollupProperty;
+  qb4o:rollsUpTo mdProperty:examProgramAll;
+  rdfs:range onto:examProgramAll;
+  rdfs:label "in Exam Program All"@en.
+
+mdProperty:examProgramAll a qb4o:LevelProperty;
+  rdfs:range onto:examProgramAll;
+  qb4o:hasAttribute mdAttribute:examProgramAllCode, mdAttribute:examProgramAllName;
+  rdfs:label "Exam Program (All)"@en.
+
+mdAttribute:examProgramAllCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Exam Program All code"@en.
+
+mdAttribute:examProgramAllName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Exam Program All name"@en.
+
+mdStructure:examProgramHierarchy a qb4o:Hierarchy;
+  qb4o:inDimension mdProperty:examProgramDim;
+  qb4o:hasLevel mdProperty:examProgram, mdProperty:examProgramAll;
+  qb4o:hasHierarchyStep mdStructure:hs_exam_program_all.
+
+mdStructure:hs_exam_program_all a qb4o:HierarchyStep;
+  qb4o:inHierarchy mdStructure:examProgramHierarchy;
+  qb4o:childLevel mdProperty:examProgram;
+  qb4o:parentLevel mdProperty:examProgramAll;
+  qb4o:pcCardinality qb4o:OneToMany;
+  qb4o:rollup mdAttribute:inExamProgramAll.
+
+mdProperty:examProgramDim a qb:DimensionProperty;
+  qb4o:hasHierarchy mdStructure:examProgramHierarchy;
+  rdfs:label "Exam Program Dimension"@en.
+
+# ------------------------------------------------------------
+# Permission Status
+# ------------------------------------------------------------
+mdProperty:permissionStatus a qb4o:LevelProperty;
+  rdfs:range onto:permissionStatus;
+  qb4o:hasAttribute mdAttribute:permissionStatusCode, mdAttribute:permissionStatusName, mdAttribute:inPermissionStatusAll;
+  rdfs:label "Permission Status"@en.
+
+mdAttribute:permissionStatusCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Permission Status code"@en.
+
+mdAttribute:permissionStatusName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Permission Status name"@en.
+
+mdAttribute:inPermissionStatusAll a qb4o:LevelAttribute, qb4o:RollupProperty;
+  qb4o:rollsUpTo mdProperty:permissionStatusAll;
+  rdfs:range onto:permissionStatusAll;
+  rdfs:label "in Permission Status All"@en.
+
+mdProperty:permissionStatusAll a qb4o:LevelProperty;
+  rdfs:range onto:permissionStatusAll;
+  qb4o:hasAttribute mdAttribute:permissionStatusAllCode, mdAttribute:permissionStatusAllName;
+  rdfs:label "Permission Status (All)"@en.
+
+mdAttribute:permissionStatusAllCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Permission Status All code"@en.
+
+mdAttribute:permissionStatusAllName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Permission Status All name"@en.
+
+mdStructure:permissionStatusHierarchy a qb4o:Hierarchy;
+  qb4o:inDimension mdProperty:permissionStatusDim;
+  qb4o:hasLevel mdProperty:permissionStatus, mdProperty:permissionStatusAll;
+  qb4o:hasHierarchyStep mdStructure:hs_permission_sta_all.
+
+mdStructure:hs_permission_sta_all a qb4o:HierarchyStep;
+  qb4o:inHierarchy mdStructure:permissionStatusHierarchy;
+  qb4o:childLevel mdProperty:permissionStatus;
+  qb4o:parentLevel mdProperty:permissionStatusAll;
+  qb4o:pcCardinality qb4o:OneToMany;
+  qb4o:rollup mdAttribute:inPermissionStatusAll.
+
+mdProperty:permissionStatusDim a qb:DimensionProperty;
+  qb4o:hasHierarchy mdStructure:permissionStatusHierarchy;
+  rdfs:label "Permission Status Dimension"@en.
+
+# ------------------------------------------------------------
+# College Management Type
+# ------------------------------------------------------------
+mdProperty:collegeManagementType a qb4o:LevelProperty;
+  rdfs:range onto:collegeManagementType;
+  qb4o:hasAttribute mdAttribute:collegeManagementTypeCode, mdAttribute:collegeManagementTypeName, mdAttribute:inCollegeManagementTypeAll;
+  rdfs:label "College Management Type"@en.
+
+mdAttribute:collegeManagementTypeCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "College Management Type code"@en.
+
+mdAttribute:collegeManagementTypeName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "College Management Type name"@en.
+
+mdAttribute:inCollegeManagementTypeAll a qb4o:LevelAttribute, qb4o:RollupProperty;
+  qb4o:rollsUpTo mdProperty:collegeManagementTypeAll;
+  rdfs:range onto:collegeManagementTypeAll;
+  rdfs:label "in College Management Type All"@en.
+
+mdProperty:collegeManagementTypeAll a qb4o:LevelProperty;
+  rdfs:range onto:collegeManagementTypeAll;
+  qb4o:hasAttribute mdAttribute:collegeManagementTypeAllCode, mdAttribute:collegeManagementTypeAllName;
+  rdfs:label "College Management Type (All)"@en.
+
+mdAttribute:collegeManagementTypeAllCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "College Management Type All code"@en.
+
+mdAttribute:collegeManagementTypeAllName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "College Management Type All name"@en.
+
+mdStructure:collegeManagementTypeHierarchy a qb4o:Hierarchy;
+  qb4o:inDimension mdProperty:collegeManagementTypeDim;
+  qb4o:hasLevel mdProperty:collegeManagementType, mdProperty:collegeManagementTypeAll;
+  qb4o:hasHierarchyStep mdStructure:hs_college_manage_all.
+
+mdStructure:hs_college_manage_all a qb4o:HierarchyStep;
+  qb4o:inHierarchy mdStructure:collegeManagementTypeHierarchy;
+  qb4o:childLevel mdProperty:collegeManagementType;
+  qb4o:parentLevel mdProperty:collegeManagementTypeAll;
+  qb4o:pcCardinality qb4o:OneToMany;
+  qb4o:rollup mdAttribute:inCollegeManagementTypeAll.
+
+mdProperty:collegeManagementTypeDim a qb:DimensionProperty;
+  qb4o:hasHierarchy mdStructure:collegeManagementTypeHierarchy;
+  rdfs:label "College Management Type Dimension"@en.
+
+# ------------------------------------------------------------
+# College Academic Stream
+# ------------------------------------------------------------
+mdProperty:collegeAcademicStream a qb4o:LevelProperty;
+  rdfs:range onto:collegeAcademicStream;
+  qb4o:hasAttribute mdAttribute:collegeAcademicStreamCode, mdAttribute:collegeAcademicStreamName, mdAttribute:inCollegeAcademicStreamAll;
+  rdfs:label "College Academic Stream"@en.
+
+mdAttribute:collegeAcademicStreamCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "College Academic Stream code"@en.
+
+mdAttribute:collegeAcademicStreamName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "College Academic Stream name"@en.
+
+mdAttribute:inCollegeAcademicStreamAll a qb4o:LevelAttribute, qb4o:RollupProperty;
+  qb4o:rollsUpTo mdProperty:collegeAcademicStreamAll;
+  rdfs:range onto:collegeAcademicStreamAll;
+  rdfs:label "in College Academic Stream All"@en.
+
+mdProperty:collegeAcademicStreamAll a qb4o:LevelProperty;
+  rdfs:range onto:collegeAcademicStreamAll;
+  qb4o:hasAttribute mdAttribute:collegeAcademicStreamAllCode, mdAttribute:collegeAcademicStreamAllName;
+  rdfs:label "College Academic Stream (All)"@en.
+
+mdAttribute:collegeAcademicStreamAllCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "College Academic Stream All code"@en.
+
+mdAttribute:collegeAcademicStreamAllName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "College Academic Stream All name"@en.
+
+mdStructure:collegeAcademicStreamHierarchy a qb4o:Hierarchy;
+  qb4o:inDimension mdProperty:collegeAcademicStreamDim;
+  qb4o:hasLevel mdProperty:collegeAcademicStream, mdProperty:collegeAcademicStreamAll;
+  qb4o:hasHierarchyStep mdStructure:hs_college_academ_all.
+
+mdStructure:hs_college_academ_all a qb4o:HierarchyStep;
+  qb4o:inHierarchy mdStructure:collegeAcademicStreamHierarchy;
+  qb4o:childLevel mdProperty:collegeAcademicStream;
+  qb4o:parentLevel mdProperty:collegeAcademicStreamAll;
+  qb4o:pcCardinality qb4o:OneToMany;
+  qb4o:rollup mdAttribute:inCollegeAcademicStreamAll.
+
+mdProperty:collegeAcademicStreamDim a qb:DimensionProperty;
+  qb4o:hasHierarchy mdStructure:collegeAcademicStreamHierarchy;
+  rdfs:label "College Academic Stream Dimension"@en.
+
+# ------------------------------------------------------------
+# Co-Curricular Activity
+# ------------------------------------------------------------
+mdProperty:coCurricularActivity a qb4o:LevelProperty;
+  rdfs:range onto:coCurricularActivity;
+  qb4o:hasAttribute mdAttribute:coCurricularActivityCode, mdAttribute:coCurricularActivityName, mdAttribute:inCoCurricularActivityAll;
+  rdfs:label "Co-Curricular Activity"@en.
+
+mdAttribute:coCurricularActivityCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Co-Curricular Activity code"@en.
+
+mdAttribute:coCurricularActivityName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Co-Curricular Activity name"@en.
+
+mdAttribute:inCoCurricularActivityAll a qb4o:LevelAttribute, qb4o:RollupProperty;
+  qb4o:rollsUpTo mdProperty:coCurricularActivityAll;
+  rdfs:range onto:coCurricularActivityAll;
+  rdfs:label "in Co-Curricular Activity All"@en.
+
+mdProperty:coCurricularActivityAll a qb4o:LevelProperty;
+  rdfs:range onto:coCurricularActivityAll;
+  qb4o:hasAttribute mdAttribute:coCurricularActivityAllCode, mdAttribute:coCurricularActivityAllName;
+  rdfs:label "Co-Curricular Activity (All)"@en.
+
+mdAttribute:coCurricularActivityAllCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Co-Curricular Activity All code"@en.
+
+mdAttribute:coCurricularActivityAllName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Co-Curricular Activity All name"@en.
+
+mdStructure:coCurricularActivityHierarchy a qb4o:Hierarchy;
+  qb4o:inDimension mdProperty:coCurricularActivityDim;
+  qb4o:hasLevel mdProperty:coCurricularActivity, mdProperty:coCurricularActivityAll;
+  qb4o:hasHierarchyStep mdStructure:hs_co_curricular_all.
+
+mdStructure:hs_co_curricular_all a qb4o:HierarchyStep;
+  qb4o:inHierarchy mdStructure:coCurricularActivityHierarchy;
+  qb4o:childLevel mdProperty:coCurricularActivity;
+  qb4o:parentLevel mdProperty:coCurricularActivityAll;
+  qb4o:pcCardinality qb4o:OneToMany;
+  qb4o:rollup mdAttribute:inCoCurricularActivityAll.
+
+mdProperty:coCurricularActivityDim a qb:DimensionProperty;
+  qb4o:hasHierarchy mdStructure:coCurricularActivityHierarchy;
+  rdfs:label "Co-Curricular Activity Dimension"@en.
+
+# ------------------------------------------------------------
+# Teaching Material
+# ------------------------------------------------------------
+mdProperty:teachingMaterial a qb4o:LevelProperty;
+  rdfs:range onto:teachingMaterial;
+  qb4o:hasAttribute mdAttribute:teachingMaterialCode, mdAttribute:teachingMaterialName, mdAttribute:inTeachingMaterialAll;
+  rdfs:label "Teaching Material"@en.
+
+mdAttribute:teachingMaterialCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Teaching Material code"@en.
+
+mdAttribute:teachingMaterialName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Teaching Material name"@en.
+
+mdAttribute:inTeachingMaterialAll a qb4o:LevelAttribute, qb4o:RollupProperty;
+  qb4o:rollsUpTo mdProperty:teachingMaterialAll;
+  rdfs:range onto:teachingMaterialAll;
+  rdfs:label "in Teaching Material All"@en.
+
+mdProperty:teachingMaterialAll a qb4o:LevelProperty;
+  rdfs:range onto:teachingMaterialAll;
+  qb4o:hasAttribute mdAttribute:teachingMaterialAllCode, mdAttribute:teachingMaterialAllName;
+  rdfs:label "Teaching Material (All)"@en.
+
+mdAttribute:teachingMaterialAllCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Teaching Material All code"@en.
+
+mdAttribute:teachingMaterialAllName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Teaching Material All name"@en.
+
+mdStructure:teachingMaterialHierarchy a qb4o:Hierarchy;
+  qb4o:inDimension mdProperty:teachingMaterialDim;
+  qb4o:hasLevel mdProperty:teachingMaterial, mdProperty:teachingMaterialAll;
+  qb4o:hasHierarchyStep mdStructure:hs_teaching_mater_all.
+
+mdStructure:hs_teaching_mater_all a qb4o:HierarchyStep;
+  qb4o:inHierarchy mdStructure:teachingMaterialHierarchy;
+  qb4o:childLevel mdProperty:teachingMaterial;
+  qb4o:parentLevel mdProperty:teachingMaterialAll;
+  qb4o:pcCardinality qb4o:OneToMany;
+  qb4o:rollup mdAttribute:inTeachingMaterialAll.
+
+mdProperty:teachingMaterialDim a qb:DimensionProperty;
+  qb4o:hasHierarchy mdStructure:teachingMaterialHierarchy;
+  rdfs:label "Teaching Material Dimension"@en.
+
+# ------------------------------------------------------------
+# Teaching Method
+# ------------------------------------------------------------
+mdProperty:teachingMethod a qb4o:LevelProperty;
+  rdfs:range onto:teachingMethod;
+  qb4o:hasAttribute mdAttribute:teachingMethodCode, mdAttribute:teachingMethodName, mdAttribute:teachingMethodNameBn, mdAttribute:inTeachingMethodAll;
+  rdfs:label "Teaching Method"@en.
+
+mdAttribute:teachingMethodCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Teaching Method code"@en.
+
+mdAttribute:teachingMethodName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Teaching Method name"@en.
+
+mdAttribute:teachingMethodNameBn a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Teaching Method name (Bangla)"@en.
+
+mdAttribute:inTeachingMethodAll a qb4o:LevelAttribute, qb4o:RollupProperty;
+  qb4o:rollsUpTo mdProperty:teachingMethodAll;
+  rdfs:range onto:teachingMethodAll;
+  rdfs:label "in Teaching Method All"@en.
+
+mdProperty:teachingMethodAll a qb4o:LevelProperty;
+  rdfs:range onto:teachingMethodAll;
+  qb4o:hasAttribute mdAttribute:teachingMethodAllCode, mdAttribute:teachingMethodAllName;
+  rdfs:label "Teaching Method (All)"@en.
+
+mdAttribute:teachingMethodAllCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Teaching Method All code"@en.
+
+mdAttribute:teachingMethodAllName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Teaching Method All name"@en.
+
+mdStructure:teachingMethodHierarchy a qb4o:Hierarchy;
+  qb4o:inDimension mdProperty:teachingMethodDim;
+  qb4o:hasLevel mdProperty:teachingMethod, mdProperty:teachingMethodAll;
+  qb4o:hasHierarchyStep mdStructure:hs_teaching_metho_all.
+
+mdStructure:hs_teaching_metho_all a qb4o:HierarchyStep;
+  qb4o:inHierarchy mdStructure:teachingMethodHierarchy;
+  qb4o:childLevel mdProperty:teachingMethod;
+  qb4o:parentLevel mdProperty:teachingMethodAll;
+  qb4o:pcCardinality qb4o:OneToMany;
+  qb4o:rollup mdAttribute:inTeachingMethodAll.
+
+mdProperty:teachingMethodDim a qb:DimensionProperty;
+  qb4o:hasHierarchy mdStructure:teachingMethodHierarchy;
+  rdfs:label "Teaching Method Dimension"@en.
+
+# ------------------------------------------------------------
+# Community Service Type
+# ------------------------------------------------------------
+mdProperty:communityServiceType a qb4o:LevelProperty;
+  rdfs:range onto:communityServiceType;
+  qb4o:hasAttribute mdAttribute:communityServiceTypeCode, mdAttribute:communityServiceTypeName, mdAttribute:communityServiceTypeNameBn, mdAttribute:inCommunityServiceTypeAll;
+  rdfs:label "Community Service Type"@en.
+
+mdAttribute:communityServiceTypeCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Community Service Type code"@en.
+
+mdAttribute:communityServiceTypeName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Community Service Type name"@en.
+
+mdAttribute:communityServiceTypeNameBn a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Community Service Type name (Bangla)"@en.
+
+mdAttribute:inCommunityServiceTypeAll a qb4o:LevelAttribute, qb4o:RollupProperty;
+  qb4o:rollsUpTo mdProperty:communityServiceTypeAll;
+  rdfs:range onto:communityServiceTypeAll;
+  rdfs:label "in Community Service Type All"@en.
+
+mdProperty:communityServiceTypeAll a qb4o:LevelProperty;
+  rdfs:range onto:communityServiceTypeAll;
+  qb4o:hasAttribute mdAttribute:communityServiceTypeAllCode, mdAttribute:communityServiceTypeAllName;
+  rdfs:label "Community Service Type (All)"@en.
+
+mdAttribute:communityServiceTypeAllCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Community Service Type All code"@en.
+
+mdAttribute:communityServiceTypeAllName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Community Service Type All name"@en.
+
+mdStructure:communityServiceTypeHierarchy a qb4o:Hierarchy;
+  qb4o:inDimension mdProperty:communityServiceTypeDim;
+  qb4o:hasLevel mdProperty:communityServiceType, mdProperty:communityServiceTypeAll;
+  qb4o:hasHierarchyStep mdStructure:hs_community_serv_all.
+
+mdStructure:hs_community_serv_all a qb4o:HierarchyStep;
+  qb4o:inHierarchy mdStructure:communityServiceTypeHierarchy;
+  qb4o:childLevel mdProperty:communityServiceType;
+  qb4o:parentLevel mdProperty:communityServiceTypeAll;
+  qb4o:pcCardinality qb4o:OneToMany;
+  qb4o:rollup mdAttribute:inCommunityServiceTypeAll.
+
+mdProperty:communityServiceTypeDim a qb:DimensionProperty;
+  qb4o:hasHierarchy mdStructure:communityServiceTypeHierarchy;
+  rdfs:label "Community Service Type Dimension"@en.
+
+# ------------------------------------------------------------
+# Disaster Type
+# ------------------------------------------------------------
+mdProperty:disasterType a qb4o:LevelProperty;
+  rdfs:range onto:disasterType;
+  qb4o:hasAttribute mdAttribute:disasterTypeCode, mdAttribute:disasterTypeName, mdAttribute:disasterTypeNameBn, mdAttribute:inDisasterTypeAll;
+  rdfs:label "Disaster Type"@en.
+
+mdAttribute:disasterTypeCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Disaster Type code"@en.
+
+mdAttribute:disasterTypeName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Disaster Type name"@en.
+
+mdAttribute:disasterTypeNameBn a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Disaster Type name (Bangla)"@en.
+
+mdAttribute:inDisasterTypeAll a qb4o:LevelAttribute, qb4o:RollupProperty;
+  qb4o:rollsUpTo mdProperty:disasterTypeAll;
+  rdfs:range onto:disasterTypeAll;
+  rdfs:label "in Disaster Type All"@en.
+
+mdProperty:disasterTypeAll a qb4o:LevelProperty;
+  rdfs:range onto:disasterTypeAll;
+  qb4o:hasAttribute mdAttribute:disasterTypeAllCode, mdAttribute:disasterTypeAllName;
+  rdfs:label "Disaster Type (All)"@en.
+
+mdAttribute:disasterTypeAllCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Disaster Type All code"@en.
+
+mdAttribute:disasterTypeAllName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Disaster Type All name"@en.
+
+mdStructure:disasterTypeHierarchy a qb4o:Hierarchy;
+  qb4o:inDimension mdProperty:disasterTypeDim;
+  qb4o:hasLevel mdProperty:disasterType, mdProperty:disasterTypeAll;
+  qb4o:hasHierarchyStep mdStructure:hs_disaster_type_all.
+
+mdStructure:hs_disaster_type_all a qb4o:HierarchyStep;
+  qb4o:inHierarchy mdStructure:disasterTypeHierarchy;
+  qb4o:childLevel mdProperty:disasterType;
+  qb4o:parentLevel mdProperty:disasterTypeAll;
+  qb4o:pcCardinality qb4o:OneToMany;
+  qb4o:rollup mdAttribute:inDisasterTypeAll.
+
+mdProperty:disasterTypeDim a qb:DimensionProperty;
+  qb4o:hasHierarchy mdStructure:disasterTypeHierarchy;
+  rdfs:label "Disaster Type Dimension"@en.
+
+# ------------------------------------------------------------
+# Damage Type
+# ------------------------------------------------------------
+mdProperty:damageType a qb4o:LevelProperty;
+  rdfs:range onto:damageType;
+  qb4o:hasAttribute mdAttribute:damageTypeCode, mdAttribute:damageTypeName, mdAttribute:damageTypeNameBn, mdAttribute:inDamageTypeAll;
+  rdfs:label "Damage Type"@en.
+
+mdAttribute:damageTypeCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Damage Type code"@en.
+
+mdAttribute:damageTypeName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Damage Type name"@en.
+
+mdAttribute:damageTypeNameBn a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Damage Type name (Bangla)"@en.
+
+mdAttribute:inDamageTypeAll a qb4o:LevelAttribute, qb4o:RollupProperty;
+  qb4o:rollsUpTo mdProperty:damageTypeAll;
+  rdfs:range onto:damageTypeAll;
+  rdfs:label "in Damage Type All"@en.
+
+mdProperty:damageTypeAll a qb4o:LevelProperty;
+  rdfs:range onto:damageTypeAll;
+  qb4o:hasAttribute mdAttribute:damageTypeAllCode, mdAttribute:damageTypeAllName;
+  rdfs:label "Damage Type (All)"@en.
+
+mdAttribute:damageTypeAllCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Damage Type All code"@en.
+
+mdAttribute:damageTypeAllName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Damage Type All name"@en.
+
+mdStructure:damageTypeHierarchy a qb4o:Hierarchy;
+  qb4o:inDimension mdProperty:damageTypeDim;
+  qb4o:hasLevel mdProperty:damageType, mdProperty:damageTypeAll;
+  qb4o:hasHierarchyStep mdStructure:hs_damage_type_all.
+
+mdStructure:hs_damage_type_all a qb4o:HierarchyStep;
+  qb4o:inHierarchy mdStructure:damageTypeHierarchy;
+  qb4o:childLevel mdProperty:damageType;
+  qb4o:parentLevel mdProperty:damageTypeAll;
+  qb4o:pcCardinality qb4o:OneToMany;
+  qb4o:rollup mdAttribute:inDamageTypeAll.
+
+mdProperty:damageTypeDim a qb:DimensionProperty;
+  qb4o:hasHierarchy mdStructure:damageTypeHierarchy;
+  rdfs:label "Damage Type Dimension"@en.
+
+# ------------------------------------------------------------
+# Discussion Topic
+# ------------------------------------------------------------
+mdProperty:discussionTopic a qb4o:LevelProperty;
+  rdfs:range onto:discussionTopic;
+  qb4o:hasAttribute mdAttribute:discussionTopicCode, mdAttribute:discussionTopicName, mdAttribute:inDiscussionTopicAll;
+  rdfs:label "Discussion Topic"@en.
+
+mdAttribute:discussionTopicCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Discussion Topic code"@en.
+
+mdAttribute:discussionTopicName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Discussion Topic name"@en.
+
+mdAttribute:inDiscussionTopicAll a qb4o:LevelAttribute, qb4o:RollupProperty;
+  qb4o:rollsUpTo mdProperty:discussionTopicAll;
+  rdfs:range onto:discussionTopicAll;
+  rdfs:label "in Discussion Topic All"@en.
+
+mdProperty:discussionTopicAll a qb4o:LevelProperty;
+  rdfs:range onto:discussionTopicAll;
+  qb4o:hasAttribute mdAttribute:discussionTopicAllCode, mdAttribute:discussionTopicAllName;
+  rdfs:label "Discussion Topic (All)"@en.
+
+mdAttribute:discussionTopicAllCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Discussion Topic All code"@en.
+
+mdAttribute:discussionTopicAllName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Discussion Topic All name"@en.
+
+mdStructure:discussionTopicHierarchy a qb4o:Hierarchy;
+  qb4o:inDimension mdProperty:discussionTopicDim;
+  qb4o:hasLevel mdProperty:discussionTopic, mdProperty:discussionTopicAll;
+  qb4o:hasHierarchyStep mdStructure:hs_discussion_top_all.
+
+mdStructure:hs_discussion_top_all a qb4o:HierarchyStep;
+  qb4o:inHierarchy mdStructure:discussionTopicHierarchy;
+  qb4o:childLevel mdProperty:discussionTopic;
+  qb4o:parentLevel mdProperty:discussionTopicAll;
+  qb4o:pcCardinality qb4o:OneToMany;
+  qb4o:rollup mdAttribute:inDiscussionTopicAll.
+
+mdProperty:discussionTopicDim a qb:DimensionProperty;
+  qb4o:hasHierarchy mdStructure:discussionTopicHierarchy;
+  rdfs:label "Discussion Topic Dimension"@en.
+
+# ------------------------------------------------------------
+# Land Segmentation
+# ------------------------------------------------------------
+mdProperty:landSegmentation a qb4o:LevelProperty;
+  rdfs:range onto:landSegmentation;
+  qb4o:hasAttribute mdAttribute:landSegmentationCode, mdAttribute:landSegmentationName, mdAttribute:landSegmentationNameBn, mdAttribute:inLandSegmentationAll;
+  rdfs:label "Land Segmentation"@en.
+
+mdAttribute:landSegmentationCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Land Segmentation code"@en.
+
+mdAttribute:landSegmentationName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Land Segmentation name"@en.
+
+mdAttribute:landSegmentationNameBn a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Land Segmentation name (Bangla)"@en.
+
+mdAttribute:inLandSegmentationAll a qb4o:LevelAttribute, qb4o:RollupProperty;
+  qb4o:rollsUpTo mdProperty:landSegmentationAll;
+  rdfs:range onto:landSegmentationAll;
+  rdfs:label "in Land Segmentation All"@en.
+
+mdProperty:landSegmentationAll a qb4o:LevelProperty;
+  rdfs:range onto:landSegmentationAll;
+  qb4o:hasAttribute mdAttribute:landSegmentationAllCode, mdAttribute:landSegmentationAllName;
+  rdfs:label "Land Segmentation (All)"@en.
+
+mdAttribute:landSegmentationAllCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Land Segmentation All code"@en.
+
+mdAttribute:landSegmentationAllName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Land Segmentation All name"@en.
+
+mdStructure:landSegmentationHierarchy a qb4o:Hierarchy;
+  qb4o:inDimension mdProperty:landSegmentationDim;
+  qb4o:hasLevel mdProperty:landSegmentation, mdProperty:landSegmentationAll;
+  qb4o:hasHierarchyStep mdStructure:hs_land_segmentat_all.
+
+mdStructure:hs_land_segmentat_all a qb4o:HierarchyStep;
+  qb4o:inHierarchy mdStructure:landSegmentationHierarchy;
+  qb4o:childLevel mdProperty:landSegmentation;
+  qb4o:parentLevel mdProperty:landSegmentationAll;
+  qb4o:pcCardinality qb4o:OneToMany;
+  qb4o:rollup mdAttribute:inLandSegmentationAll.
+
+mdProperty:landSegmentationDim a qb:DimensionProperty;
+  qb4o:hasHierarchy mdStructure:landSegmentationHierarchy;
+  rdfs:label "Land Segmentation Dimension"@en.
+
+# ------------------------------------------------------------
+# Prayer Room Type
+# ------------------------------------------------------------
+mdProperty:prayerRoomType a qb4o:LevelProperty;
+  rdfs:range onto:prayerRoomType;
+  qb4o:hasAttribute mdAttribute:prayerRoomTypeCode, mdAttribute:prayerRoomTypeName, mdAttribute:prayerRoomTypeNameBn, mdAttribute:inPrayerRoomTypeAll;
+  rdfs:label "Prayer Room Type"@en.
+
+mdAttribute:prayerRoomTypeCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Prayer Room Type code"@en.
+
+mdAttribute:prayerRoomTypeName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Prayer Room Type name"@en.
+
+mdAttribute:prayerRoomTypeNameBn a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Prayer Room Type name (Bangla)"@en.
+
+mdAttribute:inPrayerRoomTypeAll a qb4o:LevelAttribute, qb4o:RollupProperty;
+  qb4o:rollsUpTo mdProperty:prayerRoomTypeAll;
+  rdfs:range onto:prayerRoomTypeAll;
+  rdfs:label "in Prayer Room Type All"@en.
+
+mdProperty:prayerRoomTypeAll a qb4o:LevelProperty;
+  rdfs:range onto:prayerRoomTypeAll;
+  qb4o:hasAttribute mdAttribute:prayerRoomTypeAllCode, mdAttribute:prayerRoomTypeAllName;
+  rdfs:label "Prayer Room Type (All)"@en.
+
+mdAttribute:prayerRoomTypeAllCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Prayer Room Type All code"@en.
+
+mdAttribute:prayerRoomTypeAllName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Prayer Room Type All name"@en.
+
+mdStructure:prayerRoomTypeHierarchy a qb4o:Hierarchy;
+  qb4o:inDimension mdProperty:prayerRoomTypeDim;
+  qb4o:hasLevel mdProperty:prayerRoomType, mdProperty:prayerRoomTypeAll;
+  qb4o:hasHierarchyStep mdStructure:hs_prayer_room_ty_all.
+
+mdStructure:hs_prayer_room_ty_all a qb4o:HierarchyStep;
+  qb4o:inHierarchy mdStructure:prayerRoomTypeHierarchy;
+  qb4o:childLevel mdProperty:prayerRoomType;
+  qb4o:parentLevel mdProperty:prayerRoomTypeAll;
+  qb4o:pcCardinality qb4o:OneToMany;
+  qb4o:rollup mdAttribute:inPrayerRoomTypeAll.
+
+mdProperty:prayerRoomTypeDim a qb:DimensionProperty;
+  qb4o:hasHierarchy mdStructure:prayerRoomTypeHierarchy;
+  rdfs:label "Prayer Room Type Dimension"@en.
+
+# ------------------------------------------------------------
+# Construction Type
+# ------------------------------------------------------------
+mdProperty:constructionType a qb4o:LevelProperty;
+  rdfs:range onto:constructionType;
+  qb4o:hasAttribute mdAttribute:constructionTypeCode, mdAttribute:constructionTypeName, mdAttribute:inConstructionTypeAll;
+  rdfs:label "Construction Type"@en.
+
+mdAttribute:constructionTypeCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Construction Type code"@en.
+
+mdAttribute:constructionTypeName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Construction Type name"@en.
+
+mdAttribute:inConstructionTypeAll a qb4o:LevelAttribute, qb4o:RollupProperty;
+  qb4o:rollsUpTo mdProperty:constructionTypeAll;
+  rdfs:range onto:constructionTypeAll;
+  rdfs:label "in Construction Type All"@en.
+
+mdProperty:constructionTypeAll a qb4o:LevelProperty;
+  rdfs:range onto:constructionTypeAll;
+  qb4o:hasAttribute mdAttribute:constructionTypeAllCode, mdAttribute:constructionTypeAllName;
+  rdfs:label "Construction Type (All)"@en.
+
+mdAttribute:constructionTypeAllCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Construction Type All code"@en.
+
+mdAttribute:constructionTypeAllName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Construction Type All name"@en.
+
+mdStructure:constructionTypeHierarchy a qb4o:Hierarchy;
+  qb4o:inDimension mdProperty:constructionTypeDim;
+  qb4o:hasLevel mdProperty:constructionType, mdProperty:constructionTypeAll;
+  qb4o:hasHierarchyStep mdStructure:hs_construction_t_all.
+
+mdStructure:hs_construction_t_all a qb4o:HierarchyStep;
+  qb4o:inHierarchy mdStructure:constructionTypeHierarchy;
+  qb4o:childLevel mdProperty:constructionType;
+  qb4o:parentLevel mdProperty:constructionTypeAll;
+  qb4o:pcCardinality qb4o:OneToMany;
+  qb4o:rollup mdAttribute:inConstructionTypeAll.
+
+mdProperty:constructionTypeDim a qb:DimensionProperty;
+  qb4o:hasHierarchy mdStructure:constructionTypeHierarchy;
+  rdfs:label "Construction Type Dimension"@en.
+
+# ------------------------------------------------------------
+# Construction Condition
+# ------------------------------------------------------------
+mdProperty:constructionCondition a qb4o:LevelProperty;
+  rdfs:range onto:constructionCondition;
+  qb4o:hasAttribute mdAttribute:constructionConditionCode, mdAttribute:constructionConditionName, mdAttribute:inConstructionConditionAll;
+  rdfs:label "Construction Condition"@en.
+
+mdAttribute:constructionConditionCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Construction Condition code"@en.
+
+mdAttribute:constructionConditionName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Construction Condition name"@en.
+
+mdAttribute:inConstructionConditionAll a qb4o:LevelAttribute, qb4o:RollupProperty;
+  qb4o:rollsUpTo mdProperty:constructionConditionAll;
+  rdfs:range onto:constructionConditionAll;
+  rdfs:label "in Construction Condition All"@en.
+
+mdProperty:constructionConditionAll a qb4o:LevelProperty;
+  rdfs:range onto:constructionConditionAll;
+  qb4o:hasAttribute mdAttribute:constructionConditionAllCode, mdAttribute:constructionConditionAllName;
+  rdfs:label "Construction Condition (All)"@en.
+
+mdAttribute:constructionConditionAllCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Construction Condition All code"@en.
+
+mdAttribute:constructionConditionAllName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Construction Condition All name"@en.
+
+mdStructure:constructionConditionHierarchy a qb4o:Hierarchy;
+  qb4o:inDimension mdProperty:constructionConditionDim;
+  qb4o:hasLevel mdProperty:constructionCondition, mdProperty:constructionConditionAll;
+  qb4o:hasHierarchyStep mdStructure:hs_construction_c_all.
+
+mdStructure:hs_construction_c_all a qb4o:HierarchyStep;
+  qb4o:inHierarchy mdStructure:constructionConditionHierarchy;
+  qb4o:childLevel mdProperty:constructionCondition;
+  qb4o:parentLevel mdProperty:constructionConditionAll;
+  qb4o:pcCardinality qb4o:OneToMany;
+  qb4o:rollup mdAttribute:inConstructionConditionAll.
+
+mdProperty:constructionConditionDim a qb:DimensionProperty;
+  qb4o:hasHierarchy mdStructure:constructionConditionHierarchy;
+  rdfs:label "Construction Condition Dimension"@en.
+
+# ------------------------------------------------------------
+# Toilet Type
+# ------------------------------------------------------------
+mdProperty:toiletType a qb4o:LevelProperty;
+  rdfs:range onto:toiletType;
+  qb4o:hasAttribute mdAttribute:toiletTypeCode, mdAttribute:toiletTypeName, mdAttribute:inToiletTypeAll;
+  rdfs:label "Toilet Type"@en.
+
+mdAttribute:toiletTypeCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Toilet Type code"@en.
+
+mdAttribute:toiletTypeName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Toilet Type name"@en.
+
+mdAttribute:inToiletTypeAll a qb4o:LevelAttribute, qb4o:RollupProperty;
+  qb4o:rollsUpTo mdProperty:toiletTypeAll;
+  rdfs:range onto:toiletTypeAll;
+  rdfs:label "in Toilet Type All"@en.
+
+mdProperty:toiletTypeAll a qb4o:LevelProperty;
+  rdfs:range onto:toiletTypeAll;
+  qb4o:hasAttribute mdAttribute:toiletTypeAllCode, mdAttribute:toiletTypeAllName;
+  rdfs:label "Toilet Type (All)"@en.
+
+mdAttribute:toiletTypeAllCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Toilet Type All code"@en.
+
+mdAttribute:toiletTypeAllName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Toilet Type All name"@en.
+
+mdStructure:toiletTypeHierarchy a qb4o:Hierarchy;
+  qb4o:inDimension mdProperty:toiletTypeDim;
+  qb4o:hasLevel mdProperty:toiletType, mdProperty:toiletTypeAll;
+  qb4o:hasHierarchyStep mdStructure:hs_toilet_type_all.
+
+mdStructure:hs_toilet_type_all a qb4o:HierarchyStep;
+  qb4o:inHierarchy mdStructure:toiletTypeHierarchy;
+  qb4o:childLevel mdProperty:toiletType;
+  qb4o:parentLevel mdProperty:toiletTypeAll;
+  qb4o:pcCardinality qb4o:OneToMany;
+  qb4o:rollup mdAttribute:inToiletTypeAll.
+
+mdProperty:toiletTypeDim a qb:DimensionProperty;
+  qb4o:hasHierarchy mdStructure:toiletTypeHierarchy;
+  rdfs:label "Toilet Type Dimension"@en.
+
+# ------------------------------------------------------------
+# Room Allocation
+# ------------------------------------------------------------
+mdProperty:roomAllocation a qb4o:LevelProperty;
+  rdfs:range onto:roomAllocation;
+  qb4o:hasAttribute mdAttribute:roomAllocationCode, mdAttribute:roomAllocationName, mdAttribute:inRoomAllocationAll;
+  rdfs:label "Room Allocation"@en.
+
+mdAttribute:roomAllocationCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Room Allocation code"@en.
+
+mdAttribute:roomAllocationName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Room Allocation name"@en.
+
+mdAttribute:inRoomAllocationAll a qb4o:LevelAttribute, qb4o:RollupProperty;
+  qb4o:rollsUpTo mdProperty:roomAllocationAll;
+  rdfs:range onto:roomAllocationAll;
+  rdfs:label "in Room Allocation All"@en.
+
+mdProperty:roomAllocationAll a qb4o:LevelProperty;
+  rdfs:range onto:roomAllocationAll;
+  qb4o:hasAttribute mdAttribute:roomAllocationAllCode, mdAttribute:roomAllocationAllName;
+  rdfs:label "Room Allocation (All)"@en.
+
+mdAttribute:roomAllocationAllCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Room Allocation All code"@en.
+
+mdAttribute:roomAllocationAllName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Room Allocation All name"@en.
+
+mdStructure:roomAllocationHierarchy a qb4o:Hierarchy;
+  qb4o:inDimension mdProperty:roomAllocationDim;
+  qb4o:hasLevel mdProperty:roomAllocation, mdProperty:roomAllocationAll;
+  qb4o:hasHierarchyStep mdStructure:hs_room_allocatio_all.
+
+mdStructure:hs_room_allocatio_all a qb4o:HierarchyStep;
+  qb4o:inHierarchy mdStructure:roomAllocationHierarchy;
+  qb4o:childLevel mdProperty:roomAllocation;
+  qb4o:parentLevel mdProperty:roomAllocationAll;
+  qb4o:pcCardinality qb4o:OneToMany;
+  qb4o:rollup mdAttribute:inRoomAllocationAll.
+
+mdProperty:roomAllocationDim a qb:DimensionProperty;
+  qb4o:hasHierarchy mdStructure:roomAllocationHierarchy;
+  rdfs:label "Room Allocation Dimension"@en.
+
+# ------------------------------------------------------------
+# Containment System Type
+# ------------------------------------------------------------
+mdProperty:containmentSystemType a qb4o:LevelProperty;
+  rdfs:range onto:containmentSystemType;
+  qb4o:hasAttribute mdAttribute:containmentSystemTypeCode, mdAttribute:containmentSystemTypeName, mdAttribute:inContainmentSystemTypeAll;
+  rdfs:label "Containment System Type"@en.
+
+mdAttribute:containmentSystemTypeCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Containment System Type code"@en.
+
+mdAttribute:containmentSystemTypeName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Containment System Type name"@en.
+
+mdAttribute:inContainmentSystemTypeAll a qb4o:LevelAttribute, qb4o:RollupProperty;
+  qb4o:rollsUpTo mdProperty:containmentSystemTypeAll;
+  rdfs:range onto:containmentSystemTypeAll;
+  rdfs:label "in Containment System Type All"@en.
+
+mdProperty:containmentSystemTypeAll a qb4o:LevelProperty;
+  rdfs:range onto:containmentSystemTypeAll;
+  qb4o:hasAttribute mdAttribute:containmentSystemTypeAllCode, mdAttribute:containmentSystemTypeAllName;
+  rdfs:label "Containment System Type (All)"@en.
+
+mdAttribute:containmentSystemTypeAllCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Containment System Type All code"@en.
+
+mdAttribute:containmentSystemTypeAllName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Containment System Type All name"@en.
+
+mdStructure:containmentSystemTypeHierarchy a qb4o:Hierarchy;
+  qb4o:inDimension mdProperty:containmentSystemTypeDim;
+  qb4o:hasLevel mdProperty:containmentSystemType, mdProperty:containmentSystemTypeAll;
+  qb4o:hasHierarchyStep mdStructure:hs_containment_sy_all.
+
+mdStructure:hs_containment_sy_all a qb4o:HierarchyStep;
+  qb4o:inHierarchy mdStructure:containmentSystemTypeHierarchy;
+  qb4o:childLevel mdProperty:containmentSystemType;
+  qb4o:parentLevel mdProperty:containmentSystemTypeAll;
+  qb4o:pcCardinality qb4o:OneToMany;
+  qb4o:rollup mdAttribute:inContainmentSystemTypeAll.
+
+mdProperty:containmentSystemTypeDim a qb:DimensionProperty;
+  qb4o:hasHierarchy mdStructure:containmentSystemTypeHierarchy;
+  rdfs:label "Containment System Type Dimension"@en.
+
+# ------------------------------------------------------------
+# Prayer Facility
+# ------------------------------------------------------------
+mdProperty:prayerFacility a qb4o:LevelProperty;
+  rdfs:range onto:prayerFacility;
+  qb4o:hasAttribute mdAttribute:prayerFacilityCode, mdAttribute:prayerFacilityName, mdAttribute:inPrayerFacilityAll;
+  rdfs:label "Prayer Facility"@en.
+
+mdAttribute:prayerFacilityCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Prayer Facility code"@en.
+
+mdAttribute:prayerFacilityName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Prayer Facility name"@en.
+
+mdAttribute:inPrayerFacilityAll a qb4o:LevelAttribute, qb4o:RollupProperty;
+  qb4o:rollsUpTo mdProperty:prayerFacilityAll;
+  rdfs:range onto:prayerFacilityAll;
+  rdfs:label "in Prayer Facility All"@en.
+
+mdProperty:prayerFacilityAll a qb4o:LevelProperty;
+  rdfs:range onto:prayerFacilityAll;
+  qb4o:hasAttribute mdAttribute:prayerFacilityAllCode, mdAttribute:prayerFacilityAllName;
+  rdfs:label "Prayer Facility (All)"@en.
+
+mdAttribute:prayerFacilityAllCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Prayer Facility All code"@en.
+
+mdAttribute:prayerFacilityAllName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Prayer Facility All name"@en.
+
+mdStructure:prayerFacilityHierarchy a qb4o:Hierarchy;
+  qb4o:inDimension mdProperty:prayerFacilityDim;
+  qb4o:hasLevel mdProperty:prayerFacility, mdProperty:prayerFacilityAll;
+  qb4o:hasHierarchyStep mdStructure:hs_prayer_facilit_all.
+
+mdStructure:hs_prayer_facilit_all a qb4o:HierarchyStep;
+  qb4o:inHierarchy mdStructure:prayerFacilityHierarchy;
+  qb4o:childLevel mdProperty:prayerFacility;
+  qb4o:parentLevel mdProperty:prayerFacilityAll;
+  qb4o:pcCardinality qb4o:OneToMany;
+  qb4o:rollup mdAttribute:inPrayerFacilityAll.
+
+mdProperty:prayerFacilityDim a qb:DimensionProperty;
+  qb4o:hasHierarchy mdStructure:prayerFacilityHierarchy;
+  rdfs:label "Prayer Facility Dimension"@en.
+
+# ------------------------------------------------------------
+# Physical Infrastructure Type
+# ------------------------------------------------------------
+mdProperty:physicalInfrastructureType a qb4o:LevelProperty;
+  rdfs:range onto:physicalInfrastructureType;
+  qb4o:hasAttribute mdAttribute:physicalInfrastructureTypeCode, mdAttribute:physicalInfrastructureTypeName, mdAttribute:inPhysicalInfrastructureTypeAll;
+  rdfs:label "Physical Infrastructure Type"@en.
+
+mdAttribute:physicalInfrastructureTypeCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Physical Infrastructure Type code"@en.
+
+mdAttribute:physicalInfrastructureTypeName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Physical Infrastructure Type name"@en.
+
+mdAttribute:inPhysicalInfrastructureTypeAll a qb4o:LevelAttribute, qb4o:RollupProperty;
+  qb4o:rollsUpTo mdProperty:physicalInfrastructureTypeAll;
+  rdfs:range onto:physicalInfrastructureTypeAll;
+  rdfs:label "in Physical Infrastructure Type All"@en.
+
+mdProperty:physicalInfrastructureTypeAll a qb4o:LevelProperty;
+  rdfs:range onto:physicalInfrastructureTypeAll;
+  qb4o:hasAttribute mdAttribute:physicalInfrastructureTypeAllCode, mdAttribute:physicalInfrastructureTypeAllName;
+  rdfs:label "Physical Infrastructure Type (All)"@en.
+
+mdAttribute:physicalInfrastructureTypeAllCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Physical Infrastructure Type All code"@en.
+
+mdAttribute:physicalInfrastructureTypeAllName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Physical Infrastructure Type All name"@en.
+
+mdStructure:physicalInfrastructureTypeHierarchy a qb4o:Hierarchy;
+  qb4o:inDimension mdProperty:physicalInfrastructureTypeDim;
+  qb4o:hasLevel mdProperty:physicalInfrastructureType, mdProperty:physicalInfrastructureTypeAll;
+  qb4o:hasHierarchyStep mdStructure:hs_physical_infra_all.
+
+mdStructure:hs_physical_infra_all a qb4o:HierarchyStep;
+  qb4o:inHierarchy mdStructure:physicalInfrastructureTypeHierarchy;
+  qb4o:childLevel mdProperty:physicalInfrastructureType;
+  qb4o:parentLevel mdProperty:physicalInfrastructureTypeAll;
+  qb4o:pcCardinality qb4o:OneToMany;
+  qb4o:rollup mdAttribute:inPhysicalInfrastructureTypeAll.
+
+mdProperty:physicalInfrastructureTypeDim a qb:DimensionProperty;
+  qb4o:hasHierarchy mdStructure:physicalInfrastructureTypeHierarchy;
+  rdfs:label "Physical Infrastructure Type Dimension"@en.
+
+# ------------------------------------------------------------
+# Residential User Type
+# ------------------------------------------------------------
+mdProperty:residentialUserType a qb4o:LevelProperty;
+  rdfs:range onto:residentialUserType;
+  qb4o:hasAttribute mdAttribute:residentialUserTypeCode, mdAttribute:residentialUserTypeName, mdAttribute:inResidentialUserTypeAll;
+  rdfs:label "Residential User Type"@en.
+
+mdAttribute:residentialUserTypeCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Residential User Type code"@en.
+
+mdAttribute:residentialUserTypeName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Residential User Type name"@en.
+
+mdAttribute:inResidentialUserTypeAll a qb4o:LevelAttribute, qb4o:RollupProperty;
+  qb4o:rollsUpTo mdProperty:residentialUserTypeAll;
+  rdfs:range onto:residentialUserTypeAll;
+  rdfs:label "in Residential User Type All"@en.
+
+mdProperty:residentialUserTypeAll a qb4o:LevelProperty;
+  rdfs:range onto:residentialUserTypeAll;
+  qb4o:hasAttribute mdAttribute:residentialUserTypeAllCode, mdAttribute:residentialUserTypeAllName;
+  rdfs:label "Residential User Type (All)"@en.
+
+mdAttribute:residentialUserTypeAllCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Residential User Type All code"@en.
+
+mdAttribute:residentialUserTypeAllName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Residential User Type All name"@en.
+
+mdStructure:residentialUserTypeHierarchy a qb4o:Hierarchy;
+  qb4o:inDimension mdProperty:residentialUserTypeDim;
+  qb4o:hasLevel mdProperty:residentialUserType, mdProperty:residentialUserTypeAll;
+  qb4o:hasHierarchyStep mdStructure:hs_residential_us_all.
+
+mdStructure:hs_residential_us_all a qb4o:HierarchyStep;
+  qb4o:inHierarchy mdStructure:residentialUserTypeHierarchy;
+  qb4o:childLevel mdProperty:residentialUserType;
+  qb4o:parentLevel mdProperty:residentialUserTypeAll;
+  qb4o:pcCardinality qb4o:OneToMany;
+  qb4o:rollup mdAttribute:inResidentialUserTypeAll.
+
+mdProperty:residentialUserTypeDim a qb:DimensionProperty;
+  qb4o:hasHierarchy mdStructure:residentialUserTypeHierarchy;
+  rdfs:label "Residential User Type Dimension"@en.
+
+# ------------------------------------------------------------
+# Faculty
+# ------------------------------------------------------------
+mdProperty:faculty a qb4o:LevelProperty;
+  rdfs:range onto:faculty;
+  qb4o:hasAttribute mdAttribute:facultyCode, mdAttribute:facultyName, mdAttribute:facultyNameBn, mdAttribute:inFacultyAll;
+  rdfs:label "Faculty"@en.
+
+mdAttribute:facultyCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Faculty code"@en.
+
+mdAttribute:facultyName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Faculty name"@en.
+
+mdAttribute:facultyNameBn a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Faculty name (Bangla)"@en.
+
+mdAttribute:inFacultyAll a qb4o:LevelAttribute, qb4o:RollupProperty;
+  qb4o:rollsUpTo mdProperty:facultyAll;
+  rdfs:range onto:facultyAll;
+  rdfs:label "in Faculty All"@en.
+
+mdProperty:facultyAll a qb4o:LevelProperty;
+  rdfs:range onto:facultyAll;
+  qb4o:hasAttribute mdAttribute:facultyAllCode, mdAttribute:facultyAllName;
+  rdfs:label "Faculty (All)"@en.
+
+mdAttribute:facultyAllCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Faculty All code"@en.
+
+mdAttribute:facultyAllName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Faculty All name"@en.
+
+mdStructure:facultyHierarchy a qb4o:Hierarchy;
+  qb4o:inDimension mdProperty:facultyDim;
+  qb4o:hasLevel mdProperty:faculty, mdProperty:facultyAll;
+  qb4o:hasHierarchyStep mdStructure:hs_faculty_all.
+
+mdStructure:hs_faculty_all a qb4o:HierarchyStep;
+  qb4o:inHierarchy mdStructure:facultyHierarchy;
+  qb4o:childLevel mdProperty:faculty;
+  qb4o:parentLevel mdProperty:facultyAll;
+  qb4o:pcCardinality qb4o:OneToMany;
+  qb4o:rollup mdAttribute:inFacultyAll.
+
+mdProperty:facultyDim a qb:DimensionProperty;
+  qb4o:hasHierarchy mdStructure:facultyHierarchy;
+  rdfs:label "Faculty Dimension"@en.
+
+# ------------------------------------------------------------
+# Degree Level
+# ------------------------------------------------------------
+mdProperty:degreeLevel a qb4o:LevelProperty;
+  rdfs:range onto:degreeLevel;
+  qb4o:hasAttribute mdAttribute:degreeLevelCode, mdAttribute:degreeLevelName, mdAttribute:inDegreeLevelAll;
+  rdfs:label "Degree Level"@en.
+
+mdAttribute:degreeLevelCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Degree Level code"@en.
+
+mdAttribute:degreeLevelName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Degree Level name"@en.
+
+mdAttribute:inDegreeLevelAll a qb4o:LevelAttribute, qb4o:RollupProperty;
+  qb4o:rollsUpTo mdProperty:degreeLevelAll;
+  rdfs:range onto:degreeLevelAll;
+  rdfs:label "in Degree Level All"@en.
+
+mdProperty:degreeLevelAll a qb4o:LevelProperty;
+  rdfs:range onto:degreeLevelAll;
+  qb4o:hasAttribute mdAttribute:degreeLevelAllCode, mdAttribute:degreeLevelAllName;
+  rdfs:label "Degree Level (All)"@en.
+
+mdAttribute:degreeLevelAllCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Degree Level All code"@en.
+
+mdAttribute:degreeLevelAllName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Degree Level All name"@en.
+
+mdStructure:degreeLevelHierarchy a qb4o:Hierarchy;
+  qb4o:inDimension mdProperty:degreeLevelDim;
+  qb4o:hasLevel mdProperty:degreeLevel, mdProperty:degreeLevelAll;
+  qb4o:hasHierarchyStep mdStructure:hs_degree_level_all.
+
+mdStructure:hs_degree_level_all a qb4o:HierarchyStep;
+  qb4o:inHierarchy mdStructure:degreeLevelHierarchy;
+  qb4o:childLevel mdProperty:degreeLevel;
+  qb4o:parentLevel mdProperty:degreeLevelAll;
+  qb4o:pcCardinality qb4o:OneToMany;
+  qb4o:rollup mdAttribute:inDegreeLevelAll.
+
+mdProperty:degreeLevelDim a qb:DimensionProperty;
+  qb4o:hasHierarchy mdStructure:degreeLevelHierarchy;
+  rdfs:label "Degree Level Dimension"@en.
+
+# ------------------------------------------------------------
+# Islamic Subject
+# ------------------------------------------------------------
+mdProperty:islamicSubject a qb4o:LevelProperty;
+  rdfs:range onto:islamicSubject;
+  qb4o:hasAttribute mdAttribute:islamicSubjectCode, mdAttribute:islamicSubjectName, mdAttribute:inIslamicSubjectAll;
+  rdfs:label "Islamic Subject"@en.
+
+mdAttribute:islamicSubjectCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Islamic Subject code"@en.
+
+mdAttribute:islamicSubjectName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Islamic Subject name"@en.
+
+mdAttribute:inIslamicSubjectAll a qb4o:LevelAttribute, qb4o:RollupProperty;
+  qb4o:rollsUpTo mdProperty:islamicSubjectAll;
+  rdfs:range onto:islamicSubjectAll;
+  rdfs:label "in Islamic Subject All"@en.
+
+mdProperty:islamicSubjectAll a qb4o:LevelProperty;
+  rdfs:range onto:islamicSubjectAll;
+  qb4o:hasAttribute mdAttribute:islamicSubjectAllCode, mdAttribute:islamicSubjectAllName;
+  rdfs:label "Islamic Subject (All)"@en.
+
+mdAttribute:islamicSubjectAllCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Islamic Subject All code"@en.
+
+mdAttribute:islamicSubjectAllName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Islamic Subject All name"@en.
+
+mdStructure:islamicSubjectHierarchy a qb4o:Hierarchy;
+  qb4o:inDimension mdProperty:islamicSubjectDim;
+  qb4o:hasLevel mdProperty:islamicSubject, mdProperty:islamicSubjectAll;
+  qb4o:hasHierarchyStep mdStructure:hs_islamic_subjec_all.
+
+mdStructure:hs_islamic_subjec_all a qb4o:HierarchyStep;
+  qb4o:inHierarchy mdStructure:islamicSubjectHierarchy;
+  qb4o:childLevel mdProperty:islamicSubject;
+  qb4o:parentLevel mdProperty:islamicSubjectAll;
+  qb4o:pcCardinality qb4o:OneToMany;
+  qb4o:rollup mdAttribute:inIslamicSubjectAll.
+
+mdProperty:islamicSubjectDim a qb:DimensionProperty;
+  qb4o:hasHierarchy mdStructure:islamicSubjectHierarchy;
+  rdfs:label "Islamic Subject Dimension"@en.
+
+# ------------------------------------------------------------
+# Islamic Text Library
+# ------------------------------------------------------------
+mdProperty:islamicTextLibrary a qb4o:LevelProperty;
+  rdfs:range onto:islamicTextLibrary;
+  qb4o:hasAttribute mdAttribute:islamicTextLibraryCode, mdAttribute:islamicTextLibraryName, mdAttribute:inIslamicTextLibraryAll;
+  rdfs:label "Islamic Text Library"@en.
+
+mdAttribute:islamicTextLibraryCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Islamic Text Library code"@en.
+
+mdAttribute:islamicTextLibraryName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Islamic Text Library name"@en.
+
+mdAttribute:inIslamicTextLibraryAll a qb4o:LevelAttribute, qb4o:RollupProperty;
+  qb4o:rollsUpTo mdProperty:islamicTextLibraryAll;
+  rdfs:range onto:islamicTextLibraryAll;
+  rdfs:label "in Islamic Text Library All"@en.
+
+mdProperty:islamicTextLibraryAll a qb4o:LevelProperty;
+  rdfs:range onto:islamicTextLibraryAll;
+  qb4o:hasAttribute mdAttribute:islamicTextLibraryAllCode, mdAttribute:islamicTextLibraryAllName;
+  rdfs:label "Islamic Text Library (All)"@en.
+
+mdAttribute:islamicTextLibraryAllCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Islamic Text Library All code"@en.
+
+mdAttribute:islamicTextLibraryAllName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Islamic Text Library All name"@en.
+
+mdStructure:islamicTextLibraryHierarchy a qb4o:Hierarchy;
+  qb4o:inDimension mdProperty:islamicTextLibraryDim;
+  qb4o:hasLevel mdProperty:islamicTextLibrary, mdProperty:islamicTextLibraryAll;
+  qb4o:hasHierarchyStep mdStructure:hs_islamic_text_l_all.
+
+mdStructure:hs_islamic_text_l_all a qb4o:HierarchyStep;
+  qb4o:inHierarchy mdStructure:islamicTextLibraryHierarchy;
+  qb4o:childLevel mdProperty:islamicTextLibrary;
+  qb4o:parentLevel mdProperty:islamicTextLibraryAll;
+  qb4o:pcCardinality qb4o:OneToMany;
+  qb4o:rollup mdAttribute:inIslamicTextLibraryAll.
+
+mdProperty:islamicTextLibraryDim a qb:DimensionProperty;
+  qb4o:hasHierarchy mdStructure:islamicTextLibraryHierarchy;
+  rdfs:label "Islamic Text Library Dimension"@en.
+
+# ------------------------------------------------------------
+# Course Duration
+# ------------------------------------------------------------
+mdProperty:courseDuration a qb4o:LevelProperty;
+  rdfs:range onto:courseDuration;
+  qb4o:hasAttribute mdAttribute:courseDurationCode, mdAttribute:courseDurationName, mdAttribute:inCourseDurationAll;
+  rdfs:label "Course Duration"@en.
+
+mdAttribute:courseDurationCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Course Duration code"@en.
+
+mdAttribute:courseDurationName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Course Duration name"@en.
+
+mdAttribute:inCourseDurationAll a qb4o:LevelAttribute, qb4o:RollupProperty;
+  qb4o:rollsUpTo mdProperty:courseDurationAll;
+  rdfs:range onto:courseDurationAll;
+  rdfs:label "in Course Duration All"@en.
+
+mdProperty:courseDurationAll a qb4o:LevelProperty;
+  rdfs:range onto:courseDurationAll;
+  qb4o:hasAttribute mdAttribute:courseDurationAllCode, mdAttribute:courseDurationAllName;
+  rdfs:label "Course Duration (All)"@en.
+
+mdAttribute:courseDurationAllCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Course Duration All code"@en.
+
+mdAttribute:courseDurationAllName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Course Duration All name"@en.
+
+mdStructure:courseDurationHierarchy a qb4o:Hierarchy;
+  qb4o:inDimension mdProperty:courseDurationDim;
+  qb4o:hasLevel mdProperty:courseDuration, mdProperty:courseDurationAll;
+  qb4o:hasHierarchyStep mdStructure:hs_course_duratio_all.
+
+mdStructure:hs_course_duratio_all a qb4o:HierarchyStep;
+  qb4o:inHierarchy mdStructure:courseDurationHierarchy;
+  qb4o:childLevel mdProperty:courseDuration;
+  qb4o:parentLevel mdProperty:courseDurationAll;
+  qb4o:pcCardinality qb4o:OneToMany;
+  qb4o:rollup mdAttribute:inCourseDurationAll.
+
+mdProperty:courseDurationDim a qb:DimensionProperty;
+  qb4o:hasHierarchy mdStructure:courseDurationHierarchy;
+  rdfs:label "Course Duration Dimension"@en.
+
+# ------------------------------------------------------------
+# English Medium Class Group
+# ------------------------------------------------------------
+mdProperty:englishMediumClassGroup a qb4o:LevelProperty;
+  rdfs:range onto:englishMediumClassGroup;
+  qb4o:hasAttribute mdAttribute:englishMediumClassGroupCode, mdAttribute:englishMediumClassGroupName, mdAttribute:inEnglishMediumClassGroupAll;
+  rdfs:label "English Medium Class Group"@en.
+
+mdAttribute:englishMediumClassGroupCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "English Medium Class Group code"@en.
+
+mdAttribute:englishMediumClassGroupName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "English Medium Class Group name"@en.
+
+mdAttribute:inEnglishMediumClassGroupAll a qb4o:LevelAttribute, qb4o:RollupProperty;
+  qb4o:rollsUpTo mdProperty:englishMediumClassGroupAll;
+  rdfs:range onto:englishMediumClassGroupAll;
+  rdfs:label "in English Medium Class Group All"@en.
+
+mdProperty:englishMediumClassGroupAll a qb4o:LevelProperty;
+  rdfs:range onto:englishMediumClassGroupAll;
+  qb4o:hasAttribute mdAttribute:englishMediumClassGroupAllCode, mdAttribute:englishMediumClassGroupAllName;
+  rdfs:label "English Medium Class Group (All)"@en.
+
+mdAttribute:englishMediumClassGroupAllCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "English Medium Class Group All code"@en.
+
+mdAttribute:englishMediumClassGroupAllName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "English Medium Class Group All name"@en.
+
+mdStructure:englishMediumClassGroupHierarchy a qb4o:Hierarchy;
+  qb4o:inDimension mdProperty:englishMediumClassGroupDim;
+  qb4o:hasLevel mdProperty:englishMediumClassGroup, mdProperty:englishMediumClassGroupAll;
+  qb4o:hasHierarchyStep mdStructure:hs_english_medium_all.
+
+mdStructure:hs_english_medium_all a qb4o:HierarchyStep;
+  qb4o:inHierarchy mdStructure:englishMediumClassGroupHierarchy;
+  qb4o:childLevel mdProperty:englishMediumClassGroup;
+  qb4o:parentLevel mdProperty:englishMediumClassGroupAll;
+  qb4o:pcCardinality qb4o:OneToMany;
+  qb4o:rollup mdAttribute:inEnglishMediumClassGroupAll.
+
+mdProperty:englishMediumClassGroupDim a qb:DimensionProperty;
+  qb4o:hasHierarchy mdStructure:englishMediumClassGroupHierarchy;
+  rdfs:label "English Medium Class Group Dimension"@en.
+
+# ------------------------------------------------------------
+# Budget Origin
+# ------------------------------------------------------------
+mdProperty:budgetOrigin a qb4o:LevelProperty;
+  rdfs:range onto:budgetOrigin;
+  qb4o:hasAttribute mdAttribute:budgetOriginCode, mdAttribute:budgetOriginName, mdAttribute:budgetOriginNameBn, mdAttribute:inBudgetOriginAll;
+  rdfs:label "Budget Origin"@en.
+
+mdAttribute:budgetOriginCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Budget Origin code"@en.
+
+mdAttribute:budgetOriginName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Budget Origin name"@en.
+
+mdAttribute:budgetOriginNameBn a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Budget Origin name (Bangla)"@en.
+
+mdAttribute:inBudgetOriginAll a qb4o:LevelAttribute, qb4o:RollupProperty;
+  qb4o:rollsUpTo mdProperty:budgetOriginAll;
+  rdfs:range onto:budgetOriginAll;
+  rdfs:label "in Budget Origin All"@en.
+
+mdProperty:budgetOriginAll a qb4o:LevelProperty;
+  rdfs:range onto:budgetOriginAll;
+  qb4o:hasAttribute mdAttribute:budgetOriginAllCode, mdAttribute:budgetOriginAllName;
+  rdfs:label "Budget Origin (All)"@en.
+
+mdAttribute:budgetOriginAllCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Budget Origin All code"@en.
+
+mdAttribute:budgetOriginAllName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Budget Origin All name"@en.
+
+mdStructure:budgetOriginHierarchy a qb4o:Hierarchy;
+  qb4o:inDimension mdProperty:budgetOriginDim;
+  qb4o:hasLevel mdProperty:budgetOrigin, mdProperty:budgetOriginAll;
+  qb4o:hasHierarchyStep mdStructure:hs_budget_origin_all.
+
+mdStructure:hs_budget_origin_all a qb4o:HierarchyStep;
+  qb4o:inHierarchy mdStructure:budgetOriginHierarchy;
+  qb4o:childLevel mdProperty:budgetOrigin;
+  qb4o:parentLevel mdProperty:budgetOriginAll;
+  qb4o:pcCardinality qb4o:OneToMany;
+  qb4o:rollup mdAttribute:inBudgetOriginAll.
+
+mdProperty:budgetOriginDim a qb:DimensionProperty;
+  qb4o:hasHierarchy mdStructure:budgetOriginHierarchy;
+  rdfs:label "Budget Origin Dimension"@en.
+
+# ------------------------------------------------------------
+# Student Financial Condition
+# ------------------------------------------------------------
+mdProperty:studentFinancialCondition a qb4o:LevelProperty;
+  rdfs:range onto:studentFinancialCondition;
+  qb4o:hasAttribute mdAttribute:studentFinancialConditionCode, mdAttribute:studentFinancialConditionName, mdAttribute:inStudentFinancialConditionAll;
+  rdfs:label "Student Financial Condition"@en.
+
+mdAttribute:studentFinancialConditionCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Student Financial Condition code"@en.
+
+mdAttribute:studentFinancialConditionName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Student Financial Condition name"@en.
+
+mdAttribute:inStudentFinancialConditionAll a qb4o:LevelAttribute, qb4o:RollupProperty;
+  qb4o:rollsUpTo mdProperty:studentFinancialConditionAll;
+  rdfs:range onto:studentFinancialConditionAll;
+  rdfs:label "in Student Financial Condition All"@en.
+
+mdProperty:studentFinancialConditionAll a qb4o:LevelProperty;
+  rdfs:range onto:studentFinancialConditionAll;
+  qb4o:hasAttribute mdAttribute:studentFinancialConditionAllCode, mdAttribute:studentFinancialConditionAllName;
+  rdfs:label "Student Financial Condition (All)"@en.
+
+mdAttribute:studentFinancialConditionAllCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Student Financial Condition All code"@en.
+
+mdAttribute:studentFinancialConditionAllName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Student Financial Condition All name"@en.
+
+mdStructure:studentFinancialConditionHierarchy a qb4o:Hierarchy;
+  qb4o:inDimension mdProperty:studentFinancialConditionDim;
+  qb4o:hasLevel mdProperty:studentFinancialCondition, mdProperty:studentFinancialConditionAll;
+  qb4o:hasHierarchyStep mdStructure:hs_student_financ_all.
+
+mdStructure:hs_student_financ_all a qb4o:HierarchyStep;
+  qb4o:inHierarchy mdStructure:studentFinancialConditionHierarchy;
+  qb4o:childLevel mdProperty:studentFinancialCondition;
+  qb4o:parentLevel mdProperty:studentFinancialConditionAll;
+  qb4o:pcCardinality qb4o:OneToMany;
+  qb4o:rollup mdAttribute:inStudentFinancialConditionAll.
+
+mdProperty:studentFinancialConditionDim a qb:DimensionProperty;
+  qb4o:hasHierarchy mdStructure:studentFinancialConditionHierarchy;
+  rdfs:label "Student Financial Condition Dimension"@en.
+
+# ------------------------------------------------------------
+# Student Support
+# ------------------------------------------------------------
+mdProperty:studentSupport a qb4o:LevelProperty;
+  rdfs:range onto:studentSupport;
+  qb4o:hasAttribute mdAttribute:studentSupportCode, mdAttribute:studentSupportName, mdAttribute:inStudentSupportAll;
+  rdfs:label "Student Support"@en.
+
+mdAttribute:studentSupportCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Student Support code"@en.
+
+mdAttribute:studentSupportName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Student Support name"@en.
+
+mdAttribute:inStudentSupportAll a qb4o:LevelAttribute, qb4o:RollupProperty;
+  qb4o:rollsUpTo mdProperty:studentSupportAll;
+  rdfs:range onto:studentSupportAll;
+  rdfs:label "in Student Support All"@en.
+
+mdProperty:studentSupportAll a qb4o:LevelProperty;
+  rdfs:range onto:studentSupportAll;
+  qb4o:hasAttribute mdAttribute:studentSupportAllCode, mdAttribute:studentSupportAllName;
+  rdfs:label "Student Support (All)"@en.
+
+mdAttribute:studentSupportAllCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Student Support All code"@en.
+
+mdAttribute:studentSupportAllName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Student Support All name"@en.
+
+mdStructure:studentSupportHierarchy a qb4o:Hierarchy;
+  qb4o:inDimension mdProperty:studentSupportDim;
+  qb4o:hasLevel mdProperty:studentSupport, mdProperty:studentSupportAll;
+  qb4o:hasHierarchyStep mdStructure:hs_student_suppor_all.
+
+mdStructure:hs_student_suppor_all a qb4o:HierarchyStep;
+  qb4o:inHierarchy mdStructure:studentSupportHierarchy;
+  qb4o:childLevel mdProperty:studentSupport;
+  qb4o:parentLevel mdProperty:studentSupportAll;
+  qb4o:pcCardinality qb4o:OneToMany;
+  qb4o:rollup mdAttribute:inStudentSupportAll.
+
+mdProperty:studentSupportDim a qb:DimensionProperty;
+  qb4o:hasHierarchy mdStructure:studentSupportHierarchy;
+  rdfs:label "Student Support Dimension"@en.
+
+# ------------------------------------------------------------
+# Student Welfare
+# ------------------------------------------------------------
+mdProperty:studentWelfare a qb4o:LevelProperty;
+  rdfs:range onto:studentWelfare;
+  qb4o:hasAttribute mdAttribute:studentWelfareCode, mdAttribute:studentWelfareName, mdAttribute:inStudentWelfareAll;
+  rdfs:label "Student Welfare"@en.
+
+mdAttribute:studentWelfareCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Student Welfare code"@en.
+
+mdAttribute:studentWelfareName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Student Welfare name"@en.
+
+mdAttribute:inStudentWelfareAll a qb4o:LevelAttribute, qb4o:RollupProperty;
+  qb4o:rollsUpTo mdProperty:studentWelfareAll;
+  rdfs:range onto:studentWelfareAll;
+  rdfs:label "in Student Welfare All"@en.
+
+mdProperty:studentWelfareAll a qb4o:LevelProperty;
+  rdfs:range onto:studentWelfareAll;
+  qb4o:hasAttribute mdAttribute:studentWelfareAllCode, mdAttribute:studentWelfareAllName;
+  rdfs:label "Student Welfare (All)"@en.
+
+mdAttribute:studentWelfareAllCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Student Welfare All code"@en.
+
+mdAttribute:studentWelfareAllName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Student Welfare All name"@en.
+
+mdStructure:studentWelfareHierarchy a qb4o:Hierarchy;
+  qb4o:inDimension mdProperty:studentWelfareDim;
+  qb4o:hasLevel mdProperty:studentWelfare, mdProperty:studentWelfareAll;
+  qb4o:hasHierarchyStep mdStructure:hs_student_welfar_all.
+
+mdStructure:hs_student_welfar_all a qb4o:HierarchyStep;
+  qb4o:inHierarchy mdStructure:studentWelfareHierarchy;
+  qb4o:childLevel mdProperty:studentWelfare;
+  qb4o:parentLevel mdProperty:studentWelfareAll;
+  qb4o:pcCardinality qb4o:OneToMany;
+  qb4o:rollup mdAttribute:inStudentWelfareAll.
+
+mdProperty:studentWelfareDim a qb:DimensionProperty;
+  qb4o:hasHierarchy mdStructure:studentWelfareHierarchy;
+  rdfs:label "Student Welfare Dimension"@en.
+
+# ------------------------------------------------------------
+# Scholarship Source
+# ------------------------------------------------------------
+mdProperty:scholarshipSource a qb4o:LevelProperty;
+  rdfs:range onto:scholarshipSource;
+  qb4o:hasAttribute mdAttribute:scholarshipSourceCode, mdAttribute:scholarshipSourceName, mdAttribute:inScholarshipSourceAll;
+  rdfs:label "Scholarship Source"@en.
+
+mdAttribute:scholarshipSourceCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Scholarship Source code"@en.
+
+mdAttribute:scholarshipSourceName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Scholarship Source name"@en.
+
+mdAttribute:inScholarshipSourceAll a qb4o:LevelAttribute, qb4o:RollupProperty;
+  qb4o:rollsUpTo mdProperty:scholarshipSourceAll;
+  rdfs:range onto:scholarshipSourceAll;
+  rdfs:label "in Scholarship Source All"@en.
+
+mdProperty:scholarshipSourceAll a qb4o:LevelProperty;
+  rdfs:range onto:scholarshipSourceAll;
+  qb4o:hasAttribute mdAttribute:scholarshipSourceAllCode, mdAttribute:scholarshipSourceAllName;
+  rdfs:label "Scholarship Source (All)"@en.
+
+mdAttribute:scholarshipSourceAllCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Scholarship Source All code"@en.
+
+mdAttribute:scholarshipSourceAllName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Scholarship Source All name"@en.
+
+mdStructure:scholarshipSourceHierarchy a qb4o:Hierarchy;
+  qb4o:inDimension mdProperty:scholarshipSourceDim;
+  qb4o:hasLevel mdProperty:scholarshipSource, mdProperty:scholarshipSourceAll;
+  qb4o:hasHierarchyStep mdStructure:hs_scholarship_so_all.
+
+mdStructure:hs_scholarship_so_all a qb4o:HierarchyStep;
+  qb4o:inHierarchy mdStructure:scholarshipSourceHierarchy;
+  qb4o:childLevel mdProperty:scholarshipSource;
+  qb4o:parentLevel mdProperty:scholarshipSourceAll;
+  qb4o:pcCardinality qb4o:OneToMany;
+  qb4o:rollup mdAttribute:inScholarshipSourceAll.
+
+mdProperty:scholarshipSourceDim a qb:DimensionProperty;
+  qb4o:hasHierarchy mdStructure:scholarshipSourceHierarchy;
+  rdfs:label "Scholarship Source Dimension"@en.
+
+# ------------------------------------------------------------
+# Scholarship Organization
+# ------------------------------------------------------------
+mdProperty:scholarshipOrganization a qb4o:LevelProperty;
+  rdfs:range onto:scholarshipOrganization;
+  qb4o:hasAttribute mdAttribute:scholarshipOrganizationCode, mdAttribute:scholarshipOrganizationName, mdAttribute:inScholarshipOrganizationAll;
+  rdfs:label "Scholarship Organization"@en.
+
+mdAttribute:scholarshipOrganizationCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Scholarship Organization code"@en.
+
+mdAttribute:scholarshipOrganizationName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Scholarship Organization name"@en.
+
+mdAttribute:inScholarshipOrganizationAll a qb4o:LevelAttribute, qb4o:RollupProperty;
+  qb4o:rollsUpTo mdProperty:scholarshipOrganizationAll;
+  rdfs:range onto:scholarshipOrganizationAll;
+  rdfs:label "in Scholarship Organization All"@en.
+
+mdProperty:scholarshipOrganizationAll a qb4o:LevelProperty;
+  rdfs:range onto:scholarshipOrganizationAll;
+  qb4o:hasAttribute mdAttribute:scholarshipOrganizationAllCode, mdAttribute:scholarshipOrganizationAllName;
+  rdfs:label "Scholarship Organization (All)"@en.
+
+mdAttribute:scholarshipOrganizationAllCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Scholarship Organization All code"@en.
+
+mdAttribute:scholarshipOrganizationAllName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Scholarship Organization All name"@en.
+
+mdStructure:scholarshipOrganizationHierarchy a qb4o:Hierarchy;
+  qb4o:inDimension mdProperty:scholarshipOrganizationDim;
+  qb4o:hasLevel mdProperty:scholarshipOrganization, mdProperty:scholarshipOrganizationAll;
+  qb4o:hasHierarchyStep mdStructure:hs_scholarship_or_all.
+
+mdStructure:hs_scholarship_or_all a qb4o:HierarchyStep;
+  qb4o:inHierarchy mdStructure:scholarshipOrganizationHierarchy;
+  qb4o:childLevel mdProperty:scholarshipOrganization;
+  qb4o:parentLevel mdProperty:scholarshipOrganizationAll;
+  qb4o:pcCardinality qb4o:OneToMany;
+  qb4o:rollup mdAttribute:inScholarshipOrganizationAll.
+
+mdProperty:scholarshipOrganizationDim a qb:DimensionProperty;
+  qb4o:hasHierarchy mdStructure:scholarshipOrganizationHierarchy;
+  rdfs:label "Scholarship Organization Dimension"@en.
+
+# ------------------------------------------------------------
+# Age (Individual)
+# ------------------------------------------------------------
+mdProperty:age a qb4o:LevelProperty;
+  rdfs:range onto:age;
+  qb4o:hasAttribute mdAttribute:ageCode, mdAttribute:ageName;
+  rdfs:label "Age (Individual)"@en.
+
+mdAttribute:ageCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Age (Individual) code"@en.
+
+mdAttribute:ageName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Age (Individual) name"@en.
+
+# ------------------------------------------------------------
+# Research Type
+# ------------------------------------------------------------
+mdProperty:researchType a qb4o:LevelProperty;
+  rdfs:range onto:researchType;
+  qb4o:hasAttribute mdAttribute:researchTypeCode, mdAttribute:researchTypeName, mdAttribute:inResearchTypeAll;
+  rdfs:label "Research Type"@en.
+
+mdAttribute:researchTypeCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Research Type code"@en.
+
+mdAttribute:researchTypeName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Research Type name"@en.
+
+mdAttribute:inResearchTypeAll a qb4o:LevelAttribute, qb4o:RollupProperty;
+  qb4o:rollsUpTo mdProperty:researchTypeAll;
+  rdfs:range onto:researchTypeAll;
+  rdfs:label "in Research Type All"@en.
+
+mdProperty:researchTypeAll a qb4o:LevelProperty;
+  rdfs:range onto:researchTypeAll;
+  qb4o:hasAttribute mdAttribute:researchTypeAllCode, mdAttribute:researchTypeAllName;
+  rdfs:label "Research Type (All)"@en.
+
+mdAttribute:researchTypeAllCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Research Type All code"@en.
+
+mdAttribute:researchTypeAllName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Research Type All name"@en.
+
+mdStructure:researchTypeHierarchy a qb4o:Hierarchy;
+  qb4o:inDimension mdProperty:researchTypeDim;
+  qb4o:hasLevel mdProperty:researchType, mdProperty:researchTypeAll;
+  qb4o:hasHierarchyStep mdStructure:hs_research_type_all.
+
+mdStructure:hs_research_type_all a qb4o:HierarchyStep;
+  qb4o:inHierarchy mdStructure:researchTypeHierarchy;
+  qb4o:childLevel mdProperty:researchType;
+  qb4o:parentLevel mdProperty:researchTypeAll;
+  qb4o:pcCardinality qb4o:OneToMany;
+  qb4o:rollup mdAttribute:inResearchTypeAll.
+
+mdProperty:researchTypeDim a qb:DimensionProperty;
+  qb4o:hasHierarchy mdStructure:researchTypeHierarchy;
+  rdfs:label "Research Type Dimension"@en.
+
+
+# --- New Static Institute LevelAttributes ------------------------------------
+
+mdAttribute:latitude a qb4o:LevelAttribute;
+  rdfs:range xsd:decimal;
+  rdfs:label "Latitude"@en.
+
+mdAttribute:longitude a qb4o:LevelAttribute;
+  rdfs:range xsd:decimal;
+  rdfs:label "Longitude"@en.
+
+mdAttribute:villageOrHoldingNo a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Village or holding number"@en.
+
+mdAttribute:roadName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Road name"@en.
+
+mdAttribute:postOfficeName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Post office name"@en.
+
+mdAttribute:postCode a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Post code"@en.
+
+mdAttribute:constituencyName a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Parliamentary constituency"@en.
+
+mdAttribute:establishmentDate a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Establishment date"@en.
+
+mdAttribute:isMPO a qb4o:LevelAttribute;
+  rdfs:range xsd:boolean;
+  rdfs:label "Is MPO"@en.
+
+mdAttribute:isMPOVocational a qb4o:LevelAttribute;
+  rdfs:range xsd:boolean;
+  rdfs:label "Is vocational MPO"@en.
+
+mdAttribute:isGovt a qb4o:LevelAttribute;
+  rdfs:range xsd:boolean;
+  rdfs:label "Is government institute"@en.
+
+mdAttribute:hasOwnCampus a qb4o:LevelAttribute;
+  rdfs:range xsd:boolean;
+  rdfs:label "Has own campus"@en.
+
+mdAttribute:hasDoubleShift a qb4o:LevelAttribute;
+  rdfs:range xsd:boolean;
+  rdfs:label "Has double shift"@en.
+
+mdAttribute:hasEnglishVersion a qb4o:LevelAttribute;
+  rdfs:range xsd:boolean;
+  rdfs:label "Has English version"@en.
+
+mdAttribute:hasNightGuard a qb4o:LevelAttribute;
+  rdfs:range xsd:boolean;
+  rdfs:label "Has night guard"@en.
+
+mdAttribute:nearestSimilarInstituteDistanceKm a qb4o:LevelAttribute;
+  rdfs:range xsd:decimal;
+  rdfs:label "Distance to nearest similar institute (km)"@en.
+
+mdAttribute:administrativeCommunicationType a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Administrative communication type"@en.
+
+mdAttribute:totalTeacherCount a qb4o:LevelAttribute;
+  rdfs:range xsd:integer;
+  rdfs:label "Total teacher count"@en.
+
+mdAttribute:femaleTeacherCount a qb4o:LevelAttribute;
+  rdfs:range xsd:integer;
+  rdfs:label "Female teacher count"@en.
+
+mdAttribute:totalStaffCount a qb4o:LevelAttribute;
+  rdfs:range xsd:integer;
+  rdfs:label "Total staff count"@en.
+
+mdAttribute:femaleStaffCount a qb4o:LevelAttribute;
+  rdfs:range xsd:integer;
+  rdfs:label "Female staff count"@en.
+
+mdAttribute:trainedTeacherCount a qb4o:LevelAttribute;
+  rdfs:range xsd:integer;
+  rdfs:label "Trained teacher count"@en.
+
+mdAttribute:totalLandArea a qb4o:LevelAttribute;
+  rdfs:range xsd:decimal;
+  rdfs:label "Total land area (decimal)"@en.
+
+mdAttribute:inPremiseLandArea a qb4o:LevelAttribute;
+  rdfs:range xsd:decimal;
+  rdfs:label "In-premise land area (decimal)"@en.
+
+mdAttribute:hasComputerLab a qb4o:LevelAttribute;
+  rdfs:range xsd:boolean;
+  rdfs:label "Has computer lab"@en.
+
+mdAttribute:noOfComputerLabs a qb4o:LevelAttribute;
+  rdfs:range xsd:integer;
+  rdfs:label "Number of computer labs"@en.
+
+mdAttribute:totalComputersOutsideLab a qb4o:LevelAttribute;
+  rdfs:range xsd:integer;
+  rdfs:label "Total computers outside lab"@en.
+
+mdAttribute:hasElectricity a qb4o:LevelAttribute;
+  rdfs:range xsd:boolean;
+  rdfs:label "Has electricity"@en.
+
+mdAttribute:hasSolarPanel a qb4o:LevelAttribute;
+  rdfs:range xsd:boolean;
+  rdfs:label "Has solar panel"@en.
+
+mdAttribute:hasSafeDrinkingWater a qb4o:LevelAttribute;
+  rdfs:range xsd:boolean;
+  rdfs:label "Has safe drinking water"@en.
+
+mdAttribute:hasToiletFacility a qb4o:LevelAttribute;
+  rdfs:range xsd:boolean;
+  rdfs:label "Has toilet facility"@en.
+
+mdAttribute:noOfUsableToilets a qb4o:LevelAttribute;
+  rdfs:range xsd:integer;
+  rdfs:label "Number of usable toilets"@en.
+
+mdAttribute:hasSeparateToiletFemale a qb4o:LevelAttribute;
+  rdfs:range xsd:boolean;
+  rdfs:label "Has separate toilet for female students"@en.
+
+mdAttribute:hasToiletForSpecialNeeds a qb4o:LevelAttribute;
+  rdfs:range xsd:boolean;
+  rdfs:label "Has toilet for special needs students"@en.
+
+mdAttribute:noOfRooms a qb4o:LevelAttribute;
+  rdfs:range xsd:integer;
+  rdfs:label "Number of rooms"@en.
+
+mdAttribute:committeeEstablishmentDate a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Committee establishment date"@en.
+
+mdAttribute:committeeExpirationDate a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Committee expiration date"@en.
+
+mdAttribute:committeeMemberTotal a qb4o:LevelAttribute;
+  rdfs:range xsd:integer;
+  rdfs:label "Committee member total"@en.
+
+mdAttribute:committeeMemberFemale a qb4o:LevelAttribute;
+  rdfs:range xsd:integer;
+  rdfs:label "Committee member female"@en.
+
+mdAttribute:instituteMobile a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "Institute mobile"@en.
+
+mdAttribute:hasILC a qb4o:LevelAttribute;
+  rdfs:range xsd:boolean;
+  rdfs:label "Has ICT Learning Centre"@en.
+
+mdAttribute:hasLibrary a qb4o:LevelAttribute;
+  rdfs:range xsd:boolean;
+  rdfs:label "Has library"@en.
+
+mdAttribute:noOfBooksInLibrary a qb4o:LevelAttribute;
+  rdfs:range xsd:integer;
+  rdfs:label "Number of books in library"@en.
+
+# University-specific attributes
+mdAttribute:hasOwnCampusUniversity a qb4o:LevelAttribute;
+  rdfs:range xsd:boolean;
+  rdfs:label "Has own campus (university)"@en.
+
+mdAttribute:landAreaOwn a qb4o:LevelAttribute;
+  rdfs:range xsd:decimal;
+  rdfs:label "Land area owned (acres)"@en.
+
+mdAttribute:landAreaRent a qb4o:LevelAttribute;
+  rdfs:range xsd:decimal;
+  rdfs:label "Land area rented (acres)"@en.
+
+mdAttribute:numberOfBuildingsOwn a qb4o:LevelAttribute;
+  rdfs:range xsd:integer;
+  rdfs:label "Number of owned buildings"@en.
+
+mdAttribute:totalSemesters a qb4o:LevelAttribute;
+  rdfs:range xsd:integer;
+  rdfs:label "Total number of semesters"@en.
+
+mdAttribute:universityTeachingMethod a qb4o:LevelAttribute;
+  rdfs:range xsd:string;
+  rdfs:label "University teaching method"@en.
+
+# updateObsCuboids_TBox applied

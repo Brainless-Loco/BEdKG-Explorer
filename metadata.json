@@ -1,0 +1,5 @@
+{
+  "name": "BEdKG Explorer",
+  "description": "Bangladesh Education Knowledge Graph (BEdKG) Explorer with Natural Language to SPARQL translation and interactive query interface.",
+  "requestFramePermissions": []
+}

@@ -1,0 +1,91 @@
+# BEdKG ABox TTL examples
+# These are short, readable examples based on the patterns used in:
+# - ABox.ttl
+# - ABox_MissingDimMembers.ttl
+# - ABox_CoCurricular_Obs.ttl
+
+@prefix qb: <http://purl.org/linked-data/cube#> .
+@prefix qb4o: <http://purl.org/qb4olap/cubes#> .
+@prefix mdProperty: <http://www.bike-csecu.com/datasets/BEdKG/abox/mdProperty#> .
+@prefix mdAttribute: <http://www.bike-csecu.com/datasets/BEdKG/abox/mdAttribute#> .
+@prefix onto: <http://www.bike-csecu.com/datasets/BEdKG/ontology/> .
+@prefix mdData: <http://www.bike-csecu.com/datasets/BEdKG/abox/dataset#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+
+1. All-rollup level member
+
+<http://www.bike-csecu.com/datasets/BEdKG/ontology/managementTypeAll#ALL>
+    a qb4o:LevelMember ;
+    qb4o:memberOf mdProperty:managementTypeAll ;
+    mdAttribute:managementTypeAllCode "ALL" ;
+    mdAttribute:managementTypeAllName "All Management Types"@en .
+
+
+2. Concrete dimension level member
+
+<http://www.bike-csecu.com/datasets/BEdKG/ontology/instituteType#2>
+    a qb4o:LevelMember ;
+    qb4o:memberOf mdProperty:instituteType ;
+    mdAttribute:instituteTypeCode "2" ;
+    mdAttribute:instituteTypeName "College"@en ;
+    mdAttribute:inInstituteTypeAll <http://www.bike-csecu.com/datasets/BEdKG/ontology/instituteTypeAll#ALL> .
+
+
+3. Institute level member instance
+
+<http://www.bike-csecu.com/datasets/BEdKG/ontology/institute#119758>
+    a qb4o:LevelMember ;
+    qb4o:memberOf mdProperty:institute ;
+    mdAttribute:inInstituteType <http://www.bike-csecu.com/datasets/BEdKG/ontology/instituteType#instituteType14> ;
+    mdAttribute:inThana <http://www.bike-csecu.com/datasets/BEdKG/ontology/thana#501088> ;
+    mdAttribute:inMouza <http://www.bike-csecu.com/datasets/BEdKG/ontology/mouza#28081> ;
+    mdAttribute:instituteEIIN "119758" ;
+    mdAttribute:instituteName "HAPUNIA MOHABAG HIGH SCHOOL" ;
+    mdAttribute:instituteContactEmail "hmhighschool93@yahoo.com" .
+
+
+4. Observation instance
+
+<http://www.bike-csecu.com/datasets/BEdKG/abox/dataset/coCurricularDataset#100002_cca_2_2024>
+    a qb:Observation ;
+    qb:dataSet mdData:coCurricularDataset ;
+    mdProperty:institute <http://www.bike-csecu.com/datasets/BEdKG/ontology/institute#100002> ;
+    mdProperty:year <http://www.bike-csecu.com/datasets/BEdKG/ontology/year#2024> ;
+    mdProperty:coCurricularActivity <http://www.bike-csecu.com/datasets/BEdKG/ontology/coCurricularActivity#2> ;
+    mdProperty:isParticipating "true"^^xsd:boolean .
+
+
+5. How to read these patterns
+
+# Level members:
+#   - use qb4o:LevelMember
+#   - point to their level with qb4o:memberOf
+#   - store codes/names/roll-up links with mdAttribute:*
+#
+# Institute members:
+#   - are also qb4o:LevelMember instances
+#   - carry roll-up links such as inMouza, inThana, inInstituteType
+#   - may also carry descriptive attributes like name, EIIN, email
+#
+# Observations:
+#   - use qb:Observation
+#   - point to a dataset with qb:dataSet
+#   - attach dimensional coordinates with mdProperty:* predicates
+#   - attach the fact value using a measure predicate such as isParticipating
+
+
+6. File mapping in your project
+
+# ABox.ttl
+#   Core members such as institutes, mouzas, thanas
+#
+# ABox_MissingDimMembers.ttl
+#   Formal qb4o:LevelMember declarations for dimensions like managementType,
+#   educationLevel, instituteType
+#
+# ABox_InstituteAttrs.ttl
+#   Extra descriptive/static attributes for institute members
+#
+# ABox_*_Obs.ttl
+#   Fact/observation rows for each cuboid
